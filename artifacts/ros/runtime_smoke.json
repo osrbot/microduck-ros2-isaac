@@ -1,0 +1,63 @@
+{
+  "nodes": [
+    "microduck_home_pose_publisher",
+    "microduck_runtime_validator",
+    "robot_state_publisher",
+    "static_transform_publisher"
+  ],
+  "joint_names": [
+    "left_hip_yaw",
+    "left_hip_roll",
+    "left_hip_pitch",
+    "left_knee",
+    "left_ankle",
+    "neck_pitch",
+    "head_pitch",
+    "head_yaw",
+    "head_roll",
+    "right_hip_yaw",
+    "right_hip_roll",
+    "right_hip_pitch",
+    "right_knee",
+    "right_ankle"
+  ],
+  "joint_positions_rad": [
+    0.0,
+    -0.0873,
+    -0.4579,
+    -0.0049,
+    0.453,
+    0.3491,
+    0.3491,
+    0.0,
+    0.0,
+    0.0,
+    0.0873,
+    0.4579,
+    0.0049,
+    -0.453
+  ],
+  "robot_description_bytes": 34734,
+  "world_to_left_ankle": {
+    "parent": "world",
+    "child": "ankle_left",
+    "translation_m": [
+      1.5921845718783537e-05,
+      0.057928893871871015,
+      0.02536806007758549
+    ],
+    "quaternion_xyzw": [
+      3.439596715681855e-12,
+      0.737288665474548,
+      0.6755778443397624,
+      3.298764239655898e-12
+    ]
+  },
+  "checks": {
+    "required_nodes_present": true,
+    "home_joint_state_matches": true,
+    "robot_description_received": true,
+    "world_to_left_ankle_tf_available": true
+  },
+  "all_checks_pass": true
+}

@@ -1,0 +1,177 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "MuJoCo USD Converter v0.2.0"
+    }
+    defaultPrim = "microduck"
+    doc = "Generated from the pinned Pollen Robotics MicroDuck MJCF with Isaac Sim 6.0.1; validated and post-processed by microduck_ros_isaac."
+    kilogramsPerUnit = 1
+    metersPerUnit = 1
+    subLayers = [
+        @./physics.usda@
+    ]
+    upAxis = "Z"
+)
+
+over "microduck"
+{
+    over "Geometry"
+    {
+        over "trunk_base"
+        {
+            over "yaw2roll"
+            {
+                over "hip_l"
+                {
+                    over "upper_leg_left"
+                    {
+                        over "leg"
+                        {
+                            over "ankle_left"
+                            {
+                                over "left_ankle" (
+                                    prepend apiSchemas = ["PhysxJointAPI"]
+                                )
+                                {
+                                    float physxJoint:armature = 0.0018
+                                    float physxJoint:jointFriction = 0.0048
+                                }
+                            }
+
+                            over "left_knee" (
+                                prepend apiSchemas = ["PhysxJointAPI"]
+                            )
+                            {
+                                float physxJoint:armature = 0.0018
+                                float physxJoint:jointFriction = 0.0048
+                            }
+                        }
+
+                        over "left_hip_pitch" (
+                            prepend apiSchemas = ["PhysxJointAPI"]
+                        )
+                        {
+                            float physxJoint:armature = 0.0018
+                            float physxJoint:jointFriction = 0.0048
+                        }
+                    }
+
+                    over "left_hip_roll" (
+                        prepend apiSchemas = ["PhysxJointAPI"]
+                    )
+                    {
+                        float physxJoint:armature = 0.0018
+                        float physxJoint:jointFriction = 0.0048
+                    }
+                }
+
+                over "left_hip_yaw" (
+                    prepend apiSchemas = ["PhysxJointAPI"]
+                )
+                {
+                    float physxJoint:armature = 0.0018
+                    float physxJoint:jointFriction = 0.0048
+                }
+            }
+
+            over "neck"
+            {
+                over "neck_pitch_1"
+                {
+                    over "yaw_roll_motion"
+                    {
+                        over "jaw_soft"
+                        {
+                            over "head_roll" (
+                                prepend apiSchemas = ["PhysxJointAPI"]
+                            )
+                            {
+                                float physxJoint:armature = 0.0018
+                                float physxJoint:jointFriction = 0.0048
+                            }
+                        }
+
+                        over "head_yaw" (
+                            prepend apiSchemas = ["PhysxJointAPI"]
+                        )
+                        {
+                            float physxJoint:armature = 0.0018
+                            float physxJoint:jointFriction = 0.0048
+                        }
+                    }
+
+                    over "head_pitch" (
+                        prepend apiSchemas = ["PhysxJointAPI"]
+                    )
+                    {
+                        float physxJoint:armature = 0.0018
+                        float physxJoint:jointFriction = 0.0048
+                    }
+                }
+
+                over "neck_pitch" (
+                    prepend apiSchemas = ["PhysxJointAPI"]
+                )
+                {
+                    float physxJoint:armature = 0.0018
+                    float physxJoint:jointFriction = 0.0048
+                }
+            }
+
+            over "bearing_roll"
+            {
+                over "hip_l_2"
+                {
+                    over "upper_leg_right"
+                    {
+                        over "leg_2"
+                        {
+                            over "ankle_right"
+                            {
+                                over "right_ankle" (
+                                    prepend apiSchemas = ["PhysxJointAPI"]
+                                )
+                                {
+                                    float physxJoint:armature = 0.0018
+                                    float physxJoint:jointFriction = 0.0048
+                                }
+                            }
+
+                            over "right_knee" (
+                                prepend apiSchemas = ["PhysxJointAPI"]
+                            )
+                            {
+                                float physxJoint:armature = 0.0018
+                                float physxJoint:jointFriction = 0.0048
+                            }
+                        }
+
+                        over "right_hip_pitch" (
+                            prepend apiSchemas = ["PhysxJointAPI"]
+                        )
+                        {
+                            float physxJoint:armature = 0.0018
+                            float physxJoint:jointFriction = 0.0048
+                        }
+                    }
+
+                    over "right_hip_roll" (
+                        prepend apiSchemas = ["PhysxJointAPI"]
+                    )
+                    {
+                        float physxJoint:armature = 0.0018
+                        float physxJoint:jointFriction = 0.0048
+                    }
+                }
+
+                over "right_hip_yaw" (
+                    prepend apiSchemas = ["PhysxJointAPI"]
+                )
+                {
+                    float physxJoint:armature = 0.0018
+                    float physxJoint:jointFriction = 0.0048
+                }
+            }
+        }
+    }
+}

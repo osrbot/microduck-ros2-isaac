@@ -1,0 +1,31 @@
+# Local upstream checkouts and work products
+/reference/
+/work/
+
+# ROS 2 workspace outputs
+/ros2_ws/build/
+/ros2_ws/install/
+/ros2_ws/log/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+
+# Isaac Sim and training caches
+/.cache/
+/.nvidia-omniverse/
+/wandb/
+
+# Editor and OS metadata
+.DS_Store
+._*
+.vscode/
+
+# Documentation site
+/node_modules/
+/docs/.vitepress/cache/
+/docs/.vitepress/dist/
+/docs/.vitepress/temp/
+/output/playwright/

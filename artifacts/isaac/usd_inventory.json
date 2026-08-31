@@ -1,0 +1,206 @@
+{
+  "usd": "assets/isaac/robot_allcollisions/robot_allcollisions.usda",
+  "default_prim": "/microduck",
+  "meters_per_unit": 1.0,
+  "kilograms_per_unit": 1.0,
+  "up_axis": "Z",
+  "articulation_roots": [
+    "/microduck/Geometry/trunk_base"
+  ],
+  "total_mass_kg": 0.7372431745752692,
+  "rigid_bodies": [
+    {
+      "path": "/microduck/Geometry/trunk_base",
+      "mass_kg": 0.19922399520874023
+    },
+    {
+      "path": "/microduck/Geometry/trunk_base/yaw2roll",
+      "mass_kg": 0.02304060012102127
+    },
+    {
+      "path": "/microduck/Geometry/trunk_base/yaw2roll/hip_l",
+      "mass_kg": 0.00618933979421854
+    },
+    {
+      "path": "/microduck/Geometry/trunk_base/yaw2roll/hip_l/upper_leg_left",
+      "mass_kg": 0.04820669814944267
+    },
+    {
+      "path": "/microduck/Geometry/trunk_base/yaw2roll/hip_l/upper_leg_left/leg",
+      "mass_kg": 0.02158440090715885
+    },
+    {
+      "path": "/microduck/Geometry/trunk_base/yaw2roll/hip_l/upper_leg_left/leg/ankle_left",
+      "mass_kg": 0.03002459928393364
+    },
+    {
+      "path": "/microduck/Geometry/trunk_base/neck",
+      "mass_kg": 0.03684139996767044
+    },
+    {
+      "path": "/microduck/Geometry/trunk_base/neck/neck_pitch_1",
+      "mass_kg": 0.00571999978274107
+    },
+    {
+      "path": "/microduck/Geometry/trunk_base/neck/neck_pitch_1/yaw_roll_motion",
+      "mass_kg": 0.04859999939799309
+    },
+    {
+      "path": "/microduck/Geometry/trunk_base/neck/neck_pitch_1/yaw_roll_motion/jaw_soft",
+      "mass_kg": 0.1887660026550293
+    },
+    {
+      "path": "/microduck/Geometry/trunk_base/bearing_roll",
+      "mass_kg": 0.02304060012102127
+    },
+    {
+      "path": "/microduck/Geometry/trunk_base/bearing_roll/hip_l_2",
+      "mass_kg": 0.00618933979421854
+    },
+    {
+      "path": "/microduck/Geometry/trunk_base/bearing_roll/hip_l_2/upper_leg_right",
+      "mass_kg": 0.04820669814944267
+    },
+    {
+      "path": "/microduck/Geometry/trunk_base/bearing_roll/hip_l_2/upper_leg_right/leg_2",
+      "mass_kg": 0.02158440090715885
+    },
+    {
+      "path": "/microduck/Geometry/trunk_base/bearing_roll/hip_l_2/upper_leg_right/leg_2/ankle_right",
+      "mass_kg": 0.030025100335478783
+    }
+  ],
+  "revolute_joints": [
+    {
+      "name": "head_pitch",
+      "path": "/microduck/Geometry/trunk_base/neck/neck_pitch_1/head_pitch",
+      "lower_limit_deg": -90.0,
+      "upper_limit_deg": 90.0,
+      "axis": "Z"
+    },
+    {
+      "name": "head_roll",
+      "path": "/microduck/Geometry/trunk_base/neck/neck_pitch_1/yaw_roll_motion/jaw_soft/head_roll",
+      "lower_limit_deg": -25.0,
+      "upper_limit_deg": 25.0,
+      "axis": "Z"
+    },
+    {
+      "name": "head_yaw",
+      "path": "/microduck/Geometry/trunk_base/neck/neck_pitch_1/yaw_roll_motion/head_yaw",
+      "lower_limit_deg": -170.0,
+      "upper_limit_deg": 170.0,
+      "axis": "Z"
+    },
+    {
+      "name": "left_ankle",
+      "path": "/microduck/Geometry/trunk_base/yaw2roll/hip_l/upper_leg_left/leg/ankle_left/left_ankle",
+      "lower_limit_deg": -90.0,
+      "upper_limit_deg": 90.0,
+      "axis": "Z"
+    },
+    {
+      "name": "left_hip_pitch",
+      "path": "/microduck/Geometry/trunk_base/yaw2roll/hip_l/upper_leg_left/left_hip_pitch",
+      "lower_limit_deg": -90.0,
+      "upper_limit_deg": 90.0,
+      "axis": "Z"
+    },
+    {
+      "name": "left_hip_roll",
+      "path": "/microduck/Geometry/trunk_base/yaw2roll/hip_l/left_hip_roll",
+      "lower_limit_deg": -22.0,
+      "upper_limit_deg": 22.0,
+      "axis": "Z"
+    },
+    {
+      "name": "left_hip_yaw",
+      "path": "/microduck/Geometry/trunk_base/yaw2roll/left_hip_yaw",
+      "lower_limit_deg": -25.0,
+      "upper_limit_deg": 30.0,
+      "axis": "Z"
+    },
+    {
+      "name": "left_knee",
+      "path": "/microduck/Geometry/trunk_base/yaw2roll/hip_l/upper_leg_left/leg/left_knee",
+      "lower_limit_deg": -90.0,
+      "upper_limit_deg": 90.0,
+      "axis": "Z"
+    },
+    {
+      "name": "neck_pitch",
+      "path": "/microduck/Geometry/trunk_base/neck/neck_pitch",
+      "lower_limit_deg": -90.0,
+      "upper_limit_deg": 60.0,
+      "axis": "Z"
+    },
+    {
+      "name": "right_ankle",
+      "path": "/microduck/Geometry/trunk_base/bearing_roll/hip_l_2/upper_leg_right/leg_2/ankle_right/right_ankle",
+      "lower_limit_deg": -90.0,
+      "upper_limit_deg": 90.0,
+      "axis": "Z"
+    },
+    {
+      "name": "right_hip_pitch",
+      "path": "/microduck/Geometry/trunk_base/bearing_roll/hip_l_2/upper_leg_right/right_hip_pitch",
+      "lower_limit_deg": -90.0,
+      "upper_limit_deg": 90.0,
+      "axis": "Z"
+    },
+    {
+      "name": "right_hip_roll",
+      "path": "/microduck/Geometry/trunk_base/bearing_roll/hip_l_2/right_hip_roll",
+      "lower_limit_deg": -22.0,
+      "upper_limit_deg": 22.0,
+      "axis": "Z"
+    },
+    {
+      "name": "right_hip_yaw",
+      "path": "/microduck/Geometry/trunk_base/bearing_roll/right_hip_yaw",
+      "lower_limit_deg": -30.0,
+      "upper_limit_deg": 25.0,
+      "axis": "Z"
+    },
+    {
+      "name": "right_knee",
+      "path": "/microduck/Geometry/trunk_base/bearing_roll/hip_l_2/upper_leg_right/leg_2/right_knee",
+      "lower_limit_deg": -90.0,
+      "upper_limit_deg": 90.0,
+      "axis": "Z"
+    }
+  ],
+  "collision_count": 81,
+  "enabled_collision_count": 10,
+  "disabled_collision_count": 71,
+  "enabled_collision_paths": [
+    "/microduck/Geometry/trunk_base/yaw2roll/hip_l/upper_leg_left/leg/ankle_left/left_foot_collision/sole_left",
+    "/microduck/Geometry/trunk_base/yaw2roll/hip_l/upper_leg_left/leg/leg_1/leg",
+    "/microduck/Geometry/trunk_base/yaw2roll/hip_l/hip_l_1/hip_l",
+    "/microduck/Geometry/trunk_base/neck/neck_pitch_1/yaw_roll_motion/jaw_soft/top_head_shell_1/top_head_shell",
+    "/microduck/Geometry/trunk_base/neck/neck_pitch_1/yaw_roll_motion/jaw_soft/jaw_1/jaw",
+    "/microduck/Geometry/trunk_base/neck/neck_pitch_1/yaw_roll_motion/jaw_soft/bottom_head_shell_1/bottom_head_shell",
+    "/microduck/Geometry/trunk_base/bearing_roll/hip_l_2/upper_leg_right/leg_2/ankle_right/right_foot_collision/sole_right",
+    "/microduck/Geometry/trunk_base/bearing_roll/hip_l_2/upper_leg_right/leg_2/leg_1/leg",
+    "/microduck/Geometry/trunk_base/bearing_roll/hip_l_2/hip_l_1/hip_l",
+    "/microduck/Geometry/trunk_base/np_f970_1/np_f970"
+  ],
+  "mesh_count": 81,
+  "host_specific_layer_documentation": [],
+  "checks": {
+    "default_prim": true,
+    "meters_per_unit": true,
+    "kilograms_per_unit": true,
+    "up_axis_z": true,
+    "one_articulation_root": true,
+    "joint_names": true,
+    "mass": true,
+    "mesh_count": true,
+    "collision_api_count": true,
+    "enabled_collision_count": true,
+    "disabled_visual_collision_count": true,
+    "self_collision_only_not_ground_collision": true,
+    "no_host_specific_layer_documentation": true
+  },
+  "all_checks_ok": true
+}

@@ -1,0 +1,907 @@
+{
+  "upstream": {
+    "microduck_rl": "d424a0c899f6b33cbd3daeb279913134349c0b63",
+    "microduck_runtime": "590b986bd8c0d50ae02cb3ea2f59c463b6828168"
+  },
+  "model": {
+    "path": "reference/microduck_rl/src/mjlab_microduck/robot/microduck/robot_allcollisions.xml",
+    "sha256": "7a6fdf437f5a80c7348ad801f43f906b997a834389cb70cca5e1e8517ba38044",
+    "model_name": "robot_allcollisions",
+    "timestep_s": 0.002,
+    "gravity_m_s2": [
+      0.0,
+      0.0,
+      -9.81
+    ],
+    "counts": {
+      "qpos": 21,
+      "dof": 20,
+      "bodies": 16,
+      "joints": 15,
+      "actuators": 14,
+      "geometries": 81,
+      "sensors": 6
+    },
+    "total_body_mass_kg": 0.7372431799999999,
+    "joints": [
+      {
+        "index": 0,
+        "name": "trunk_base_freejoint",
+        "type": "free",
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "limited": false,
+        "range": null,
+        "qpos_address": 0,
+        "dof_address": 0
+      },
+      {
+        "index": 1,
+        "name": "left_hip_yaw",
+        "type": "hinge",
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "limited": true,
+        "range": [
+          -0.4363323129985824,
+          0.5235987755982988
+        ],
+        "qpos_address": 7,
+        "dof_address": 6
+      },
+      {
+        "index": 2,
+        "name": "left_hip_roll",
+        "type": "hinge",
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "limited": true,
+        "range": [
+          -0.3839724354387525,
+          0.3839724354387525
+        ],
+        "qpos_address": 8,
+        "dof_address": 7
+      },
+      {
+        "index": 3,
+        "name": "left_hip_pitch",
+        "type": "hinge",
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "limited": true,
+        "range": [
+          -1.570796326795005,
+          1.5707963267947882
+        ],
+        "qpos_address": 9,
+        "dof_address": 8
+      },
+      {
+        "index": 4,
+        "name": "left_knee",
+        "type": "hinge",
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "limited": true,
+        "range": [
+          -1.570796326795012,
+          1.570796326794781
+        ],
+        "qpos_address": 10,
+        "dof_address": 9
+      },
+      {
+        "index": 5,
+        "name": "left_ankle",
+        "type": "hinge",
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "limited": true,
+        "range": [
+          -1.5707963267949019,
+          1.5707963267948912
+        ],
+        "qpos_address": 11,
+        "dof_address": 10
+      },
+      {
+        "index": 6,
+        "name": "neck_pitch",
+        "type": "hinge",
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "limited": true,
+        "range": [
+          -1.5707963267948966,
+          1.0471975511965976
+        ],
+        "qpos_address": 12,
+        "dof_address": 11
+      },
+      {
+        "index": 7,
+        "name": "head_pitch",
+        "type": "hinge",
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "limited": true,
+        "range": [
+          -1.5707963267948974,
+          1.5707963267948957
+        ],
+        "qpos_address": 13,
+        "dof_address": 12
+      },
+      {
+        "index": 8,
+        "name": "head_yaw",
+        "type": "hinge",
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "limited": true,
+        "range": [
+          -2.967059728390373,
+          2.967059728390348
+        ],
+        "qpos_address": 14,
+        "dof_address": 13
+      },
+      {
+        "index": 9,
+        "name": "head_roll",
+        "type": "hinge",
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "limited": true,
+        "range": [
+          -0.43633231299859127,
+          0.4363323129985735
+        ],
+        "qpos_address": 15,
+        "dof_address": 14
+      },
+      {
+        "index": 10,
+        "name": "right_hip_yaw",
+        "type": "hinge",
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "limited": true,
+        "range": [
+          -0.5235987755982988,
+          0.4363323129985824
+        ],
+        "qpos_address": 16,
+        "dof_address": 15
+      },
+      {
+        "index": 11,
+        "name": "right_hip_roll",
+        "type": "hinge",
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "limited": true,
+        "range": [
+          -0.3839724354387525,
+          0.3839724354387525
+        ],
+        "qpos_address": 17,
+        "dof_address": 16
+      },
+      {
+        "index": 12,
+        "name": "right_hip_pitch",
+        "type": "hinge",
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "limited": true,
+        "range": [
+          -1.5707963267949268,
+          1.5707963267948664
+        ],
+        "qpos_address": 18,
+        "dof_address": 17
+      },
+      {
+        "index": 13,
+        "name": "right_knee",
+        "type": "hinge",
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "limited": true,
+        "range": [
+          -1.570796326794932,
+          1.570796326794861
+        ],
+        "qpos_address": 19,
+        "dof_address": 18
+      },
+      {
+        "index": 14,
+        "name": "right_ankle",
+        "type": "hinge",
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "limited": true,
+        "range": [
+          -1.5707963267949054,
+          1.5707963267948877
+        ],
+        "qpos_address": 20,
+        "dof_address": 19
+      }
+    ],
+    "actuators": [
+      {
+        "index": 0,
+        "name": "left_hip_yaw",
+        "joint": "left_hip_yaw",
+        "control_range": [
+          -10.0,
+          10.0
+        ],
+        "force_range": [
+          -0.96,
+          0.96
+        ]
+      },
+      {
+        "index": 1,
+        "name": "left_hip_roll",
+        "joint": "left_hip_roll",
+        "control_range": [
+          -10.0,
+          10.0
+        ],
+        "force_range": [
+          -0.96,
+          0.96
+        ]
+      },
+      {
+        "index": 2,
+        "name": "left_hip_pitch",
+        "joint": "left_hip_pitch",
+        "control_range": [
+          -10.0,
+          10.0
+        ],
+        "force_range": [
+          -0.96,
+          0.96
+        ]
+      },
+      {
+        "index": 3,
+        "name": "left_knee",
+        "joint": "left_knee",
+        "control_range": [
+          -10.0,
+          10.0
+        ],
+        "force_range": [
+          -0.96,
+          0.96
+        ]
+      },
+      {
+        "index": 4,
+        "name": "left_ankle",
+        "joint": "left_ankle",
+        "control_range": [
+          -10.0,
+          10.0
+        ],
+        "force_range": [
+          -0.96,
+          0.96
+        ]
+      },
+      {
+        "index": 5,
+        "name": "neck_pitch",
+        "joint": "neck_pitch",
+        "control_range": [
+          -10.0,
+          10.0
+        ],
+        "force_range": [
+          -0.96,
+          0.96
+        ]
+      },
+      {
+        "index": 6,
+        "name": "head_pitch",
+        "joint": "head_pitch",
+        "control_range": [
+          -10.0,
+          10.0
+        ],
+        "force_range": [
+          -0.96,
+          0.96
+        ]
+      },
+      {
+        "index": 7,
+        "name": "head_yaw",
+        "joint": "head_yaw",
+        "control_range": [
+          -10.0,
+          10.0
+        ],
+        "force_range": [
+          -0.96,
+          0.96
+        ]
+      },
+      {
+        "index": 8,
+        "name": "head_roll",
+        "joint": "head_roll",
+        "control_range": [
+          -10.0,
+          10.0
+        ],
+        "force_range": [
+          -0.96,
+          0.96
+        ]
+      },
+      {
+        "index": 9,
+        "name": "right_hip_yaw",
+        "joint": "right_hip_yaw",
+        "control_range": [
+          -10.0,
+          10.0
+        ],
+        "force_range": [
+          -0.96,
+          0.96
+        ]
+      },
+      {
+        "index": 10,
+        "name": "right_hip_roll",
+        "joint": "right_hip_roll",
+        "control_range": [
+          -10.0,
+          10.0
+        ],
+        "force_range": [
+          -0.96,
+          0.96
+        ]
+      },
+      {
+        "index": 11,
+        "name": "right_hip_pitch",
+        "joint": "right_hip_pitch",
+        "control_range": [
+          -10.0,
+          10.0
+        ],
+        "force_range": [
+          -0.96,
+          0.96
+        ]
+      },
+      {
+        "index": 12,
+        "name": "right_knee",
+        "joint": "right_knee",
+        "control_range": [
+          -10.0,
+          10.0
+        ],
+        "force_range": [
+          -0.96,
+          0.96
+        ]
+      },
+      {
+        "index": 13,
+        "name": "right_ankle",
+        "joint": "right_ankle",
+        "control_range": [
+          -10.0,
+          10.0
+        ],
+        "force_range": [
+          -0.96,
+          0.96
+        ]
+      }
+    ],
+    "sensors": [
+      {
+        "index": 0,
+        "name": "orientation",
+        "dimension": 4,
+        "data_address": 0
+      },
+      {
+        "index": 1,
+        "name": "angular-velocity",
+        "dimension": 3,
+        "data_address": 4
+      },
+      {
+        "index": 2,
+        "name": "imu_ang_vel",
+        "dimension": 3,
+        "data_address": 7
+      },
+      {
+        "index": 3,
+        "name": "imu_lin_vel",
+        "dimension": 3,
+        "data_address": 10
+      },
+      {
+        "index": 4,
+        "name": "imu_accel",
+        "dimension": 3,
+        "data_address": 13
+      },
+      {
+        "index": 5,
+        "name": "root_angmom",
+        "dimension": 3,
+        "data_address": 16
+      }
+    ],
+    "bodies": [
+      {
+        "index": 1,
+        "name": "trunk_base",
+        "parent_index": 0,
+        "mass_kg": 0.199224,
+        "inertia_kg_m2": [
+          0.00014593161399370665,
+          0.000140798871912458,
+          9.852651409383544e-05
+        ]
+      },
+      {
+        "index": 2,
+        "name": "yaw2roll",
+        "parent_index": 1,
+        "mass_kg": 0.0230406,
+        "inertia_kg_m2": [
+          4.1964e-06,
+          3.4198877566766147e-06,
+          2.3241322433233854e-06
+        ]
+      },
+      {
+        "index": 3,
+        "name": "hip_l",
+        "parent_index": 2,
+        "mass_kg": 0.00618934,
+        "inertia_kg_m2": [
+          1.159755603719869e-06,
+          1.1575300000024421e-06,
+          3.5245839627768903e-07
+        ]
+      },
+      {
+        "index": 4,
+        "name": "upper_leg_left",
+        "parent_index": 3,
+        "mass_kg": 0.0482067,
+        "inertia_kg_m2": [
+          1.9845265956057494e-05,
+          1.9108041962471662e-05,
+          8.117992081470831e-06
+        ]
+      },
+      {
+        "index": 5,
+        "name": "leg",
+        "parent_index": 4,
+        "mass_kg": 0.0215844,
+        "inertia_kg_m2": [
+          5.25056e-06,
+          4.580536622760802e-06,
+          1.913783377239199e-06
+        ]
+      },
+      {
+        "index": 6,
+        "name": "ankle_left",
+        "parent_index": 5,
+        "mass_kg": 0.0300246,
+        "inertia_kg_m2": [
+          1.1162273349969178e-05,
+          7.743185360670357e-06,
+          5.903341289360453e-06
+        ]
+      },
+      {
+        "index": 7,
+        "name": "neck",
+        "parent_index": 1,
+        "mass_kg": 0.0368414,
+        "inertia_kg_m2": [
+          1.72925e-05,
+          1.63707e-05,
+          3.12694e-06
+        ]
+      },
+      {
+        "index": 8,
+        "name": "neck_pitch",
+        "parent_index": 7,
+        "mass_kg": 0.00572,
+        "inertia_kg_m2": [
+          1.09186e-06,
+          9.66855e-07,
+          5.12111e-07
+        ]
+      },
+      {
+        "index": 9,
+        "name": "yaw_roll_motion",
+        "parent_index": 8,
+        "mass_kg": 0.0486,
+        "inertia_kg_m2": [
+          9.655117695766666e-06,
+          8.11787739625905e-06,
+          6.887804907974275e-06
+        ]
+      },
+      {
+        "index": 10,
+        "name": "jaw_soft",
+        "parent_index": 9,
+        "mass_kg": 0.188766,
+        "inertia_kg_m2": [
+          0.0003210675976941666,
+          0.00025426573598788586,
+          0.00014946066631794764
+        ]
+      },
+      {
+        "index": 11,
+        "name": "bearing_roll",
+        "parent_index": 1,
+        "mass_kg": 0.0230406,
+        "inertia_kg_m2": [
+          4.1964e-06,
+          3.4198877566766147e-06,
+          2.3241322433233854e-06
+        ]
+      },
+      {
+        "index": 12,
+        "name": "hip_l_2",
+        "parent_index": 11,
+        "mass_kg": 0.00618934,
+        "inertia_kg_m2": [
+          1.159755603719869e-06,
+          1.1575300000024421e-06,
+          3.5245839627768903e-07
+        ]
+      },
+      {
+        "index": 13,
+        "name": "upper_leg_right",
+        "parent_index": 12,
+        "mass_kg": 0.0482067,
+        "inertia_kg_m2": [
+          1.9845265956057494e-05,
+          1.9108041962471662e-05,
+          8.117992081470831e-06
+        ]
+      },
+      {
+        "index": 14,
+        "name": "leg_2",
+        "parent_index": 13,
+        "mass_kg": 0.0215844,
+        "inertia_kg_m2": [
+          5.25056e-06,
+          4.580536622760802e-06,
+          1.913783377239199e-06
+        ]
+      },
+      {
+        "index": 15,
+        "name": "ankle_right",
+        "parent_index": 14,
+        "mass_kg": 0.0300251,
+        "inertia_kg_m2": [
+          1.1162245904558893e-05,
+          7.743216094205062e-06,
+          5.90343800123603e-06
+        ]
+      }
+    ]
+  },
+  "policies": [
+    {
+      "path": "reference/microduck/policies/alpha_ground_pick.onnx",
+      "bytes": 793685,
+      "sha256": "ffbf5109982ff999b0ba53afe86b9ae731bbec679d67fb7f8ab4c52152c88872",
+      "inputs": [
+        {
+          "name": "obs",
+          "shape": [
+            1,
+            61
+          ],
+          "type": "tensor(float)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "actions",
+          "shape": [
+            1,
+            14
+          ],
+          "type": "tensor(float)"
+        }
+      ],
+      "contract_ok": true
+    },
+    {
+      "path": "reference/microduck/policies/alpha_sitstand.onnx",
+      "bytes": 793695,
+      "sha256": "c6c40e35e726eabd803d633e090d112994f469921152448367953fbaf9799bc8",
+      "inputs": [
+        {
+          "name": "obs",
+          "shape": [
+            1,
+            61
+          ],
+          "type": "tensor(float)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "actions",
+          "shape": [
+            1,
+            14
+          ],
+          "type": "tensor(float)"
+        }
+      ],
+      "contract_ok": true
+    },
+    {
+      "path": "reference/microduck/policies/alpha_stand.onnx",
+      "bytes": 793705,
+      "sha256": "1569268713e40deea795dd2922dba50d3621e15a872855408b6b1b125b1c094b",
+      "inputs": [
+        {
+          "name": "obs",
+          "shape": [
+            1,
+            61
+          ],
+          "type": "tensor(float)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "actions",
+          "shape": [
+            1,
+            14
+          ],
+          "type": "tensor(float)"
+        }
+      ],
+      "contract_ok": true
+    },
+    {
+      "path": "reference/microduck/policies/alpha_walking.onnx",
+      "bytes": 793705,
+      "sha256": "e36332d383997d51401897734cd3e79cf5038406feddb18b4d57ecfb141daa6c",
+      "inputs": [
+        {
+          "name": "obs",
+          "shape": [
+            1,
+            61
+          ],
+          "type": "tensor(float)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "actions",
+          "shape": [
+            1,
+            14
+          ],
+          "type": "tensor(float)"
+        }
+      ],
+      "contract_ok": true
+    },
+    {
+      "path": "reference/microduck/policies/ball_kick_left.onnx",
+      "bytes": 793685,
+      "sha256": "d6928284dccd3dd61e08bf2f760effa74309fbefd97b2b31afb2a60f526d196a",
+      "inputs": [
+        {
+          "name": "obs",
+          "shape": [
+            1,
+            61
+          ],
+          "type": "tensor(float)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "actions",
+          "shape": [
+            1,
+            14
+          ],
+          "type": "tensor(float)"
+        }
+      ],
+      "contract_ok": true
+    },
+    {
+      "path": "reference/microduck/policies/ball_kick_right.onnx",
+      "bytes": 793685,
+      "sha256": "147a32c388c6b19111b3ac3b550a9a6dc8b8bf267118af4d8c3712522eedb5af",
+      "inputs": [
+        {
+          "name": "obs",
+          "shape": [
+            1,
+            61
+          ],
+          "type": "tensor(float)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "actions",
+          "shape": [
+            1,
+            14
+          ],
+          "type": "tensor(float)"
+        }
+      ],
+      "contract_ok": true
+    },
+    {
+      "path": "reference/microduck/policies/roller.onnx",
+      "bytes": 793685,
+      "sha256": "cf05651d2708a2f9364212e86b866c97a70ace8131c492500105e8f28bf99afd",
+      "inputs": [
+        {
+          "name": "obs",
+          "shape": [
+            1,
+            61
+          ],
+          "type": "tensor(float)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "actions",
+          "shape": [
+            1,
+            14
+          ],
+          "type": "tensor(float)"
+        }
+      ],
+      "contract_ok": true
+    },
+    {
+      "path": "reference/microduck/policies/roller_crouch.onnx",
+      "bytes": 793685,
+      "sha256": "a1a084be240469c76ac9d3fa44d4792f16d4b1da60398b3ecd3cfc5e2244d990",
+      "inputs": [
+        {
+          "name": "obs",
+          "shape": [
+            1,
+            61
+          ],
+          "type": "tensor(float)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "actions",
+          "shape": [
+            1,
+            14
+          ],
+          "type": "tensor(float)"
+        }
+      ],
+      "contract_ok": true
+    },
+    {
+      "path": "reference/microduck/policies/roulade.onnx",
+      "bytes": 793685,
+      "sha256": "3d60da08fc13f29c1b57f41977aa898132c0d60042100149d8e775affcbca32b",
+      "inputs": [
+        {
+          "name": "obs",
+          "shape": [
+            1,
+            61
+          ],
+          "type": "tensor(float)"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "actions",
+          "shape": [
+            1,
+            14
+          ],
+          "type": "tensor(float)"
+        }
+      ],
+      "contract_ok": true
+    }
+  ],
+  "all_policy_contracts_ok": true
+}

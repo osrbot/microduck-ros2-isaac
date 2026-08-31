@@ -1,0 +1,27 @@
+{
+  "source_mjcf": "reference/microduck_rl/src/mjlab_microduck/robot/microduck/robot_allcollisions.xml",
+  "source_revision": "d424a0c899f6b33cbd3daeb279913134349c0b63",
+  "source_spawn_height_m": 0.12,
+  "xacro": "ros2_ws/src/microduck_description/urdf/microduck.urdf.xacro",
+  "links": 15,
+  "revolute_joints": 14,
+  "visuals": 70,
+  "collisions": 10,
+  "ros_frame_links": 1,
+  "ros_total_links": 16,
+  "fixed_joints": 1,
+  "total_mass_kg": 0.7372431800000001,
+  "unique_meshes": 38,
+  "skipped_self_collision_geometries": 1,
+  "actuator_from_mjcf": {
+    "effort_limit": 0.96,
+    "damping": 0.053,
+    "friction": 0.0048,
+    "armature": 0.0018
+  },
+  "joint_velocity_limit_rad_s": {
+    "value": 6.0,
+    "provenance": "simulation fallback; not an authoritative hardware limit",
+    "xacro_override": "joint_velocity_limit:=<rad_s>"
+  }
+}

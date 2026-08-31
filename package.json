@@ -1,0 +1,21 @@
+{
+  "name": "microduck-ros2-isaac-docs",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Documentation site for the MicroDuck ROS 2 and Isaac Sim community integration.",
+  "type": "module",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "devDependencies": {
+    "vitepress": "1.6.4"
+  },
+  "overrides": {
+    "vite": "6.4.3"
+  }
+}

@@ -1,0 +1,17 @@
+format = 1
+
+[microduck_rl]
+url = "https://github.com/pollen-robotics/microduck_rl.git"
+branch = "develop"
+commit = "d424a0c899f6b33cbd3daeb279913134349c0b63"
+
+[microduck_runtime]
+url = "https://github.com/pollen-robotics/microduck.git"
+branch = "main"
+commit = "590b986bd8c0d50ae02cb3ea2f59c463b6828168"
+
+[validated_toolchain]
+isaac_sim = "6.0.1"
+isaac_lab = "3.0.0-beta2"
+ros = "jazzy"
+ubuntu = "24.04"

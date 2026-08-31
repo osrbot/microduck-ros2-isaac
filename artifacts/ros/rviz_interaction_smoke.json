@@ -1,0 +1,49 @@
+{
+  "validation_date": "2026-08-31",
+  "display": ":1",
+  "rviz_window_px": [
+    1400,
+    900
+  ],
+  "camera_interaction": {
+    "tool": "rviz_default_plugins/MoveCamera",
+    "controller": "rviz_default_plugins/Orbit",
+    "fresh_launch_left_drag_without_tool_selection_changed_pixels": 280985,
+    "left_drag_changed_pixels": 287841,
+    "five_wheel_up_events_changed_pixels": 408610,
+    "rotate_pass": true,
+    "zoom_pass": true
+  },
+  "joint_gui_interaction": {
+    "launch_argument": "use_gui:=true",
+    "action": "Randomize",
+    "changed_joint_count": 14,
+    "randomized_joint_positions_rad": [
+      0.3464914897518535,
+      -0.1437592798283616,
+      0.2978229835553321,
+      -1.0555751316112398,
+      -0.7454999366945341,
+      -0.0869173967452681,
+      -0.22336723766953792,
+      0.5607742886657103,
+      -0.1200786525373248,
+      -0.46072328929489653,
+      -0.1746306636376572,
+      0.9650972631797763,
+      -0.5108229654721081,
+      1.288995465763874
+    ],
+    "world_to_ankle_left_translation_m": [
+      -0.058,
+      0.087,
+      0.076
+    ],
+    "center_to_randomized_changed_pixels": 263708,
+    "joint_state_pass": true,
+    "tf_update_pass": true,
+    "rviz_mesh_update_pass": true
+  },
+  "all_checks_pass": true,
+  "evidence_boundary": "Automated X11 pixel differences and ROS state/TF changes; not human visual or livestream acceptance."
+}

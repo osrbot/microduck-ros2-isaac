@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>microduck_description</name>
+  <version>0.1.0</version>
+  <description>ROS 2 description and visualization package for Pollen Robotics MicroDuck.</description>
+
+  <maintainer email="8427748+dajianli@users.noreply.github.com">dajianli</maintainer>
+  <license>Apache-2.0</license>
+  <license>Creative Commons BY-SA-NC for upstream 3D model files; exact version unspecified upstream</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>joint_state_publisher_gui</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>xacro</exec_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

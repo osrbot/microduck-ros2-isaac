@@ -1,0 +1,17 @@
+MicroDuck model provenance
+==========================
+
+The robot geometry, kinematic dimensions, inertial parameters and mesh assets are
+derived from:
+
+  Pollen Robotics / microduck_rl
+  https://github.com/pollen-robotics/microduck_rl
+
+The exact source revision is recorded in the generated Xacro header and project
+artifact inventory. The upstream README states that project code is Apache-2.0
+and that "3D model files are licensed under Creative Commons BY-SA-NC". It does
+not identify a Creative Commons license version. This repository does not infer
+or silently add one.
+
+The ROS packaging, generator, launch files and validation scripts are separate
+Apache-2.0 contributions. Upstream mesh terms continue to apply to the meshes.

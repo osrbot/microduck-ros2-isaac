@@ -1,0 +1,28 @@
+{
+  "instances_layer": "assets/isaac/robot_allcollisions/payloads/instances.usda",
+  "changes": [
+    {
+      "prim": "/Instances/power_support_1/power_support",
+      "source_mjcf_class": "self_collision_only",
+      "source_contype": 2,
+      "source_conaffinity": 2,
+      "collision_enabled_before": true,
+      "collision_enabled_after": false,
+      "reason": "Isaac runtime profile disables articulation self-collision; do not turn this source-only sensor mesh into ground collision."
+    }
+  ],
+  "normalized_layer_documentation": [
+    "payloads/geometries.usd",
+    "payloads/Physics/mujoco.usda",
+    "payloads/Physics/physics.usda",
+    "payloads/Physics/physx.usda",
+    "payloads/base.usda",
+    "payloads/instances.usda",
+    "payloads/materials.usda",
+    "payloads/robot.usda",
+    "robot_allcollisions.usda"
+  ],
+  "host_specific_layer_documentation_remaining": [],
+  "all_self_collision_only_disabled": true,
+  "all_checks_pass": true
+}

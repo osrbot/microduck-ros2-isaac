@@ -1,0 +1,46 @@
+{
+  "scenario": {
+    "duration_s": 10.0,
+    "vx_m_s": 0.30000001192092896,
+    "action_scale": 0.9
+  },
+  "mujoco": {
+    "final_root_xyz_m": [
+      1.1510517294675187,
+      -0.217529060282064,
+      0.1176089157188604
+    ],
+    "max_tilt_rad": 0.06393658439644136,
+    "min_root_z_m": 0.11288783356581895
+  },
+  "isaac": {
+    "final_root_xyz_m": [
+      1.4815703630447388,
+      0.4128023386001587,
+      0.11854437738656998
+    ],
+    "max_tilt_rad": 0.0684293806552887,
+    "min_root_z_m": 0.11323107033967972
+  },
+  "differences": {
+    "final_xyz_isaac_minus_mujoco_m": [
+      0.3305186335772201,
+      0.6303313988822227,
+      0.0009354616677095806
+    ],
+    "forward_displacement_relative_difference": 0.2871448998474807,
+    "max_tilt_isaac_minus_mujoco_rad": 0.00449279625884734
+  },
+  "checks": {
+    "both_finite": true,
+    "both_upright_at_end": true,
+    "commands_match": true,
+    "action_scales_match": true,
+    "physics_timestep_matches": true,
+    "control_rate_matches": true,
+    "final_height_within_1cm": true,
+    "max_tilt_within_0_02rad": true
+  },
+  "behavioral_smoke_parity": true,
+  "interpretation": "Both engines execute the same policy contract and remain upright. Trajectory equality is not claimed: PhysX uses a simplified implicit-PD actuator and different contact dynamics from the upstream MuJoCo model."
+}

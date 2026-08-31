@@ -1,0 +1,51 @@
+{
+  "urdf": "work/ros_validation/microduck.urdf",
+  "links": 16,
+  "physical_links": 15,
+  "joints": 15,
+  "fixed_joints": 1,
+  "revolute_joints": 14,
+  "root_links": [
+    "base_link"
+  ],
+  "joint_names": [
+    "left_hip_yaw",
+    "left_hip_roll",
+    "left_hip_pitch",
+    "left_knee",
+    "left_ankle",
+    "neck_pitch",
+    "head_pitch",
+    "head_yaw",
+    "head_roll",
+    "right_hip_yaw",
+    "right_hip_roll",
+    "right_hip_pitch",
+    "right_knee",
+    "right_ankle"
+  ],
+  "total_mass_kg": 0.73724318,
+  "visual_mesh_instances": 70,
+  "collision_mesh_instances": 10,
+  "unique_mesh_files": 38,
+  "joint_velocity_limits_rad_s": [
+    6.0
+  ],
+  "joint_effort_limits_nm": [
+    0.96
+  ],
+  "missing_meshes": [],
+  "checks": {
+    "physical_link_count_15_plus_base_link": true,
+    "joint_count_14_revolute_plus_1_fixed": true,
+    "revolute_joint_count_14": true,
+    "joint_contract_matches": true,
+    "root_is_massless_base_link": true,
+    "total_mass_matches_mjcf": true,
+    "all_inertias_positive_definite": true,
+    "all_joint_limits_valid": true,
+    "all_meshes_resolve": true,
+    "mouth_joint_absent": true
+  },
+  "all_checks_pass": true
+}

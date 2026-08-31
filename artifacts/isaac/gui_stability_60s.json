@@ -1,0 +1,37 @@
+{
+  "validation_date": "2026-08-31",
+  "host_gpu": "NVIDIA GeForce RTX 4080 SUPER",
+  "driver_version": "595.91.07",
+  "scenario": {
+    "policy": "reference/microduck/policies/alpha_walking.onnx",
+    "viz": "kit",
+    "follow_camera": true,
+    "duration_s": 60.0,
+    "vx": 0.3,
+    "action_scale": 0.9
+  },
+  "runtime_mitigation": {
+    "vulkan_icd": "/etc/vulkan/icd.d/nvidia_icd.json",
+    "renderer_multi_gpu_auto_enable": false,
+    "renderer_multi_gpu_enabled": false,
+    "renderer_active_gpu": 0
+  },
+  "result": {
+    "exit_code": 0,
+    "kit_shutdown_time_s": 189.451,
+    "finite": true,
+    "upright_at_end": true,
+    "final_root_xyz_m": [
+      -0.08634364604949951,
+      6.2224907875061035,
+      0.12001080065965652
+    ],
+    "min_root_z_m": 0.11323107033967972,
+    "max_tilt_rad": 0.0684293806552887,
+    "final_tilt_rad": 0.049958061426877975,
+    "gpu_crash_markers": 0,
+    "new_gpu_dump_files": 0,
+    "residual_project_processes": 0
+  },
+  "evidence_boundary": "Process and renderer stability on one host; not visual, training, hardware, or livestream acceptance."
+}

@@ -1,0 +1,26 @@
+{
+  "source_mjcf": "reference/microduck_rl/src/mjlab_microduck/robot/microduck/robot_allcollisions.xml",
+  "source_revision": "d424a0c899f6b33cbd3daeb279913134349c0b63",
+  "generated_xacro": "ros2_ws/src/microduck_description/urdf/microduck.urdf.xacro",
+  "poses_checked": 109,
+  "body_joint_poses": 14,
+  "inertial_poses": 15,
+  "visual_poses": 70,
+  "collision_poses": 10,
+  "skipped_self_collision_geometries": 1,
+  "translation_tolerance_m": 1e-10,
+  "rotation_matrix_tolerance": 1e-09,
+  "max_translation_error_m": 0.0,
+  "max_rotation_matrix_error": 4.8968109047516725e-12,
+  "checks": {
+    "physical_links_match": true,
+    "body_joint_pose_count_14": true,
+    "inertial_pose_count_15": true,
+    "visual_pose_count_70": true,
+    "collision_pose_count_10": true,
+    "self_collision_geometry_deliberately_skipped": true,
+    "all_translations_match": true,
+    "all_rotation_matrices_match": true
+  },
+  "all_checks_pass": true
+}
