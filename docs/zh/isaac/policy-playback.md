@@ -1,37 +1,73 @@
-# 回放 ONNX 策略
+# 让 MicroDuck 在 Isaac Sim 里走起来
 
-运行器在 Isaac Sim 中重建已发布的策略接口。它是策略回放适配层，不是原生 Isaac Lab 训练环境。
+这部分假设电脑里已经安装 Isaac Sim 和 Isaac Lab。USD 已经在仓库里；下面只需要下载公开策略，
+并在项目目录准备 ONNX Runtime。环境准备好以后，就可以正式放鸭开跑。
 
-## 无界面站立测试
+## 1. 准备策略运行环境
+
+在仓库根目录运行：
+
+```bash
+./scripts/fetch_upstream.sh
+export ISAACLAB_DIR=/path/to/IsaacLab
+./scripts/setup_isaac_python_env.sh
+```
+
+如果 Isaac Lab 正好在默认的 `~/rlgpu_ws/IsaacLab`，可以省略 `ISAACLAB_DIR`。
+
+## 2. 放鸭开跑
+
+在带图形桌面的 Linux 中运行：
+
+```bash
+./scripts/run_isaac_policy.sh \
+  --duration 60 \
+  --vx 0.3 \
+  --action-scale 0.9 \
+  --follow-camera \
+  --viz kit
+```
+
+Isaac Sim 会打开，把 MicroDuck 放到地面上，然后运行行走策略，镜头会跟随机器人。仿真速度可能
+比真实时间慢，终端每五个仿真秒会输出一次进度。
+
+## 想让它先乖乖站好
 
 ```bash
 ./scripts/run_isaac_policy.sh \
   --policy reference/microduck/policies/alpha_stand.onnx \
-  --duration 5 --action-scale 1.0 --headless \
-  --output artifacts/isaac/policy_stand_local.json
+  --duration 30 \
+  --action-scale 1.0 \
+  --follow-camera \
+  --viz kit
 ```
 
-## 无界面行走测试
+## 不看画面，先跑一小圈
+
+下面的命令适合快速检查环境：
 
 ```bash
 ./scripts/run_isaac_policy.sh \
-  --policy reference/microduck/policies/alpha_walking.onnx \
-  --duration 10 --vx 0.3 --action-scale 0.9 --headless \
-  --output artifacts/isaac/policy_walk_local.json
+  --duration 10 \
+  --vx 0.3 \
+  --action-scale 0.9 \
+  --headless
 ```
 
-## 可视化回放
+运行结束后会把简单结果写到 `artifacts/isaac/policy_rollout.json`。普通教程不需要阅读这个文件，
+只有排查问题时才用得上。
 
-在带 `DISPLAY` 的图形桌面会话中运行：
+## 鸭子走着走着，Isaac Sim 崩了？
 
-```bash
-./scripts/run_isaac_policy.sh \
-  --policy reference/microduck/policies/alpha_walking.onnx \
-  --duration 60 --vx 0.3 --action-scale 0.9 \
-  --follow-camera --viz kit
-```
+- 通过 `run_isaac_policy.sh` 启动，不要直接运行 Python 文件。包装脚本会在需要时只选择一个
+  NVIDIA Vulkan 设备。
+- 开始新任务前先关闭其他 Isaac Sim 窗口。
+- 先用空场景确认 NVIDIA 驱动、Vulkan 和 Isaac Sim 本身可以稳定运行。
+- 尝试无界面命令。如果 headless 正常而 GUI 崩溃，问题更可能在渲染或桌面会话。
+- GPU 环境变量和进一步检查见[故障排查](/zh/troubleshooting)。
 
-包装脚本在发现重复 NVIDIA Vulkan ICD 时选择单一 manifest，关闭 Kit 多 GPU 渲染，并让渲染 GPU 与计算设备一致。仅在你的主机确实需要时覆盖：
+::: details 高级设置
+包装脚本默认使用 `cuda:0`。多 GPU 主机确实需要时可以覆盖：
 
 ```bash
 export MICRODUCK_ISAAC_DEVICE=cuda:0
@@ -39,26 +75,9 @@ export MICRODUCK_VULKAN_ICD=/etc/vulkan/icd.d/nvidia_icd.json
 export MICRODUCK_ISAAC_ACTIVE_GPU=0
 ```
 
-Kit GUI 回放可能明显慢于真实时间，长任务每五个仿真秒输出一次进度。
+公开策略读取 61 个数值，控制仿真模型里的 14 个关节。物理频率为 200 Hz，策略推理频率为
+50 Hz。这些信息在修改运行器时有用，第一次回放时不用先理解。
+:::
 
-## 策略契约
-
-| 观测块 | 宽度 |
-| --- | ---: |
-| 基座角速度 | 3 |
-| 投影重力 | 3 |
-| 相对 home 的关节位置 | 14 |
-| 关节速度 | 14 |
-| 上一次原始动作 | 14 |
-| twist、头部姿态与身体姿态命令 | 13 |
-| **总计** | **61** |
-
-14 维输出从策略关节顺序映射到 Isaac 关节顺序，然后按下式应用：
-
-```text
-target = 官方 home pose + action scale * 原始策略动作
-```
-
-物理频率 200 Hz，推理频率 50 Hz。当前 Isaac 执行器是简化 implicit-PD，因此只声明有限值/保持直立的行为 smoke parity，不声明与 MuJoCo 轨迹相同。
-
-每次运行生成 JSON，记录输入、命令、时序、根姿态、最大倾角、推理耗时和 finite/upright 状态。视频不能替代这份可复核证据。
+这里提供的是策略回放，不是开箱即用的 Isaac Lab 训练任务。当前项目不包含 reward、reset、
+curriculum 或 ROS 到 Isaac 的控制桥。

@@ -23,3 +23,24 @@ Apache License 2.0.
 Changes made by this project include format conversion, ROS 2 packaging,
 Isaac Sim articulation configuration, validation metadata, and documentation.
 No affiliation with or endorsement by Pollen Robotics is implied.
+
+## Documentation images
+
+- `docs/public/images/microduck-lineup.webp` is an unmodified copy of the image
+  linked from the official Pollen Robotics `microduck` README. Its source is
+  <https://github.com/user-attachments/assets/c2f7c245-8217-46a1-8d1e-e0ba967cd969>.
+- `docs/public/images/microduck-waddle-lab.webp` is an original project
+  illustration generated with the official lineup image as a subject reference.
+  It is decorative artwork, not a screenshot or simulation result.
+- `docs/public/images/play-duck-sticker.webp` is an original project
+  illustration generated from a user-supplied meme only as a mood and gesture
+  reference. The source bitmap is not included. The sticker itself is static;
+  its optional movement on the website is implemented with CSS.
+- `docs/public/images/hero-microduck-meme.webp` is an original project
+  illustration generated from the same user-supplied meme as a mood and gesture
+  reference and the official MicroDuck lineup as a hardware identity reference.
+  It is a decorative hybrid mascot, not a hardware or simulation screenshot.
+- `docs/public/images/isaac-usd-preview.webp` is rendered from the USD bundled in
+  this repository.
+- `docs/public/images/rviz-missing-parts.png` is a user-supplied runtime
+  screenshot included as a troubleshooting example.

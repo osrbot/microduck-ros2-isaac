@@ -13,9 +13,8 @@ TF/RViz launch, an official home-pose publisher, and optional joint sliders.
 
 ## Can Isaac Sim use it directly?
 
-The included USD and runner support inspected policy playback in Isaac Sim
-6.0.1 on the recorded host. This does not mean a native Isaac Lab training task
-exists.
+The included USD and runner were tested with policy playback in Isaac Sim 6.0.1
+on the recorded host. This is not a native Isaac Lab training task.
 
 ## Can ROS control Isaac or the real robot?
 

@@ -1,46 +1,56 @@
-# 生成并检查 Isaac USD
+# 把 MicroDuck 放进 Isaac Sim
 
-Isaac 工作流使用 Isaac Lab 官方转换器读取固定版本 MJCF，应用一个有记录的碰撞修正，再验证 stage 后进入策略回放。
+仓库已经带了转换好的 MicroDuck USD。第一次来不用先折腾转换脚本，也不用先配置策略，直接把
+鸭子请进场景就行。
 
-## 转换模型
+## 1. 找到 USD
 
-```bash
-export ISAACLAB_DIR=/path/to/IsaacLab  # 使用默认目录时可省略
-./scripts/setup_isaac_python_env.sh
-./scripts/convert_mjcf_to_usd.sh
-```
-
-规范输出位置是：
+从仓库根目录开始，主文件是：
 
 ```text
 assets/isaac/robot_allcollisions/robot_allcollisions.usda
 ```
 
-转换在项目临时 work 目录进行。成功后才替换规范资产；失败时恢复上一份资产并清理临时转换文件。
+请保留整个 `robot_allcollisions` 目录。主文件还会读取相邻 `payloads/` 目录里的几何和材质。
 
-## 为什么需要后处理
+<figure class="md-doc-figure md-usd-figure">
+  <div class="md-doc-image-stage"><img src="/images/isaac-usd-preview.webp" alt="仓库自带 MicroDuck USD 的三分之四视角渲染预览" width="1200" height="800" loading="lazy"></div>
+  <figcaption><strong>这张不是概念图。</strong>它由仓库当前的 USD 直接渲染，方便你打开 Isaac Sim 前先认一下模型。进入 Isaac Sim 后可以自由转镜头。</figcaption>
+</figure>
 
-MJCF 导入器不会保留源 `contype`/`conaffinity` 过滤语义。如果不修正，`self_collision_only` power-support 传感器网格会错误地参与地面碰撞。`postprocess_isaac_usd.py` 只禁用这一份源几何的一般碰撞，并记录变更。
+## 2. 把鸭子请进场景
 
-## 检查结构契约
+1. 启动 Isaac Sim。
+2. 点击 **File → Open**。
+3. 选择 `robot_allcollisions.usda`。
+4. 等待 stage 和材质加载完成。
+5. 如果想检查 articulation 是否稳定，可以点击 **Play**。
 
-转换脚本会自动运行 `inspect_usd.py`，报告保存在 `artifacts/isaac/usd_inventory.json`，检查：
+## 鸭子顺利落地时应该看到什么
 
-- stage 单位和坐标轴；
-- 15 个刚体与 14 个旋转关节；
-- articulation root、关节名称与极限；
-- 约 0.737243 kg 总物理质量；
-- 81 个网格实例，其中 10 个碰撞网格启用；
-- 有记录的碰撞修正。
+- MicroDuck 作为一台完整机器人出现，而不是散开的网格；
+- Stage 树中能看到机器人身体和关节；
+- 头部、身体、腿和脚都能看到；
+- 点击 **Play** 后机器人不会立刻消失或散架。
 
-也可直接重复检查：
+只查看模型或截图，做到这里就够了。要让机器人运行站立或行走策略，继续看
+[运行行走策略](./policy-playback)。
+
+## 鸭子没有出现在 Stage 里？
+
+- 确认打开的是最外层 `.usda`，不是 `payloads/` 里的文件；
+- 不要改变仓库里的目录结构；
+- 查看 Isaac Sim Console 是否提示相对路径资源缺失；
+- 视口里什么都没有时，选中机器人并按 <kbd>F</kbd> 聚焦。
+
+::: details 给维护者：从上游 MJCF 重新生成 USD
+教程已经带了可用 USD。只有修改源模型或转换代码时才需要重新生成：
 
 ```bash
-"$ISAACLAB_DIR/isaaclab.sh" -p scripts/inspect_usd.py
+./scripts/fetch_upstream.sh
+export ISAACLAB_DIR=/path/to/IsaacLab
+./scripts/convert_mjcf_to_usd.sh
 ```
 
-## 打开 stage
-
-在 Isaac Sim 中打开规范 `.usda`，检查材质和镜头。能打开只证明 GUI 能加载文件；对外声明刚体、关节、质量或碰撞正确之前，仍需结构报告。
-
-下一步：[回放 ONNX 策略](./policy-playback)。
+脚本会转换模型、应用项目的碰撞调整，并更新 `assets/isaac/` 下的资产。
+:::

@@ -1,56 +1,60 @@
-# Create and inspect the Isaac USD
+# Open MicroDuck in Isaac Sim
 
-The Isaac workflow converts the pinned upstream MJCF with Isaac Lab's official
-converter, applies one documented collision correction, and validates the
-resulting stage before policy playback.
+The repository includes a converted MicroDuck USD. You can open it before
+setting up policy playback. No conversion is required.
 
-## Convert the model
+## 1. Find the USD
 
-```bash
-export ISAACLAB_DIR=/path/to/IsaacLab  # omit when using the documented default
-./scripts/setup_isaac_python_env.sh
-./scripts/convert_mjcf_to_usd.sh
-```
-
-The canonical stage is written to:
+From the repository root, the main stage is:
 
 ```text
 assets/isaac/robot_allcollisions/robot_allcollisions.usda
 ```
 
-Conversion occurs in a temporary project work directory. A successful run
-replaces the canonical generated asset atomically; a failed run restores the
-previous asset and removes temporary conversion files.
+Keep the whole `robot_allcollisions` directory together. The main file loads
+geometry and materials from the neighboring `payloads/` directory.
 
-## Why there is a post-process
+<figure class="md-doc-figure md-usd-figure">
+  <div class="md-doc-image-stage"><img src="/images/isaac-usd-preview.webp" alt="Three-quarter rendered preview of the MicroDuck USD included in this repository" width="1200" height="800" loading="lazy"></div>
+  <figcaption><strong>Rendered from the included USD.</strong> Use this preview to identify the model before opening Isaac Sim.</figcaption>
+</figure>
 
-The MJCF importer does not preserve the source `contype`/`conaffinity` filtering
-semantics. Without correction, the `self_collision_only` power-support sensor
-mesh can collide with the ground. `postprocess_isaac_usd.py` disables general
-collision for that one source geometry and records the change.
+## 2. Open the USD
 
-## Inspect the contract
+1. Start Isaac Sim.
+2. Choose **File → Open**.
+3. Select `robot_allcollisions.usda`.
+4. Wait for the stage and materials to finish loading.
+5. Press **Play** if you want to check that the articulation stays in the scene.
 
-The conversion script runs `inspect_usd.py` automatically. The retained report
-is `artifacts/isaac/usd_inventory.json` and enforces:
+## Expected result
 
-- stage units and axis convention;
-- 15 rigid bodies and 14 revolute joints;
-- articulation root, joint names, and limits;
-- approximately 0.737243 kg total physical mass;
-- 81 mesh instances, of which 10 collision meshes remain enabled;
-- the documented collision correction.
+- MicroDuck appears as one complete robot rather than loose mesh files.
+- The Stage tree contains the robot body and its joints.
+- The head, body, legs, and feet are visible.
+- Pressing **Play** does not immediately remove or explode the robot.
 
-You can repeat the inspection directly through the Isaac launcher:
+Opening the stage is enough for viewing and screenshots. To make the robot
+stand or walk with a released policy, continue with
+[Run the walking policy](./policy-playback).
+
+## The model does not appear
+
+- Make sure you opened the top-level `.usda`, not a file inside `payloads/`.
+- Keep the repository directory structure unchanged.
+- Check the Isaac Sim console for a missing relative asset path.
+- If the viewport is blank, frame the selected robot with <kbd>F</kbd>.
+
+::: details For contributors: rebuild the USD from the upstream MJCF
+The included USD is ready for the tutorial. Rebuild it only when changing the
+source model or conversion code:
 
 ```bash
-"$ISAACLAB_DIR/isaaclab.sh" -p scripts/inspect_usd.py
+./scripts/fetch_upstream.sh
+export ISAACLAB_DIR=/path/to/IsaacLab
+./scripts/convert_mjcf_to_usd.sh
 ```
 
-## Open the stage
-
-Open the canonical `.usda` in Isaac Sim for material and camera inspection. A
-stage opening successfully is only a GUI check; use the structural report above
-before claiming that body, joint, mass, or collision contracts are correct.
-
-Continue with [ONNX policy playback](./policy-playback).
+The script converts the model, applies the project collision adjustment, and
+updates the asset under `assets/isaac/`.
+:::

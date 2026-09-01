@@ -2,54 +2,63 @@
 layout: home
 
 hero:
-  name: "MicroDuck ROS 2 + Isaac Sim"
-  text: "同一份模型，两条实用机器人工作流。"
-  tagline: "面向 ROS 2 可视化、经过验证的 USD 资产与官方 ONNX 策略回放的可复现社区项目，并明确展示证据与能力边界。"
+  name: "MicroDuck"
+  text: "一起来玩鸭？"
+  tagline: "不先讲一堆干巴巴的理论：看模型、动关节、跑策略，跟着步骤把这只开源小鸭子真正玩起来。"
   image:
-    src: /hero-pipeline.svg
-    alt: MicroDuck ROS 2 与 Isaac Sim 工作流
+    src: /images/hero-microduck-meme.webp?v=1
+    alt: 招手走来的表情包黄鸭与 MicroDuck 机器人融合角色
   actions:
     - theme: brand
-      text: 从 ROS 2 开始
-      link: /zh/guide/
+      text: 先玩 ROS 2
+      link: /zh/ros2/
     - theme: alt
-      text: 在 Isaac Sim 中运行
+      text: 再去 Isaac Sim
       link: /zh/isaac/
 
 features:
-  - icon: 🧭
-    title: ROS 2 与 RViz
-    details: 构建 Jazzy description 包，检查完整运动学树，并操作策略使用的全部 14 个关节。
-  - icon: ◈
-    title: 经过验证的 USD
-    details: 使用 Isaac 导入器转换固定版本 MJCF，再检查刚体、关节、质量、单位和碰撞状态。
-  - icon: ∿
-    title: ONNX 策略回放
-    details: 重建官方 61 输入到 14 输出的策略契约，以 50 Hz 回放站立或行走策略。
+  - icon: 👀
+    title: 先让鸭子露个脸
+    details: 构建仓库里已经准备好的 ROS 2 功能包，让完整的 MicroDuck 出现在 RViz 里。
+  - icon: 🎛️
+    title: 扭扭脖子，动动腿
+    details: 拖动 Joint State Publisher 滑块，看看公开仿真模型里的 14 个关节都能怎么动。
+  - icon: 🦆
+    title: 放鸭开跑
+    details: 直接打开仓库自带的 USD，再让它运行已经发布的站立或行走策略。
 ---
 
 <section class="md-home-section">
-  <h2>围绕可验证契约构建</h2>
-  <p class="md-home-lead">项目将 Pollen Robotics 固定版本的 MJCF 与已发布策略作为源输入。ROS 和 Isaac 输出属于派生产物，需要检查并记录证据，而不是因为“能在查看器里打开”就默认正确。</p>
-  <div class="md-proof-grid">
-    <div class="md-proof-card"><span class="md-proof-value">15</span><span class="md-proof-label">选定仿真模型中的物理刚体</span></div>
-    <div class="md-proof-card"><span class="md-proof-value">14</span><span class="md-proof-label">已发布策略契约中的可动关节</span></div>
-    <div class="md-proof-card"><span class="md-proof-value">61 → 14</span><span class="md-proof-label">ONNX 观测与动作维度</span></div>
-    <div class="md-proof-card"><span class="md-proof-value">50 Hz</span><span class="md-proof-label">两条策略回放路径的推理频率</span></div>
+  <h2>今天想怎么玩这只鸭子？</h2>
+  <p class="md-home-lead">不用先啃模型格式和参数表。选 ROS 2 或 Isaac Sim，复制命令开跑，看看这只鸭子有没有乖乖出现在该出现的地方。</p>
+  <div class="md-route-grid">
+    <a class="md-route-card md-route-orange" href="./ros2/"><span>01</span><strong>把鸭子请进 RViz</strong><p>构建功能包，转转镜头，再试试关节滑块。</p></a>
+    <a class="md-route-card md-route-aqua" href="./isaac/"><span>02</span><strong>放进 Isaac Sim 遛两圈</strong><p>打开已经准备好的 USD，然后用跟随镜头运行行走策略。</p></a>
+    <a class="md-route-card md-route-pink" href="./troubleshooting"><span>03</span><strong>鸭子闹脾气了？</strong><p>处理 RViz 缺件、画面卡住，以及 Isaac Sim 启动或 GPU 崩溃问题。</p></a>
   </div>
-  <div class="md-boundary">
-    <span class="md-boundary-mark">i</span>
-    <div><strong>开始前先理解能力边界</strong><p>这是独立社区项目。目前提供 description、可视化、USD 转换与策略回放，不代表原生 Isaac Lab 训练、ROS 到 Isaac 控制或实体机器人驱动已经完成。</p></div>
+</section>
+
+<section class="md-home-section md-duck-gallery">
+  <div class="md-section-kicker">鸭子出没，请注意</div>
+  <h2>先看两眼，再决定怎么遛</h2>
+  <div class="md-duck-gallery-grid">
+    <figure class="md-image-card md-image-card-main">
+      <img src="/images/microduck-waddle-lab.webp" alt="MicroDuck 从 RViz 走向 Isaac Sim 的彩色插图" width="1440" height="960" loading="lazy">
+      <figcaption><strong>从 RViz 一路溜达到 Isaac Sim</strong><span>这是路线示意插图；真正的模型预览和排错截图都放在对应教程里。</span></figcaption>
+    </figure>
+    <figure class="md-image-card md-image-card-lineup">
+      <div class="md-lineup-stage"><img src="/images/microduck-lineup.webp" alt="四种配色和姿态的 MicroDuck 实体机器人" width="1839" height="638" loading="lazy"></div>
+      <figcaption><strong>先认个鸭</strong><span>MicroDuck 官方项目展示图：四只鸭，四种心情。</span><a href="https://github.com/pollen-robotics/microduck">图片来源：Pollen Robotics MicroDuck ↗</a></figcaption>
+    </figure>
   </div>
 </section>
 
 <section class="md-home-section md-home-next">
-  <div class="md-section-kicker">从小目标开始</div>
-  <h2>选择你今天需要得到的结果</h2>
-  <div class="md-route-grid">
-    <a class="md-route-card md-route-orange" href="./guide/"><span>01</span><strong>准备项目</strong><p>固定上游输入，只安装当前路线真正需要的运行环境。</p></a>
-    <a class="md-route-card md-route-aqua" href="./ros2/"><span>02</span><strong>在 ROS 2 中检查</strong><p>构建 description，打开 RViz，并操作策略使用的全部关节。</p></a>
-    <a class="md-route-card md-route-pink" href="./isaac/"><span>03</span><strong>在 Isaac 中回放</strong><p>先验证 USD 契约，再运行站立或行走 ONNX 策略。</p></a>
+  <div class="md-first-duck-row">
+    <div><div class="md-section-kicker">挑一条路线，开鸭</div><h2>第一次玩鸭，从哪儿下手？</h2></div>
+    <div class="md-play-duck" role="img" aria-label="来玩鸭"><span>来玩鸭</span><img src="/images/play-duck-sticker.webp" alt="" width="640" height="640" loading="lazy"></div>
   </div>
-  <p class="md-home-links"><a href="./troubleshooting">故障排查</a><span>·</span><a href="./faq">常见问题</a><span>·</span><a href="./reference/limitations">已知限制</a><span>·</span><a href="./project/licensing">许可边界</a></p>
+  <p>想最快和鸭子打个照面，就从 <a href="./ros2/">ROS 2 与 RViz</a> 开始。不需要 Isaac Sim，也不要求 NVIDIA 显卡。</p>
+  <p>电脑里已经装好 Isaac Sim 和 Isaac Lab，就直接去 <a href="./isaac/">Isaac Sim 教程</a>。USD 已经打包好了，不用先折腾转换就能把鸭子打开。</p>
+  <p class="md-home-links"><a href="./guide/">从这里开始</a><span>·</span><a href="./faq">常见问题</a><span>·</span><a href="./reference/limitations">目前没有什么</a><span>·</span><a href="./project/licensing">来源与许可</a></p>
 </section>

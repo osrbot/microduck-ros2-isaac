@@ -1,50 +1,17 @@
-# Install and prepare
+# Install what you need
 
-The repository pins the upstream MicroDuck model and policy revisions. Fetch
-those revisions first; do not substitute a moving upstream branch in a recorded
-validation run.
-
-## Common requirements
-
-- Git and Bash
-- Ubuntu 24.04 x86_64 for the validated full workflow
-- Python 3.12
-- An existing Isaac Sim and Isaac Lab installation for the Isaac path
-
-Clone the project, then enter its root:
+## Clone the repository
 
 ```bash
 git clone https://github.com/osrbot/microduck-ros2-isaac.git
 cd microduck-ros2-isaac
 ```
 
-The public repository does not exist yet while this documentation is being
-prepared locally. Use the checked-out project directory until publication.
+The ROS 2 package and Isaac USD are included. No conversion is required.
 
-## Fetch immutable inputs
+## For the ROS 2 tutorial
 
-```bash
-./scripts/fetch_upstream.sh
-```
-
-The script reads [`upstream.lock`](https://github.com/osrbot/microduck-ros2-isaac/blob/main/upstream.lock)
-and creates reproducible checkouts under `reference/`. That directory is local
-and intentionally not committed.
-
-## Prepare the MuJoCo baseline
-
-```bash
-./scripts/setup_mujoco_env.sh
-./scripts/run_official_baseline.sh
-```
-
-This provides the source-model inventory and reference rollouts used by later
-comparison. It is part of verification, not a requirement for merely viewing
-an already generated ROS package.
-
-## Add ROS 2
-
-Install ROS 2 Jazzy and the packages used by the description workspace:
+The commands below are for Ubuntu 24.04 with ROS 2 Jazzy:
 
 ```bash
 sudo apt update
@@ -55,27 +22,39 @@ sudo apt install \
   python3-colcon-common-extensions
 ```
 
-Continue with [ROS 2 build and launch](/ros2/).
+After installation, continue with [Open MicroDuck in RViz](/ros2/).
 
-## Add Isaac Sim
+## For the Isaac Sim tutorial
 
-The validated host uses Isaac Sim 6.0.1 standalone and an Isaac Lab 3.0.0 beta
-2 checkout. Point the scripts at your existing checkout when it is elsewhere:
+Install NVIDIA Isaac Sim and Isaac Lab first. This project was tested with:
+
+- Ubuntu 24.04;
+- Isaac Sim 6.0.1 standalone;
+- Isaac Lab 3.0.0 beta 2;
+- an NVIDIA GPU with a working driver and Vulkan setup;
+- `git`, `bash`, Python 3.12, and `uv`.
+
+If your Isaac Lab checkout is not at `~/rlgpu_ws/IsaacLab`, tell the scripts
+where it is:
 
 ```bash
 export ISAACLAB_DIR=/path/to/IsaacLab
+```
+
+To run a policy, fetch the released policy files and install ONNX Runtime in
+the project-local environment:
+
+```bash
+./scripts/fetch_upstream.sh
 ./scripts/setup_isaac_python_env.sh
 ```
 
-This installs ONNX Runtime 1.24.4 into `work/isaac_python_pkgs`; it does not
-modify the Isaac Lab checkout. Continue with [USD conversion](/isaac/).
+These commands create ignored `reference/` and `work/` directories inside the
+project. They do not modify your Isaac Lab checkout.
 
-## Verify the environment
+Continue with [Open MicroDuck in Isaac Sim](/isaac/).
 
-```bash
-./scripts/check_environment.sh
-```
-
-Compare your setup with the [validated environment](/reference/environment).
-Different versions may work, but they are a new test matrix rather than proof
-that the recorded results automatically transfer.
+::: tip Other versions may work
+The list above is the tested setup. With another Isaac release, open the USD
+before trying policy playback.
+:::

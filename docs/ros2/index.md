@@ -1,24 +1,11 @@
-# Build the ROS 2 description
+# Open MicroDuck in RViz
 
-The `microduck_description` package is generated from the pinned MJCF. It
-contains a massless ROS `base_link`, 15 physical links, one fixed root joint,
-14 revolute joints, meshes, inertias, launch files, and an RViz profile.
+The repository includes the robot description, meshes, launch file, and RViz
+configuration.
 
-## Generate and validate
+## 1. Build the package
 
 From the repository root:
-
-```bash
-./scripts/generate_ros_description.py
-work/mujoco_env/bin/python scripts/validate_ros_mjcf_pose_parity.py
-./scripts/validate_ros2_package.sh
-```
-
-The pose validator compares 109 body-joint, inertial, visual, and collision
-origins against the source MJCF. It also covers the exact ±90° pitch cases that
-can otherwise make neck or leg meshes appear detached.
-
-## Build manually
 
 ```bash
 cd ros2_ws
@@ -27,38 +14,55 @@ colcon build --symlink-install
 source install/setup.bash
 ```
 
-## Launch the presentation profile
+If ROS 2 or `colcon` is missing, return to [installation](/guide/installation).
+
+## 2. Launch RViz
 
 ```bash
 ros2 launch microduck_description view_microduck.launch.py
 ```
 
-The default is intentionally light: visual meshes, no collision meshes, a
-15 FPS RViz render cap, hidden TF axes, and the static official home pose.
+RViz should open with MicroDuck standing in its default home pose.
 
-Useful launch arguments:
+## 3. Move the joints
 
-| Argument | Default | Purpose |
-| --- | --- | --- |
-| `use_gui` | `false` | Open sliders for all 14 policy joints |
-| `use_rviz` | `true` | Start RViz with the package profile |
-| `rviz_fullscreen` | `false` | Work around a window that cannot be maximized |
-| `with_collision_meshes` | `false` | Load the extra collision geometry |
-| `joint_velocity_limit` | `6.0` | Placeholder URDF velocity limit, not hardware truth |
-
-Example:
+Stop the previous launch with <kbd>Ctrl</kbd>+<kbd>C</kbd>, then run:
 
 ```bash
-ros2 launch microduck_description view_microduck.launch.py \
-  use_gui:=true rviz_fullscreen:=true
+ros2 launch microduck_description view_microduck.launch.py use_gui:=true
 ```
 
-## Runtime acceptance
+A Joint State Publisher window will appear. Move a slider and the matching
+joint should move in RViz.
+
+## Expected result
+
+- RViz opens without red errors in the RobotModel display.
+- The complete head, body, two legs, and feet are visible.
+- Left-drag rotates the view, the mouse wheel zooms, and middle-drag pans.
+- Moving a slider changes the robot pose.
+
+Continue with [RViz controls and joints](./rviz).
+
+## Useful launch options
+
+| Option | What it does |
+| --- | --- |
+| `use_gui:=true` | Opens the joint sliders |
+| `rviz_fullscreen:=true` | Opens RViz fullscreen when the desktop cannot maximize it |
+| `use_rviz:=false` | Runs the description and TF nodes without RViz |
+| `with_collision_meshes:=true` | Adds collision geometry for debugging |
+
+::: details For contributors: regenerate the description
+You only need this when changing the upstream model or generator:
 
 ```bash
-./scripts/validate_ros2_runtime.sh
+cd ..
+./scripts/fetch_upstream.sh
+./scripts/setup_mujoco_env.sh
+./scripts/generate_ros_description.py
+./scripts/validate_ros2_package.sh
 ```
 
-This checks the running nodes, `robot_description`, the official 14-joint home
-pose, joint states, and TF. A successful build alone does not establish these
-runtime contracts.
+After regenerating, rebuild the ROS workspace and restart the launch.
+:::

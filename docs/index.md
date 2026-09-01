@@ -2,54 +2,62 @@
 layout: home
 
 hero:
-  name: "MicroDuck ROS 2 + Isaac Sim"
-  text: "One model. Two practical robotics workflows."
-  tagline: "A reproducible community integration for ROS 2 visualization, validated USD assets, and released ONNX policy playback — with the evidence and limitations kept visible."
+  name: "MicroDuck"
+  text: "Ready? Go Go Duck!"
+  tagline: "Open MicroDuck in RViz, move its joints, or run a policy in Isaac Sim."
   image:
-    src: /hero-pipeline.svg
-    alt: MicroDuck ROS 2 and Isaac Sim workflow
+    src: /images/hero-microduck-meme.webp?v=1
+    alt: A playful hybrid of a yellow meme duck and the MicroDuck robot
   actions:
     - theme: brand
       text: Start with ROS 2
-      link: /guide/
+      link: /ros2/
     - theme: alt
-      text: Run in Isaac Sim
+      text: Open in Isaac Sim
       link: /isaac/
 
 features:
-  - icon: 🧭
-    title: ROS 2 and RViz
-    details: Build a Jazzy description package, inspect the complete kinematic tree, and articulate all 14 policy joints.
-  - icon: ◈
-    title: Validated USD
-    details: Convert the pinned MJCF with Isaac's importer, then check bodies, joints, mass, units, and collision state.
-  - icon: ∿
-    title: ONNX policy playback
-    details: Reconstruct the released 61-to-14 policy contract and replay standing or walking at 50 Hz.
+  - icon: 👀
+    title: Open in RViz
+    details: Build the included ROS 2 package and inspect the complete model.
+  - icon: 🎛️
+    title: Move all 14 joints
+    details: Use the Joint State Publisher sliders to test every movable joint.
+  - icon: 🦆
+    title: Run a policy
+    details: Open the included USD and replay a released standing or walking policy.
 ---
 
 <section class="md-home-section">
-  <h2>Built around verifiable contracts</h2>
-  <p class="md-home-lead">The project keeps Pollen Robotics' pinned MJCF and released policies as source inputs. ROS and Isaac outputs are derived, inspected, and reported instead of being treated as correct because they open in a viewer.</p>
-  <div class="md-proof-grid">
-    <div class="md-proof-card"><span class="md-proof-value">15</span><span class="md-proof-label">physical bodies in the selected simulation model</span></div>
-    <div class="md-proof-card"><span class="md-proof-value">14</span><span class="md-proof-label">movable joints in the released policy contract</span></div>
-    <div class="md-proof-card"><span class="md-proof-value">61 → 14</span><span class="md-proof-label">ONNX observation and action dimensions</span></div>
-    <div class="md-proof-card"><span class="md-proof-value">50 Hz</span><span class="md-proof-label">policy inference rate in both playback paths</span></div>
+  <h2>Choose a tutorial</h2>
+  <p class="md-home-lead">Use ROS 2 for visualization and joint controls. Use Isaac Sim for USD inspection and policy playback.</p>
+  <div class="md-route-grid">
+    <a class="md-route-card md-route-orange" href="./ros2/"><span>01</span><strong>ROS 2 and RViz</strong><p>Build the package, inspect the model, and move its joints.</p></a>
+    <a class="md-route-card md-route-aqua" href="./isaac/"><span>02</span><strong>Isaac Sim</strong><p>Open the included USD and run a released policy.</p></a>
+    <a class="md-route-card md-route-pink" href="./troubleshooting"><span>03</span><strong>Troubleshooting</strong><p>Fix missing meshes, RViz controls, or Isaac Sim and GPU errors.</p></a>
   </div>
-  <div class="md-boundary">
-    <span class="md-boundary-mark">i</span>
-    <div><strong>Know the boundary before you start</strong><p>This is an independent community project. It currently provides description, visualization, USD conversion, and policy playback — not native Isaac Lab training, ROS-to-Isaac control, or a physical-robot driver.</p></div>
+</section>
+
+<section class="md-home-section md-duck-gallery">
+  <div class="md-section-kicker">PREVIEW</div>
+  <h2>See what is included</h2>
+  <div class="md-duck-gallery-grid">
+    <figure class="md-image-card md-image-card-main">
+      <img src="/images/microduck-waddle-lab.webp" alt="Colorful illustration of MicroDuck waddling from RViz toward Isaac Sim" width="1440" height="960" loading="lazy">
+      <figcaption><strong>ROS 2 to Isaac Sim</strong><span>A route illustration; the tutorials contain the actual previews and troubleshooting screenshots.</span></figcaption>
+    </figure>
+    <figure class="md-image-card md-image-card-lineup">
+      <div class="md-lineup-stage"><img src="/images/microduck-lineup.webp" alt="Four physical MicroDuck robots in different colors and poses" width="1839" height="638" loading="lazy"></div>
+      <figcaption><strong>MicroDuck lineup</strong><span>Four robots from the official MicroDuck project page.</span><a href="https://github.com/pollen-robotics/microduck">Image source: Pollen Robotics MicroDuck ↗</a></figcaption>
+    </figure>
   </div>
 </section>
 
 <section class="md-home-section md-home-next">
-  <div class="md-section-kicker">START SMALL</div>
-  <h2>Choose the result you need today</h2>
-  <div class="md-route-grid">
-    <a class="md-route-card md-route-orange" href="./guide/"><span>01</span><strong>Prepare the project</strong><p>Pin upstream inputs and install only the runtime your path needs.</p></a>
-    <a class="md-route-card md-route-aqua" href="./ros2/"><span>02</span><strong>Inspect in ROS 2</strong><p>Build the description, open RViz, and articulate all policy joints.</p></a>
-    <a class="md-route-card md-route-pink" href="./isaac/"><span>03</span><strong>Replay in Isaac</strong><p>Inspect the USD contract, then run standing or walking ONNX policies.</p></a>
+  <div class="md-first-duck-row">
+    <div><div class="md-section-kicker">START HERE</div><h2>New here?</h2></div>
+    <div class="md-play-duck" role="img" aria-label="Come play!"><span>Come play!</span><img src="/images/play-duck-sticker.webp" alt="" width="640" height="640" loading="lazy"></div>
   </div>
-  <p class="md-home-links"><a href="./troubleshooting">Troubleshooting</a><span>·</span><a href="./faq">FAQ</a><span>·</span><a href="./reference/limitations">Known limitations</a><span>·</span><a href="./project/licensing">Licensing</a></p>
+  <p>Start with <a href="./ros2/">ROS 2 and RViz</a> for the quickest setup. If Isaac Sim and Isaac Lab are already installed, open the included USD and continue with <a href="./isaac/">policy playback</a>.</p>
+  <p class="md-home-links"><a href="./guide/">Start</a><span>·</span><a href="./faq">FAQ</a><span>·</span><a href="./reference/limitations">Limitations</a><span>·</span><a href="./project/licensing">Licensing</a></p>
 </section>

@@ -1,50 +1,43 @@
-# Choose your path
+# Choose a tutorial
 
-This repository supports two independent workflows built from the same pinned
-MicroDuck sources. Start with the shortest path that matches your goal.
+Use ROS 2 to inspect the model and move its joints. Use Isaac Sim to open the
+USD and run a released policy.
 
-## I want to inspect the robot in ROS 2
+## ROS 2 and RViz
 
-Use the ROS 2 path when you need a kinematic description, TF tree, RViz model,
-or interactive joint sliders. It does **not** require Isaac Sim.
+This tutorial covers:
 
-1. Complete [installation](./installation).
-2. [Build the ROS 2 package](/ros2/).
-3. [Open and operate RViz](/ros2/rviz).
+- see the complete MicroDuck model in RViz;
+- rotate and zoom the camera;
+- move the robot's joints with sliders;
+- reuse the description package in another ROS 2 project.
 
-Expected result: a complete 15-body model in the official home pose, or an
-articulated model controlled by 14 joint sliders.
+You need Ubuntu 24.04 and ROS 2 Jazzy. Isaac Sim is not required.
 
-## I want to run the released policy in Isaac Sim
+**Expected result:** MicroDuck appears in RViz. With the GUI enabled, a second
+window controls all 14 joints.
 
-Use the Isaac path when you need a validated USD articulation or want to replay
-one of the released ONNX policies.
+[Open the ROS 2 tutorial →](/ros2/)
 
-1. Complete [installation](./installation).
-2. [Convert and inspect the USD](/isaac/).
-3. [Replay a policy](/isaac/policy-playback).
+## Isaac Sim
 
-Expected result: a 15-body, 14-joint articulation standing or walking under a
-61-input, 14-output ONNX policy at 50 Hz.
+This tutorial covers:
 
-## I want to reproduce every recorded check
+- open the included MicroDuck USD;
+- inspect the robot in Isaac Sim;
+- run the released standing or walking policy;
+- record a short simulation video or livestream demonstration.
 
-After both environments are ready, run:
+You need a Linux computer with a supported NVIDIA GPU, Isaac Sim, and Isaac Lab.
 
-```bash
-./scripts/validate_all.sh
-```
+**Expected result:** MicroDuck opens in Isaac Sim and runs the selected policy
+with an optional follow camera.
 
-This executes eight headless stages. It does not replace human GUI review,
-livestream rehearsal, hardware testing, or native Isaac Lab training.
+[Open the Isaac Sim tutorial →](/isaac/)
 
-## Capability boundary
+## Maintenance tools are optional
 
-| Available now | Not provided yet |
-| --- | --- |
-| ROS 2 Jazzy description and RViz | Physical robot driver |
-| Generated and inspected Isaac USD | ROS-to-Isaac control bridge |
-| MuJoCo and Isaac policy playback | Native Isaac Lab training environment |
-| Retained JSON validation evidence | Hardware calibration or safety limits |
+Conversion scripts, validators, and JSON test records are for contributors.
+They are not required for either tutorial.
 
-Read [known limitations](/reference/limitations) before presenting results.
+Next: [installation](./installation).

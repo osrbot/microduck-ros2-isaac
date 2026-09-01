@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-labelledby="title desc">
-  <title id="title">MicroDuck ROS 2 and Isaac Sim workflow</title>
-  <desc id="desc">Pinned MicroDuck sources flow to ROS 2 visualization, Isaac USD, and ONNX policy playback.</desc>
+  <title id="title">MicroDuck ROS 2 and Isaac Sim tutorial</title>
+  <desc id="desc">Open MicroDuck in RViz, move its joints, or make it walk in Isaac Sim.</desc>
   <defs>
     <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#fffdf8"/>
@@ -18,9 +18,9 @@
   <circle cx="84" cy="77" r="7" fill="#ff7a2f"/>
   <circle cx="108" cy="77" r="7" fill="#23cfc7"/>
   <circle cx="132" cy="77" r="7" fill="#f24a9d"/>
-  <text x="84" y="128" fill="#81756c" font-family="ui-sans-serif, system-ui" font-size="16" font-weight="700" letter-spacing="2">PINNED SOURCES</text>
+  <text x="84" y="128" fill="#81756c" font-family="ui-sans-serif, system-ui" font-size="16" font-weight="700" letter-spacing="2">LET'S WADDLE</text>
   <rect x="78" y="150" width="484" height="66" rx="17" fill="#ffffff" stroke="#e9dcd0"/>
-  <text x="106" y="190" fill="#17171f" font-family="ui-sans-serif, system-ui" font-size="22" font-weight="750">MicroDuck MJCF + released ONNX</text>
+  <text x="106" y="190" fill="#17171f" font-family="ui-sans-serif, system-ui" font-size="22" font-weight="750">MicroDuck model + walking policy</text>
   <path d="M320 216v42" stroke="url(#accent)" stroke-width="5" stroke-linecap="round"/>
   <path d="M320 258l-10-13h20z" fill="#e65f22"/>
   <rect x="78" y="279" width="144" height="104" rx="19" fill="#fff1e7" stroke="#ffc39f"/>
@@ -37,5 +37,5 @@
   <text x="438" y="355" fill="#17171f" font-family="ui-sans-serif, system-ui" font-size="18" font-weight="750">Policy</text>
   <path d="M222 331h26M392 331h26" stroke="#c9b6a7" stroke-width="3" stroke-linecap="round" stroke-dasharray="4 7"/>
   <rect x="78" y="404" width="484" height="1" fill="#e3d6ca"/>
-  <text x="78" y="426" fill="#81756c" font-family="ui-sans-serif, system-ui" font-size="14">reproducible · inspectable · evidence-backed</text>
+  <text x="78" y="426" fill="#81756c" font-family="ui-sans-serif, system-ui" font-size="14">meet the duck · wiggle the joints · make it walk</text>
 </svg>

@@ -47,16 +47,16 @@ const englishTheme: DefaultTheme.Config = {
   search,
   socialLinks: [{ icon: 'github', link: repository }],
   nav: [
-    { text: 'Start', link: '/guide/' },
+    { text: 'Start here', link: '/guide/' },
     { text: 'ROS 2', link: '/ros2/' },
     { text: 'Isaac Sim', link: '/isaac/' },
     {
-      text: 'Reference',
+      text: 'Help',
       items: [
-        { text: 'Architecture', link: '/concepts/architecture' },
-        { text: 'Validation', link: '/reference/validation' },
-        { text: 'Results', link: '/reference/results' },
-        { text: 'Troubleshooting', link: '/troubleshooting' }
+        { text: 'Troubleshooting', link: '/troubleshooting' },
+        { text: 'Frequently asked questions', link: '/faq' },
+        { text: 'Tested setup', link: '/reference/environment' },
+        { text: 'Known limitations', link: '/reference/limitations' }
       ]
     }
   ],
@@ -67,26 +67,26 @@ const englishTheme: DefaultTheme.Config = {
       {
         text: 'Start here',
         items: [
-          { text: 'Choose a path', link: '/guide/' },
-          { text: 'Install and prepare', link: '/guide/installation' }
+          { text: 'Choose a tutorial', link: '/guide/' },
+          { text: 'Installation', link: '/guide/installation' }
         ]
       }
     ],
     '/ros2/': [
       {
-        text: 'ROS 2 and RViz',
+        text: 'ROS 2 tutorial',
         items: [
-          { text: 'Build the description', link: '/ros2/' },
-          { text: 'Use RViz', link: '/ros2/rviz' }
+          { text: 'Open MicroDuck in RViz', link: '/ros2/' },
+          { text: 'RViz controls and joints', link: '/ros2/rviz' }
         ]
       }
     ],
     '/isaac/': [
       {
-        text: 'Isaac Sim',
+        text: 'Isaac Sim tutorial',
         items: [
-          { text: 'Create and inspect USD', link: '/isaac/' },
-          { text: 'Replay ONNX policies', link: '/isaac/policy-playback' }
+          { text: 'Open MicroDuck in Isaac Sim', link: '/isaac/' },
+          { text: 'Run a policy', link: '/isaac/policy-playback' }
         ]
       }
     ],
@@ -126,13 +126,13 @@ const englishTheme: DefaultTheme.Config = {
   langMenuLabel: 'Change language',
   notFound: {
     title: 'Page not found',
-    quote: 'The model is pinned. This URL is not.',
+    quote: 'The duck is here. This page waddled off.',
     linkLabel: 'Go to the documentation home',
     linkText: 'Back to home'
   },
   footer: {
     message: 'Independent community project. Not affiliated with or endorsed by Pollen Robotics.',
-    copyright: 'Original integration code licensed under Apache-2.0.'
+    copyright: 'Original integration code is licensed under Apache-2.0.'
   }
 }
 
@@ -153,16 +153,16 @@ const chineseTheme: DefaultTheme.Config = {
   search,
   socialLinks: [{ icon: 'github', link: repository }],
   nav: [
-    { text: '入门', link: '/zh/guide/' },
-    { text: 'ROS 2', link: '/zh/ros2/' },
-    { text: 'Isaac Sim', link: '/zh/isaac/' },
+    { text: '从这里开始', link: '/zh/guide/' },
+    { text: 'ROS 2 教程', link: '/zh/ros2/' },
+    { text: 'Isaac Sim 教程', link: '/zh/isaac/' },
     {
-      text: '参考',
+      text: '遇到问题',
       items: [
-        { text: '架构', link: '/zh/concepts/architecture' },
-        { text: '验证体系', link: '/zh/reference/validation' },
-        { text: '验证结果', link: '/zh/reference/results' },
-        { text: '故障排查', link: '/zh/troubleshooting' }
+        { text: '故障排查', link: '/zh/troubleshooting' },
+        { text: '常见问题', link: '/zh/faq' },
+        { text: '测试环境', link: '/zh/reference/environment' },
+        { text: '已知限制', link: '/zh/reference/limitations' }
       ]
     }
   ],
@@ -173,26 +173,26 @@ const chineseTheme: DefaultTheme.Config = {
       {
         text: '从这里开始',
         items: [
-          { text: '选择路线', link: '/zh/guide/' },
-          { text: '安装与准备', link: '/zh/guide/installation' }
+          { text: '今天怎么遛鸭？', link: '/zh/guide/' },
+          { text: '安装需要的软件', link: '/zh/guide/installation' }
         ]
       }
     ],
     '/zh/ros2/': [
       {
-        text: 'ROS 2 与 RViz',
+        text: 'ROS 2 教程',
         items: [
-          { text: '构建机器人描述', link: '/zh/ros2/' },
-          { text: '使用 RViz', link: '/zh/ros2/rviz' }
+          { text: '把鸭子请进 RViz', link: '/zh/ros2/' },
+          { text: '转转镜头，活动关节', link: '/zh/ros2/rviz' }
         ]
       }
     ],
     '/zh/isaac/': [
       {
-        text: 'Isaac Sim',
+        text: 'Isaac Sim 教程',
         items: [
-          { text: '生成并检查 USD', link: '/zh/isaac/' },
-          { text: '回放 ONNX 策略', link: '/zh/isaac/policy-playback' }
+          { text: '把鸭子放进 Isaac Sim', link: '/zh/isaac/' },
+          { text: '放鸭开跑', link: '/zh/isaac/policy-playback' }
         ]
       }
     ],
@@ -232,7 +232,7 @@ const chineseTheme: DefaultTheme.Config = {
   langMenuLabel: '切换语言',
   notFound: {
     title: '页面不存在',
-    quote: '模型版本固定了，但这个地址没有。',
+    quote: '鸭子还在，这一页跑丢了。',
     linkLabel: '返回文档首页',
     linkText: '返回首页'
   },
@@ -245,7 +245,7 @@ const chineseTheme: DefaultTheme.Config = {
 export default defineConfig({
   title: 'MicroDuck ROS 2 + Isaac Sim',
   description:
-    'An independent ROS 2 Jazzy and NVIDIA Isaac Sim integration for Pollen Robotics MicroDuck.',
+    'A step-by-step ROS 2 and NVIDIA Isaac Sim tutorial for MicroDuck.',
   base: '/microduck-ros2-isaac/',
   cleanUrls: true,
   appearance: true,
@@ -273,7 +273,7 @@ export default defineConfig({
       {
         property: 'og:description',
         content:
-          'ROS 2 visualization, validated USD assets, and released ONNX policy playback for MicroDuck.'
+          'Open MicroDuck in RViz, move its joints, and run the walking policy in Isaac Sim.'
       }
     ],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
@@ -282,7 +282,7 @@ export default defineConfig({
       'meta',
       {
         name: 'twitter:description',
-        content: 'ROS 2 visualization, validated USD assets, and ONNX policy playback.'
+        content: 'A practical ROS 2 and Isaac Sim tutorial for MicroDuck.'
       }
     ],
     [
@@ -299,7 +299,7 @@ export default defineConfig({
       lang: 'en-US',
       title: 'MicroDuck ROS 2 + Isaac Sim',
       description:
-        'An independent ROS 2 Jazzy and NVIDIA Isaac Sim integration for Pollen Robotics MicroDuck.',
+        'A step-by-step ROS 2 and NVIDIA Isaac Sim tutorial for MicroDuck.',
       themeConfig: englishTheme
     },
     zh: {
@@ -307,7 +307,7 @@ export default defineConfig({
       lang: 'zh-CN',
       link: '/zh/',
       title: 'MicroDuck ROS 2 + Isaac Sim',
-      description: '面向 Pollen Robotics MicroDuck 的独立 ROS 2 Jazzy 与 NVIDIA Isaac Sim 兼容项目。',
+      description: '一步一步把 MicroDuck 放进 ROS 2 和 NVIDIA Isaac Sim。',
       themeConfig: chineseTheme
     }
   },

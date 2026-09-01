@@ -1,20 +1,11 @@
-# 构建 ROS 2 机器人描述
+# 把 MicroDuck 请进 ROS 2 和 RViz
 
-`microduck_description` 由固定版本 MJCF 生成，包含一个无质量 ROS `base_link`、15 个物理 link、一个固定根关节、14 个旋转关节、网格、惯性、launch 文件和 RViz 配置。
+这是仓库里最短的一条路线。description、网格、launch 和 RViz 配置都准备好了，不用先考古模型，
+几条命令就能让鸭子露个脸。
 
-## 生成并验证
+## 1. 构建功能包
 
 在仓库根目录运行：
-
-```bash
-./scripts/generate_ros_description.py
-work/mujoco_env/bin/python scripts/validate_ros_mjcf_pose_parity.py
-./scripts/validate_ros2_package.sh
-```
-
-位姿检查会把 109 个 body-joint、惯性、visual 和 collision 原点与源 MJCF 对比，也覆盖容易让颈部或腿部网格分离的精确 ±90° pitch 情况。
-
-## 手动构建
 
 ```bash
 cd ros2_ws
@@ -23,33 +14,54 @@ colcon build --symlink-install
 source install/setup.bash
 ```
 
-## 启动演示配置
+如果提示找不到 ROS 2 或 `colcon`，先回到[安装说明](/zh/guide/installation)。
+
+## 2. 让鸭子露个脸
 
 ```bash
 ros2 launch microduck_description view_microduck.launch.py
 ```
 
-默认配置优先保证演示流畅：只加载 visual 网格、不加载 collision 网格、RViz 上限 15 FPS、隐藏 TF 坐标轴并发布静态官方 home pose。
+RViz 应该会打开，并显示保持默认姿态的 MicroDuck。
 
-| 参数 | 默认值 | 用途 |
-| --- | --- | --- |
-| `use_gui` | `false` | 打开 14 个策略关节滑块 |
-| `use_rviz` | `true` | 启动 RViz |
-| `rviz_fullscreen` | `false` | 窗口无法最大化时强制全屏 |
-| `with_collision_meshes` | `false` | 额外加载碰撞网格 |
-| `joint_velocity_limit` | `6.0` | 仿真/规划占位值，不是硬件真值 |
+## 3. 让它活动一下关节
 
-例如：
+按 <kbd>Ctrl</kbd>+<kbd>C</kbd> 停止上一次 launch，然后运行：
 
 ```bash
-ros2 launch microduck_description view_microduck.launch.py \
-  use_gui:=true rviz_fullscreen:=true
+ros2 launch microduck_description view_microduck.launch.py use_gui:=true
 ```
 
-## 运行时验收
+这时会多出一个 Joint State Publisher 窗口。拖动滑块，RViz 中对应的关节应该一起移动。
+
+## 鸭子正常到场时应该看到什么
+
+- RViz 能打开，RobotModel 没有红色错误；
+- 头部、身体、两条腿和脚都能看到；
+- 左键拖动可旋转，滚轮缩放，中键拖动可平移；
+- 拖动滑块时机器人姿态会变化。
+
+下一步查看[移动镜头和关节](./rviz)，里面也有 RViz 缺件的处理方法。
+
+## 常用启动参数
+
+| 参数 | 用途 |
+| --- | --- |
+| `use_gui:=true` | 打开关节滑块 |
+| `rviz_fullscreen:=true` | 桌面不能最大化时直接全屏 |
+| `use_rviz:=false` | 只运行 description 和 TF，不打开 RViz |
+| `with_collision_meshes:=true` | 调试时显示碰撞几何 |
+
+::: details 给维护者：重新生成 description
+只有修改上游模型或生成器时才需要运行：
 
 ```bash
-./scripts/validate_ros2_runtime.sh
+cd ..
+./scripts/fetch_upstream.sh
+./scripts/setup_mujoco_env.sh
+./scripts/generate_ros_description.py
+./scripts/validate_ros2_package.sh
 ```
 
-该脚本检查实际运行节点、`robot_description`、官方 14 关节 home pose、JointState 和 TF。仅仅构建成功不等于运行契约成立。
+重新生成后，再构建 ROS workspace 并重启 launch。
+:::

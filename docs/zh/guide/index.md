@@ -1,44 +1,42 @@
-# 选择你的使用路线
+# 从这里开始：今天怎么遛鸭？
 
-本仓库基于同一组固定版本的 MicroDuck 上游输入，提供两条彼此独立的工作流。先选择与你目标一致的最短路线。
+这份教程有两条路线：先在 RViz 里打个招呼，或者直接把鸭子放进 Isaac Sim。挑一条顺眼的走，
+不用为了看个模型先把整本说明书背下来。
 
-## 我想在 ROS 2 中查看机器人
+## 路线一：先在 RViz 打个招呼
 
-如果你需要机器人描述、TF 树、RViz 模型或交互关节滑块，选择 ROS 2 路线。它不依赖 Isaac Sim。
+适合下面这些目标：
 
-1. 完成[安装与准备](./installation)。
-2. [构建 ROS 2 description 包](/zh/ros2/)。
-3. [打开并操作 RViz](/zh/ros2/rviz)。
+- 在 RViz 里看到完整的 MicroDuck；
+- 旋转、缩放和平移镜头；
+- 用滑块移动机器人的关节；
+- 把 description 包用到其他 ROS 2 项目中。
 
-预期结果：RViz 中显示完整的 15 刚体模型，可保持官方 home pose，也可用滑块操作策略使用的 14 个关节。
+需要 Ubuntu 24.04 和 ROS 2 Jazzy，不需要 Isaac Sim。
 
-## 我想在 Isaac Sim 中运行官方策略
+**完成后的样子：**MicroDuck 会稳稳站在 RViz 中央。打开 GUI 后，另一个窗口可以控制
+14 个关节。
 
-如果你需要经过验证的 USD articulation，或希望回放已发布的 ONNX 策略，选择 Isaac 路线。
+[开始 ROS 2 教程 →](/zh/ros2/)
 
-1. 完成[安装与准备](./installation)。
-2. [转换并检查 USD](/zh/isaac/)。
-3. [回放 ONNX 策略](/zh/isaac/policy-playback)。
+## 路线二：放进 Isaac Sim 遛两圈
 
-预期结果：15 刚体、14 关节的机器人在 Isaac 中以 50 Hz 执行 61 输入、14 输出的站立或行走策略。
+适合下面这些目标：
 
-## 我想复现全部记录结果
+- 打开仓库自带的 MicroDuck USD；
+- 在 Isaac Sim 里查看机器人；
+- 运行已经发布的站立或行走策略；
+- 录制一段仿真视频或做直播演示。
 
-两套环境都准备好后运行：
+需要 Linux、支持的 NVIDIA 显卡、Isaac Sim 和 Isaac Lab。
 
-```bash
-./scripts/validate_all.sh
-```
+**完成后的样子：**MicroDuck 会落到 Isaac Sim 的地面上，并在跟随镜头下迈开小短腿。
 
-脚本包含八个无界面验证阶段，但不能代替人工 GUI 验收、直播彩排、实体硬件测试或原生 Isaac Lab 训练。
+[开始 Isaac Sim 教程 →](/zh/isaac/)
 
-## 当前能力边界
+## 先别管那些维护工具
 
-| 已提供 | 尚未提供 |
-| --- | --- |
-| ROS 2 Jazzy 描述与 RViz | 实体机器人驱动 |
-| 生成并检查过的 Isaac USD | ROS 到 Isaac 控制桥 |
-| MuJoCo 与 Isaac 策略回放 | 原生 Isaac Lab 训练环境 |
-| 可保留的 JSON 验证证据 | 硬件标定和安全极限 |
+仓库里还有模型转换脚本、检查工具和 JSON 测试记录。它们是给修改模型和维护项目时使用的，
+不是入门门票。第一次来，直接从已经准备好的 ROS 包或 USD 开始，先把鸭子玩起来。
 
-公开演示前请先阅读[已知限制](/zh/reference/limitations)。
+下一步：[安装当前路线需要的软件](./installation)。
