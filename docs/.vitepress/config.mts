@@ -1,6 +1,7 @@
 import { defineConfig, type DefaultTheme } from 'vitepress'
 
 const repository = 'https://github.com/osrbot/microduck-ros2-isaac'
+const microduckStore = 'https://store.pollen-robotics.com/products/microduck'
 
 const search: DefaultTheme.Config['search'] = {
   provider: 'local',
@@ -84,6 +85,7 @@ const englishTheme: DefaultTheme.Config = {
     { text: 'Requirements', link: '/guide/installation' },
     { text: 'ROS 2', link: '/ros2/' },
     { text: 'Isaac Sim', link: '/isaac/' },
+    { text: 'Buy MicroDuck', link: microduckStore },
     {
       text: 'Help',
       items: [
@@ -139,7 +141,7 @@ const englishTheme: DefaultTheme.Config = {
     linkText: 'Back to home'
   },
   footer: {
-    message: 'Independent community project. Not affiliated with or endorsed by Pollen Robotics.',
+    message: 'Open-source tutorial by OSRBOT × GPUS.',
     copyright: 'Original integration code is licensed under Apache-2.0.'
   }
 }
@@ -198,6 +200,7 @@ const chineseTheme: DefaultTheme.Config = {
     { text: '环境要求', link: '/zh/guide/installation' },
     { text: 'ROS 2', link: '/zh/ros2/' },
     { text: 'Isaac Sim', link: '/zh/isaac/' },
+    { text: 'Buy MicroDuck', link: microduckStore },
     {
       text: '遇到问题',
       items: [
@@ -253,7 +256,7 @@ const chineseTheme: DefaultTheme.Config = {
     linkText: '返回首页'
   },
   footer: {
-    message: '独立社区项目，与 Pollen Robotics 不存在隶属或背书关系。',
+    message: 'OSRBOT × GPUS 开源技术教程。',
     copyright: '原创兼容代码采用 Apache-2.0 许可。'
   }
 }

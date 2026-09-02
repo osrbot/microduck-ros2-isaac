@@ -114,33 +114,6 @@ body {
   border-radius: 14px !important;
 }
 
-.VPFeature {
-  border: 1px solid var(--md-line) !important;
-  border-radius: 20px !important;
-  background: var(--md-panel) !important;
-  box-shadow: 0 16px 42px rgba(71, 49, 31, 0.06);
-  backdrop-filter: blur(12px);
-  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
-}
-
-.VPFeature:nth-child(1) {
-  box-shadow: inset 0 4px 0 rgba(255, 122, 47, 0.78), 0 16px 42px rgba(71, 49, 31, 0.06);
-}
-
-.VPFeature:nth-child(2) {
-  box-shadow: inset 0 4px 0 rgba(35, 207, 199, 0.72), 0 16px 42px rgba(71, 49, 31, 0.06);
-}
-
-.VPFeature:nth-child(3) {
-  box-shadow: inset 0 4px 0 rgba(242, 74, 157, 0.66), 0 16px 42px rgba(71, 49, 31, 0.06);
-}
-
-.VPFeature:hover {
-  transform: translateY(-3px);
-  border-color: rgba(19, 117, 229, 0.36) !important;
-  box-shadow: var(--md-shadow);
-}
-
 .md-home-section {
   margin: 32px auto 0;
   max-width: 1152px;
@@ -153,7 +126,9 @@ body {
   padding: 0;
   color: var(--md-ink);
   font-size: clamp(1.7rem, 2.6vw, 2.35rem);
+  font-weight: 600;
   letter-spacing: -0.03em;
+  line-height: 1.2;
 }
 
 .md-home-lead {
@@ -228,25 +203,51 @@ body {
   line-height: 1.65;
 }
 
-.md-home-next {
-  padding-top: 54px;
-  padding-bottom: 72px;
-}
-
-.md-first-duck-row {
+.md-route-start {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
   gap: 24px;
+  margin-top: 22px;
+  padding: 22px 24px;
+  border: 1px solid rgba(255, 122, 47, 0.2);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 92% 20%, rgba(255, 210, 63, 0.2), transparent 15rem),
+    linear-gradient(135deg, rgba(255, 122, 47, 0.08), rgba(35, 207, 199, 0.08));
 }
 
-.md-first-duck-row h2 {
-  margin-bottom: 0;
+.md-route-start-copy {
+  min-width: 0;
+  max-width: 760px;
+}
+
+.md-route-start h3 {
+  margin: 3px 0 8px;
+  color: var(--md-ink);
+  font-size: clamp(1.45rem, 2.2vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.md-route-start-copy > p:not(.md-home-start, .md-home-links) {
+  margin: 0;
+  color: var(--md-muted);
+  line-height: 1.7;
+}
+
+.md-route-start .md-home-start {
+  margin-top: 14px;
+}
+
+.md-route-start .md-home-links {
+  margin-top: 16px;
 }
 
 .md-play-duck {
   position: relative;
-  width: 132px;
+  width: 116px;
   flex: 0 0 auto;
   padding-top: 24px;
   transform-origin: 50% 92%;
@@ -302,7 +303,8 @@ body {
 }
 
 .md-duck-gallery {
-  padding-top: 54px;
+  margin-top: 26px;
+  padding-top: 28px;
 }
 
 .md-duck-gallery-grid {
@@ -366,6 +368,188 @@ body {
   width: fit-content;
   margin-top: 2px;
   font-size: 0.82rem;
+}
+
+.md-duck-makers {
+  max-width: 1280px;
+  margin-bottom: 24px;
+  padding: 0 64px;
+}
+
+.md-makers-shell {
+  position: relative;
+  display: grid;
+  overflow: hidden;
+  grid-template-columns: minmax(260px, 0.82fr) minmax(430px, 1.18fr);
+  gap: clamp(24px, 4vw, 48px);
+  align-items: center;
+  padding: clamp(24px, 3vw, 36px);
+  border: 1px solid rgba(255, 122, 47, 0.2);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 4% 5%, rgba(255, 210, 63, 0.25), transparent 23rem),
+    radial-gradient(circle at 94% 90%, rgba(35, 207, 199, 0.18), transparent 24rem),
+    var(--md-panel);
+  box-shadow: var(--md-shadow);
+}
+
+.md-makers-shell h2 {
+  margin-bottom: 12px;
+  font-size: clamp(1.55rem, 2.4vw, 2.1rem);
+}
+
+.md-makers-lead {
+  max-width: 440px;
+  margin: 0;
+  color: var(--md-muted);
+  font-size: 0.98rem;
+  line-height: 1.72;
+}
+
+.md-makers-details {
+  min-width: 0;
+}
+
+.md-makers-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.md-maker-card {
+  display: flex;
+  min-width: 0;
+  min-height: 112px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7px;
+  padding: 17px 18px;
+  border: 1px solid var(--md-line);
+  border-radius: 19px;
+  background: color-mix(in srgb, var(--vp-c-bg-elv) 88%, transparent);
+  box-shadow: 0 12px 30px rgba(71, 49, 31, 0.055);
+}
+
+.md-maker-card span {
+  color: var(--md-muted);
+  font-size: 0.82rem;
+  font-weight: 750;
+}
+
+.md-maker-card strong {
+  color: var(--md-ink);
+  font-size: clamp(0.98rem, 1.45vw, 1.12rem);
+  line-height: 1.35;
+}
+
+.md-maker-card small {
+  color: var(--md-muted);
+  font-size: 0.76rem;
+  line-height: 1.4;
+}
+
+.md-maker-pollen {
+  box-shadow: inset 0 4px 0 rgba(255, 122, 47, 0.78), 0 12px 30px rgba(71, 49, 31, 0.055);
+}
+
+.md-maker-seeed {
+  box-shadow: inset 0 4px 0 rgba(0, 176, 132, 0.75), 0 12px 30px rgba(71, 49, 31, 0.055);
+}
+
+.md-makers-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.md-makers-actions a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 17px;
+  border-radius: 999px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-decoration: none !important;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.md-makers-actions a:hover {
+  transform: translateY(-2px);
+}
+
+.md-makers-actions a:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--md-orange) 42%, transparent);
+  outline-offset: 3px;
+}
+
+.md-maker-buy {
+  border: 1px solid var(--vp-c-brand-1);
+  background: var(--vp-c-brand-1);
+  box-shadow: 0 10px 24px rgba(201, 80, 20, 0.2);
+  color: #fff !important;
+}
+
+.md-maker-buy:hover {
+  background: var(--vp-c-brand-2);
+}
+
+.md-maker-link {
+  border: 1px solid rgba(0, 150, 115, 0.28);
+  background: color-mix(in srgb, #00a67d 10%, var(--vp-c-bg-elv));
+  color: color-mix(in srgb, #008b69 78%, var(--md-ink)) !important;
+}
+
+.md-maker-link:hover {
+  background: color-mix(in srgb, #00a67d 17%, var(--vp-c-bg-elv));
+}
+
+.VPNavBarMenuLink[href="https://store.pollen-robotics.com/products/microduck"] {
+  height: 34px;
+  margin-top: 7px;
+  padding: 0 13px;
+  border: 1px solid rgba(255, 122, 47, 0.38);
+  border-radius: 999px;
+  background: rgba(255, 122, 47, 0.1);
+  color: var(--vp-c-brand-1);
+}
+
+.VPNavBarMenuLink[href="https://store.pollen-robotics.com/products/microduck"]:hover {
+  background: rgba(255, 122, 47, 0.17);
+  color: var(--vp-c-brand-2);
+}
+
+@media (max-width: 1100px) {
+  .VPNavBarMenuLink[href="https://store.pollen-robotics.com/products/microduck"] {
+    display: none;
+  }
+}
+
+@media (max-width: 959px) {
+  .md-duck-makers {
+    padding-right: 48px;
+    padding-left: 48px;
+  }
+}
+
+@media (max-width: 900px) {
+  .md-makers-shell {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .md-makers-lead {
+    max-width: 720px;
+  }
+}
+
+@media (max-width: 639px) {
+  .md-duck-makers {
+    padding-right: 24px;
+    padding-left: 24px;
+  }
 }
 
 .md-doc-figure {
@@ -893,6 +1077,14 @@ a.md-route-card:hover {
     grid-template-columns: 1fr;
   }
 
+  .md-makers-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .md-maker-card {
+    min-height: 112px;
+  }
+
   .md-runtime-grid {
     grid-template-columns: 1fr;
   }
@@ -917,6 +1109,12 @@ a.md-route-card:hover {
 
   .md-home-section {
     padding: 0 18px;
+  }
+
+  .md-duck-makers {
+    margin-bottom: 24px;
+    padding-right: 24px;
+    padding-left: 24px;
   }
 
   .md-proof-grid {
@@ -955,17 +1153,36 @@ a.md-route-card:hover {
     padding: 24px 18px;
   }
 
-  .md-first-duck-row {
-    align-items: center;
-    gap: 12px;
+  .md-makers-shell {
+    padding: 24px 20px;
+    border-radius: 20px;
   }
 
-  .md-play-duck {
-    width: 92px;
-    padding-top: 20px;
+  .md-makers-actions {
+    display: grid;
+    grid-template-columns: 1fr;
   }
 
-  .md-play-duck span {
+  .md-route-start {
+    position: relative;
+    display: block;
+    padding: 20px 18px;
+  }
+
+  .md-route-start .md-section-kicker,
+  .md-route-start h3 {
+    padding-right: 82px;
+  }
+
+  .md-route-start .md-play-duck {
+    position: absolute;
+    top: 16px;
+    right: 14px;
+    width: 72px;
+    padding-top: 18px;
+  }
+
+  .md-route-start .md-play-duck span {
     left: -4px;
     padding: 4px 8px 5px;
     font-size: 0.72rem;
@@ -973,7 +1190,6 @@ a.md-route-card:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .VPFeature,
   .VPHomeHero .image-container img,
   .md-play-duck {
     animation: none;

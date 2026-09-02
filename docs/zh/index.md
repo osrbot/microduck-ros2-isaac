@@ -16,16 +16,6 @@ hero:
       text: 先看环境要求
       link: /zh/guide/installation
 
-features:
-  - icon: 👀
-    title: 先让鸭子露个脸
-    details: 构建仓库里已经准备好的 ROS 2 功能包，让完整的 MicroDuck 出现在 RViz 里。
-  - icon: 🎛️
-    title: 扭扭脖子，动动腿
-    details: 拖动 Joint State Publisher 滑块，看看公开仿真模型里的 14 个关节都能怎么动。
-  - icon: 🦆
-    title: 玩动作，再自己教
-    details: 在 Isaac Sim 切换坐起、踢球和前滚，也能从原生 Isaac Lab 任务开始训练。
 ---
 
 <section class="md-home-section">
@@ -47,7 +37,16 @@ features:
     <div class="md-route-card md-route-aqua"><span>02</span><strong>打开 Isaac 游乐场</strong><p>走路、坐起、低头碰地、踢球和前滚。</p></div>
     <div class="md-route-card md-route-pink"><span>03</span><strong>自己教一只鸭</strong><p>先跑小测试，再用 Isaac Lab 训练新动作。</p></div>
   </div>
-  <p class="md-home-start"><a href="./guide/">按步骤开始 →</a></p>
+  <div class="md-route-start">
+    <div class="md-route-start-copy">
+      <div class="md-section-kicker">鸭子就位，就等你了</div>
+      <h3>准备好了？开鸭！</h3>
+      <p>第一次来就走引导路线：先检查电脑，再运行命令。每一页只留一个明确的“下一步”，照着走就行。</p>
+      <p class="md-home-start"><a href="./guide/">从第 1 步开始 →</a></p>
+      <p class="md-home-links"><a href="./guide/installation">环境要求</a><span>·</span><a href="./troubleshooting">遇到问题</a><span>·</span><a href="./faq">常见问题</a><span>·</span><a href="./project/licensing">来源与许可</a></p>
+    </div>
+    <div class="md-play-duck" role="img" aria-label="来玩鸭"><span>来玩鸭</span><img src="/images/play-duck-sticker.webp" alt="" width="640" height="640" loading="lazy"></div>
+  </div>
 </section>
 
 <section class="md-home-section md-duck-gallery">
@@ -63,14 +62,4 @@ features:
       <figcaption><strong>先认个鸭</strong><span>MicroDuck 官方项目展示图：四只鸭，四种心情。</span><a href="https://github.com/pollen-robotics/microduck">图片来源：Pollen Robotics MicroDuck ↗</a></figcaption>
     </figure>
   </div>
-</section>
-
-<section class="md-home-section md-home-next">
-  <div class="md-first-duck-row">
-    <div><div class="md-section-kicker">挑一条路线，开鸭</div><h2>第一次玩鸭，从哪儿下手？</h2></div>
-    <div class="md-play-duck" role="img" aria-label="来玩鸭"><span>来玩鸭</span><img src="/images/play-duck-sticker.webp" alt="" width="640" height="640" loading="lazy"></div>
-  </div>
-  <p>第一次来就走引导路线：先看电脑，再运行命令。每一页底部只留一个明确的“下一页”，不会突然把你扔到别的章节。</p>
-  <p class="md-home-start"><a href="./guide/">从第 1 步开始 →</a></p>
-  <p class="md-home-links"><a href="./guide/installation">环境要求</a><span>·</span><a href="./troubleshooting">遇到问题</a><span>·</span><a href="./faq">常见问题</a><span>·</span><a href="./project/licensing">来源与许可</a></p>
 </section>

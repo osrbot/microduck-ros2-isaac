@@ -16,16 +16,6 @@ hero:
       text: Check requirements
       link: /guide/installation
 
-features:
-  - icon: 👀
-    title: Open in RViz
-    details: Build the ROS 2 package and meet the whole duck.
-  - icon: 🎛️
-    title: Move all 14 joints
-    details: Drag the sliders and watch every joint move.
-  - icon: 🦆
-    title: Try cool moves, then train
-    details: Make the duck sit, kick, and roll. Ready for more? Train your own walking policy in Isaac Lab.
 ---
 
 <section class="md-home-section">
@@ -47,7 +37,16 @@ features:
     <div class="md-route-card md-route-aqua"><span>02</span><strong>Isaac playground</strong><p>Make the duck walk, sit, pick, kick, and roll.</p></div>
     <div class="md-route-card md-route-pink"><span>03</span><strong>Train your own policy</strong><p>Run a small Isaac Lab check, then teach the duck a new move.</p></div>
   </div>
-  <p class="md-home-start"><a href="./guide/">Start step by step →</a></p>
+  <div class="md-route-start">
+    <div class="md-route-start-copy">
+      <div class="md-section-kicker">LET'S GO</div>
+      <h3>Ready? Go Go Duck!</h3>
+      <p>First time here? Take the guided route. Check your computer, run the commands, and follow one clear next step on every page.</p>
+      <p class="md-home-start"><a href="./guide/">Start with step 1 →</a></p>
+      <p class="md-home-links"><a href="./guide/installation">Requirements</a><span>·</span><a href="./troubleshooting">Troubleshooting</a><span>·</span><a href="./faq">FAQ</a><span>·</span><a href="./project/licensing">Licensing</a></p>
+    </div>
+    <div class="md-play-duck" role="img" aria-label="Come play!"><span>Come play!</span><img src="/images/play-duck-sticker.webp" alt="" width="640" height="640" loading="lazy"></div>
+  </div>
 </section>
 
 <section class="md-home-section md-duck-gallery">
@@ -63,14 +62,4 @@ features:
       <figcaption><strong>MicroDuck lineup</strong><span>Four ducks, four moods.</span><a href="https://github.com/pollen-robotics/microduck">Image source: Pollen Robotics MicroDuck ↗</a></figcaption>
     </figure>
   </div>
-</section>
-
-<section class="md-home-section md-home-next">
-  <div class="md-first-duck-row">
-    <div><div class="md-section-kicker">LET'S GO</div><h2>Ready to play?</h2></div>
-    <div class="md-play-duck" role="img" aria-label="Come play!"><span>Come play!</span><img src="/images/play-duck-sticker.webp" alt="" width="640" height="640" loading="lazy"></div>
-  </div>
-  <p>Use the guided route the first time. It checks your computer before the first command and keeps one clear next step at the bottom of every page.</p>
-  <p class="md-home-start"><a href="./guide/">Start with step 1 →</a></p>
-  <p class="md-home-links"><a href="./guide/installation">Requirements</a><span>·</span><a href="./troubleshooting">Troubleshooting</a><span>·</span><a href="./faq">FAQ</a><span>·</span><a href="./project/licensing">Licensing</a></p>
 </section>
