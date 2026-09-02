@@ -77,7 +77,9 @@ const englishTheme: DefaultTheme.Config = {
         text: 'ROS 2 tutorial',
         items: [
           { text: 'Open MicroDuck in RViz', link: '/ros2/' },
-          { text: 'RViz controls and joints', link: '/ros2/rviz' }
+          { text: 'RViz controls and joints', link: '/ros2/rviz' },
+          { text: 'Run the ROS 2 examples', link: '/ros2/examples' },
+          { text: 'Drive Isaac from ROS 2', link: '/ros2/isaac-control' }
         ]
       }
     ],
@@ -86,7 +88,10 @@ const englishTheme: DefaultTheme.Config = {
         text: 'Isaac Sim tutorial',
         items: [
           { text: 'Open MicroDuck in Isaac Sim', link: '/isaac/' },
-          { text: 'Run a policy', link: '/isaac/policy-playback' }
+          { text: 'Run one policy', link: '/isaac/policy-playback' },
+          { text: 'Open the skill playground', link: '/isaac/playground' },
+          { text: 'Train a walking policy', link: '/isaac/training' },
+          { text: 'Build another task', link: '/isaac/custom-environment' }
         ]
       }
     ],
@@ -183,7 +188,9 @@ const chineseTheme: DefaultTheme.Config = {
         text: 'ROS 2 教程',
         items: [
           { text: '把鸭子请进 RViz', link: '/zh/ros2/' },
-          { text: '转转镜头，活动关节', link: '/zh/ros2/rviz' }
+          { text: '转转镜头，活动关节', link: '/zh/ros2/rviz' },
+          { text: '跑几个 ROS 2 例程', link: '/zh/ros2/examples' },
+          { text: '用 ROS 2 遥控 Isaac', link: '/zh/ros2/isaac-control' }
         ]
       }
     ],
@@ -192,7 +199,10 @@ const chineseTheme: DefaultTheme.Config = {
         text: 'Isaac Sim 教程',
         items: [
           { text: '把鸭子放进 Isaac Sim', link: '/zh/isaac/' },
-          { text: '放鸭开跑', link: '/zh/isaac/policy-playback' }
+          { text: '先放一只鸭开跑', link: '/zh/isaac/policy-playback' },
+          { text: '打开多动作游乐场', link: '/zh/isaac/playground' },
+          { text: '训练一只会走的鸭', link: '/zh/isaac/training' },
+          { text: '自己再造一个训练任务', link: '/zh/isaac/custom-environment' }
         ]
       }
     ],

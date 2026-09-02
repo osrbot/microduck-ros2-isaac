@@ -10,7 +10,10 @@
 
 固定版本 microduck 策略
         |-- MuJoCo 61 -> 14 回放
-        `-- Isaac 61 -> 14 回放
+        `-- Isaac 多策略游乐场 <--> 本机 UDP <--> ROS 2 / RViz
+
+已验证 MicroDuck USD
+        `-- 原生 Isaac Lab 环境 --> RSL-RL PPO --> 新 checkpoint
 ```
 
 ## 可复现源输入层
@@ -29,6 +32,13 @@ Isaac Lab MJCF 导入器生成 stage。项目只修改恢复一处源碰撞过�
 
 两套运行器使用相同的 61 维观测顺序、14 维动作顺序、home pose、命令布局、200 Hz 物理频率和 50 Hz 策略频率；接触和执行器物理仍由各引擎决定。
 
+## 训练与 ROS 互动层
+
+原生 Isaac Lab task 复用相同 USD 和 61→14 契约，增加多环境、奖励、重置、随机化、curriculum 和
+RSL-RL PPO。ROS bridge 不进入 Isaac 的 Python 环境，而是用 localhost UDP 传命令和遥测，再发布
+`JointState`、策略状态与 TF。
+
 ## 有意保持的边界
 
-ROS 目前负责描述和可视化，Isaac 直接回放策略。两者之间没有隐藏的 ROS bridge，也都不是实体机器人驱动。这样每一层都能独立测试和陈述。
+ROS description、ROS bridge、公开策略回放和新策略训练仍然是独立层。bridge 只连接仿真，训练
+checkpoint 也不会自动变成真机策略；每一层都要单独测试和陈述。

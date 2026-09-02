@@ -24,6 +24,22 @@ SELF_COLLISION_ONLY_PRIMS = (
     "/Instances/power_support_1/power_support",
 )
 
+# The converter authors the robot as a nested rigid-body tree. Isaac Lab's
+# generic contact activation stops descending as soon as it sees the root
+# rigid body, so the two ankle bodies need PhysX contact reports in the asset
+# layer itself. Keeping this in the PhysX payload avoids changing the MuJoCo,
+# Newton, and backend-neutral variants.
+NESTED_FOOT_CONTACT_PRIMS = (
+    (
+        "/microduck/Geometry/trunk_base/yaw2roll/hip_l/upper_leg_left/leg/"
+        "ankle_left"
+    ),
+    (
+        "/microduck/Geometry/trunk_base/bearing_roll/hip_l_2/"
+        "upper_leg_right/leg_2/ankle_right"
+    ),
+)
+
 STABLE_LAYER_DOCUMENTATION = (
     "Generated from the pinned Pollen Robotics MicroDuck MJCF with Isaac Sim "
     "6.0.1; validated and post-processed by microduck_ros_isaac."
@@ -45,6 +61,66 @@ def normalize_layer_documentation(asset_root: Path) -> list[str]:
             layer.Save()
             changed.append(str(path.relative_to(asset_root)))
     return changed
+
+
+def enable_nested_foot_contact_reports(asset_root: Path) -> list[dict[str, object]]:
+    """Author PhysX contact reporting on both nested ankle rigid bodies."""
+
+    def applied_schema_tokens(prim: Usd.Prim) -> set[str]:
+        # Headless USD Python does not register the PhysX schema plugin, so
+        # GetAppliedSchemas() filters out its tokens even though the authored
+        # apiSchemas list-op is correct. Inspect the composed metadata instead.
+        schema_list_op = prim.GetMetadata("apiSchemas")
+        if schema_list_op is None:
+            return set()
+        return set(schema_list_op.GetAppliedItems())
+
+    physx_path = asset_root / "payloads/Physics/physx.usda"
+    stage = Usd.Stage.Open(str(physx_path), load=Usd.Stage.LoadAll)
+    if stage is None:
+        raise RuntimeError(f"Unable to open PhysX payload: {physx_path}")
+
+    changes = []
+    for path in NESTED_FOOT_CONTACT_PRIMS:
+        prim = stage.GetPrimAtPath(path)
+        if not prim or not prim.IsValid() or not prim.HasAPI(UsdPhysics.RigidBodyAPI):
+            raise ValueError(f"Expected nested foot rigid body is missing: {path}")
+        schemas_before = applied_schema_tokens(prim)
+        if "PhysxRigidBodyAPI" not in schemas_before:
+            prim.AddAppliedSchema("PhysxRigidBodyAPI")
+        if "PhysxContactReportAPI" not in schemas_before:
+            prim.AddAppliedSchema("PhysxContactReportAPI")
+        prim.CreateAttribute(
+            "physxRigidBody:sleepThreshold", Sdf.ValueTypeNames.Float
+        ).Set(0.0)
+        prim.CreateAttribute(
+            "physxContactReport:threshold", Sdf.ValueTypeNames.Float
+        ).Set(0.0)
+        schemas_after = applied_schema_tokens(prim)
+        changes.append(
+            {
+                "prim": path,
+                "physx_rigid_body_api_before": (
+                    "PhysxRigidBodyAPI" in schemas_before
+                ),
+                "contact_report_api_before": (
+                    "PhysxContactReportAPI" in schemas_before
+                ),
+                "physx_rigid_body_api_after": (
+                    "PhysxRigidBodyAPI" in schemas_after
+                ),
+                "contact_report_api_after": (
+                    "PhysxContactReportAPI" in schemas_after
+                ),
+                "threshold": 0.0,
+                "reason": (
+                    "Isaac Lab contact activation stops at the nested articulation "
+                    "root and does not reach this ankle rigid body."
+                ),
+            }
+        )
+    stage.GetRootLayer().Save()
+    return changes
 
 
 def main() -> int:
@@ -84,6 +160,7 @@ def main() -> int:
     stage.GetRootLayer().Save()
 
     asset_root = args.instances.resolve().parents[1]
+    nested_foot_contacts = enable_nested_foot_contact_reports(asset_root)
     normalized_layers = normalize_layer_documentation(asset_root)
     host_specific_documentation_remaining = []
     layer_paths = sorted(asset_root.rglob("*.usd")) + sorted(
@@ -102,6 +179,7 @@ def main() -> int:
     report = {
         "instances_layer": str(args.instances.resolve().relative_to(PROJECT_ROOT)),
         "changes": changes,
+        "nested_foot_contact_reports": nested_foot_contacts,
         "normalized_layer_documentation": normalized_layers,
         "host_specific_layer_documentation_remaining": (
             host_specific_documentation_remaining
@@ -109,9 +187,15 @@ def main() -> int:
         "all_self_collision_only_disabled": all(
             not item["collision_enabled_after"] for item in changes
         ),
+        "all_nested_foot_contacts_enabled": all(
+            item["physx_rigid_body_api_after"]
+            and item["contact_report_api_after"]
+            for item in nested_foot_contacts
+        ),
     }
     report["all_checks_pass"] = bool(
         report["all_self_collision_only_disabled"]
+        and report["all_nested_foot_contacts_enabled"]
         and not report["host_specific_layer_documentation_remaining"]
     )
     args.output.parent.mkdir(parents=True, exist_ok=True)

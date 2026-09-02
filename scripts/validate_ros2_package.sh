@@ -21,11 +21,17 @@ python3 "$project_dir/scripts/validate_ros_description.py" \
 cd "$workspace_dir"
 colcon build \
     --symlink-install \
-    --packages-select microduck_description \
+    --packages-select \
+        microduck_description \
+        microduck_control_bridge \
+        microduck_examples \
     --cmake-args -DPython3_EXECUTABLE=/usr/bin/python3 \
     --event-handlers console_direct+
 
 colcon test \
-    --packages-select microduck_description \
+    --packages-select \
+        microduck_description \
+        microduck_control_bridge \
+        microduck_examples \
     --event-handlers console_direct+
 colcon test-result --verbose

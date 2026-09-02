@@ -10,11 +10,18 @@
 
 ## Isaac Sim 可以直接用吗？
 
-在已记录主机上，包含的 USD 和 runner 可用于 Isaac Sim 6.0.1 中经过检查的策略回放。这不等于已经有原生 Isaac Lab 训练任务。
+可以。包含的 USD 和 runner 支持单策略回放与多动作游乐场；仓库还提供原生 Isaac Lab 平地速度
+训练任务。回放公开 ONNX 和训练新 checkpoint 是两条不同路线。
 
 ## ROS 能控制 Isaac 或实体机器人吗？
 
-不能。当前没有 ROS-to-Isaac bridge、`ros2_control`、硬件驱动或舵机标定。
+ROS 2 可以通过 `microduck_control_bridge` 遥控本机 Isaac 游乐场并接收关节、策略状态和 TF。它不能
+控制实体机器人；项目仍没有 `ros2_control`、硬件驱动或舵机标定。
+
+## Isaac 训练出来的策略能直接上真机吗？
+
+不能直接这样判断。当前任务是 implicit-PD 教学/实验环境，没有复刻上游 BAM 执行器和完整
+sim2real 配方，真机部署仍需要单独验证。
 
 ## 为什么只有 14 个关节，不是 15 个执行器？
 

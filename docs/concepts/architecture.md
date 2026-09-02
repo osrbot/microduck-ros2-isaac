@@ -12,7 +12,10 @@ pinned microduck_rl MJCF
 
 pinned microduck policies
         |-- MuJoCo 61 -> 14 playback
-        `-- Isaac 61 -> 14 playback
+        `-- Isaac skill playground <--> localhost UDP <--> ROS 2 / RViz
+
+validated MicroDuck USD
+        `-- native Isaac Lab task --> RSL-RL PPO --> new checkpoint
 ```
 
 ## Reproducible source layer
@@ -42,9 +45,16 @@ Both runners use the same 61-value observation order, 14-value output order,
 home pose, command layout, 200 Hz physics step, and 50 Hz policy cadence. Each
 engine still retains its own contact and actuator behavior.
 
+## Training and ROS interaction layer
+
+The native Isaac Lab task reuses the USD and 61→14 contract, then adds parallel
+environments, rewards, resets, randomization, curriculum, and RSL-RL PPO. The
+ROS bridge stays outside Isaac's Python environment and exchanges localhost UDP
+commands and telemetry before publishing JointState, policy state, and TF.
+
 ## Deliberate separation
 
-ROS currently describes and visualizes the robot. Isaac directly replays the
-policy. There is no hidden ROS bridge between them, and neither path is a
-physical robot driver. This separation keeps every claimed layer independently
-testable.
+ROS description, the ROS bridge, released-policy playback, and new-policy
+training remain separate layers. The bridge controls simulation only, and a
+training checkpoint does not automatically become a hardware policy. Each
+claim remains independently testable.

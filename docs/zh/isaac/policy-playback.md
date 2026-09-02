@@ -79,5 +79,5 @@ export MICRODUCK_ISAAC_ACTIVE_GPU=0
 50 Hz。这些信息在修改运行器时有用，第一次回放时不用先理解。
 :::
 
-这里提供的是策略回放，不是开箱即用的 Isaac Lab 训练任务。当前项目不包含 reward、reset、
-curriculum 或 ROS 到 Isaac 的控制桥。
+一只鸭走通以后，去[多动作游乐场](./playground)切换坐起、低头碰地、踢球和前滚；想从 checkpoint
+真正开始训练，继续看[Isaac Lab 训练教程](./training)。

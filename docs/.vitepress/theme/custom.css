@@ -406,6 +406,24 @@ body {
   width: 100%;
 }
 
+.md-runtime-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 24px 0 30px;
+}
+
+.md-runtime-grid .md-doc-figure {
+  margin: 0;
+}
+
+.md-runtime-grid .md-doc-figure > img {
+  width: 100%;
+  aspect-ratio: 8 / 5;
+  object-fit: cover;
+  object-position: top;
+}
+
 .md-bug-figure {
   max-width: 520px;
   margin-right: auto;
@@ -505,6 +523,10 @@ body {
     grid-template-columns: 1fr;
   }
 
+  .md-runtime-grid {
+    grid-template-columns: 1fr;
+  }
+
   .md-image-card {
     grid-template-rows: 360px auto;
   }
@@ -515,6 +537,14 @@ body {
 }
 
 @media (max-width: 520px) {
+  .vp-doc table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .md-home-section {
     padding: 0 18px;
   }

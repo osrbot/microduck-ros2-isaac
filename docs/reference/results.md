@@ -1,6 +1,6 @@
 # Recorded results
 
-Validation date: 2026-08-31 (Asia/Shanghai). JSON files below `artifacts/` are
+Validation dates: 2026-08-31 to 2026-09-02 (Asia/Shanghai). JSON files below `artifacts/` are
 the machine-readable evidence; this page is the human summary.
 
 ## Inputs and structure
@@ -62,5 +62,28 @@ The first 60-second Isaac Kit run reproduced a duplicate-Vulkan-ICD GPU crash.
 With the project wrapper selecting one ICD and disabling multi-GPU rendering,
 the same simulation finished, exited 0, and created no new GPU dump.
 
-These results do not establish native training parity, hardware behavior, or
+## Native learning and live ROS bridge
+
+- A 16-environment, one-iteration Isaac Lab smoke collected 384 steps at 530
+  steps/s, completed the PPO update, and wrote `model_final.pt`.
+- Both nested foot sensors resolved exactly one body (`ankle_left` and
+  `ankle_right`); the feet-air-time reward executed with a non-zero value.
+- Deterministic checkpoint playback completed 80 steps and saved a 960×720 PNG
+  plus JSON. The checkpoint came from one PPO iteration, so this proves the
+  pipeline and renderer, not a learned gait.
+- The live ROS round trip sent `kick_left`, observed 317 JointState messages and
+  316 policy messages, retained all 14 joints and `world → base_link`, and the
+  Isaac report recorded `standing → kick_left → walking`.
+- A 42.9-second dual-window GUI sequence exercised forward motion, turning,
+  both kicks, ground pick, sit/rise, head pose, and reset. It finished at
+  `standing`, `upright:true`; RViz showed the complete model and passed Orbit
+  drag/zoom, with no new Isaac crash dump.
+- The deliberate low posture in `ground_pick` briefly produced 11
+  `upright:false` samples while tilt remained below 0.18 rad, then recovered.
+  This flag alone is therefore not a safe fall-termination condition.
+- The ROS bridge clean-`SIGINT` regression finished with `LAUNCH_EXIT=0`; all
+  12 package tests passed and shutdown no longer emitted an
+  `ExternalShutdownException` traceback.
+
+These results do not establish a converged native policy, hardware behavior, or
 final livestream/capture acceptance.

@@ -24,16 +24,16 @@ features:
     title: Move all 14 joints
     details: Use the Joint State Publisher sliders to test every movable joint.
   - icon: 🦆
-    title: Run a policy
-    details: Open the included USD and replay a released standing or walking policy.
+    title: Play skills, then train
+    details: Switch sitting, kicking, and rolling skills, or start a native Isaac Lab task.
 ---
 
 <section class="md-home-section">
   <h2>Choose a tutorial</h2>
-  <p class="md-home-lead">Use ROS 2 for visualization and joint controls. Use Isaac Sim for USD inspection and policy playback.</p>
+  <p class="md-home-lead">Use ROS 2 for visualization and controls. Use Isaac Sim for the skill playground or native policy training.</p>
   <div class="md-route-grid">
     <a class="md-route-card md-route-orange" href="./ros2/"><span>01</span><strong>ROS 2 and RViz</strong><p>Build the package, inspect the model, and move its joints.</p></a>
-    <a class="md-route-card md-route-aqua" href="./isaac/"><span>02</span><strong>Isaac Sim</strong><p>Open the included USD and run a released policy.</p></a>
+    <a class="md-route-card md-route-aqua" href="./isaac/playground"><span>02</span><strong>Skill playground</strong><p>Walk, sit, pick, kick, and roll from one interactive runner.</p></a>
     <a class="md-route-card md-route-pink" href="./troubleshooting"><span>03</span><strong>Troubleshooting</strong><p>Fix missing meshes, RViz controls, or Isaac Sim and GPU errors.</p></a>
   </div>
 </section>
@@ -58,6 +58,6 @@ features:
     <div><div class="md-section-kicker">START HERE</div><h2>New here?</h2></div>
     <div class="md-play-duck" role="img" aria-label="Come play!"><span>Come play!</span><img src="/images/play-duck-sticker.webp" alt="" width="640" height="640" loading="lazy"></div>
   </div>
-  <p>Start with <a href="./ros2/">ROS 2 and RViz</a> for the quickest setup. If Isaac Sim and Isaac Lab are already installed, open the included USD and continue with <a href="./isaac/">policy playback</a>.</p>
+  <p>Start with <a href="./ros2/">ROS 2 and RViz</a> for the quickest setup. If Isaac Sim and Isaac Lab are ready, open the <a href="./isaac/playground">skill playground</a>, then try <a href="./isaac/training">native training</a>.</p>
   <p class="md-home-links"><a href="./guide/">Start</a><span>·</span><a href="./faq">FAQ</a><span>·</span><a href="./reference/limitations">Limitations</a><span>·</span><a href="./project/licensing">Licensing</a></p>
 </section>

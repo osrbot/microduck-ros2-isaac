@@ -42,7 +42,8 @@ joint should move in RViz.
 - Left-drag rotates the view, the mouse wheel zooms, and middle-drag pans.
 - Moving a slider changes the robot pose.
 
-Continue with [RViz controls and joints](./rviz).
+Continue with [RViz controls and joints](./rviz), or run the
+[automatic ROS 2 examples](./examples).
 
 ## Useful launch options
 

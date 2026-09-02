@@ -27,8 +27,13 @@ over "microduck"
                     {
                         over "leg"
                         {
-                            over "ankle_left"
+                            over "ankle_left" (
+                                prepend apiSchemas = ["PhysxRigidBodyAPI", "PhysxContactReportAPI"]
+                            )
                             {
+                                custom float physxContactReport:threshold = 0
+                                custom float physxRigidBody:sleepThreshold = 0
+
                                 over "left_ankle" (
                                     prepend apiSchemas = ["PhysxJointAPI"]
                                 )
@@ -126,8 +131,13 @@ over "microduck"
                     {
                         over "leg_2"
                         {
-                            over "ankle_right"
+                            over "ankle_right" (
+                                prepend apiSchemas = ["PhysxRigidBodyAPI", "PhysxContactReportAPI"]
+                            )
                             {
+                                custom float physxContactReport:threshold = 0
+                                custom float physxRigidBody:sleepThreshold = 0
+
                                 over "right_ankle" (
                                     prepend apiSchemas = ["PhysxJointAPI"]
                                 )

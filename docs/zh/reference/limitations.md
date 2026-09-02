@@ -1,8 +1,9 @@
 # 已知限制
 
-## Isaac 回放不等于训练环境
+## Isaac 训练环境不等于上游 sim2real 配方
 
-当前 USD 和运行器支持检查、扩展与策略回放，但没有实现上游 reward、训练噪声、reset、curriculum、多环境复制或原生 Isaac Lab task API。
+仓库现在包含原生 Isaac Lab 平地速度任务，有 reward、reset、训练噪声、curriculum、多环境复制和
+RSL-RL PPO。它是独立教学/实验实现，没有完整复刻上游 `microduck_rl` 的任务族和 BAM 执行器。
 
 运行器采用简化 implicit-PD：刚度 0.55 N·m/rad、阻尼 0.053 N·m·s/rad、effort limit 0.96 N·m；上游更详细地建模 BAM XL330 的电气、摩擦、饱和、电池和延迟。
 
@@ -10,9 +11,10 @@
 
 两个引擎在已记录场景都保持直立，但位移和横向漂移差异明显。不能把当前 Isaac 的轨迹或 reward 当作上游 MuJoCo 的数值替代。
 
-## ROS 目前以描述为主
+## ROS bridge 只连接仿真
 
-包内提供几何、运动学、惯性、TF、RViz 与 home pose，不提供 `ros2_control`、Dynamixel 通信、ROS 到 Isaac bridge、标定或硬件验收。
+包内提供几何、运动学、惯性、TF、RViz、home pose，以及本机 ROS-to-Isaac 命令/状态桥。它不提供
+`ros2_control`、Dynamixel 通信、标定或硬件验收。
 
 Xacro 默认速度上限 6.0 rad/s 是仿真/规划占位值，不是权威硬件安全极限。
 

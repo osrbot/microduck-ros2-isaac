@@ -34,9 +34,10 @@ geometry and materials from the neighboring `payloads/` directory.
 - The head, body, legs, and feet are visible.
 - Pressing **Play** does not immediately remove or explode the robot.
 
-Opening the stage is enough for viewing and screenshots. To make the robot
-stand or walk with a released policy, continue with
-[Run the walking policy](./policy-playback).
+Opening the stage is enough for viewing and screenshots. Next, run
+[one walking policy](./policy-playback), open the
+[multi-skill playground](./playground), or start
+[native Isaac Lab training](./training).
 
 ## The model does not appear
 

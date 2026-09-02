@@ -41,8 +41,8 @@ where it is:
 export ISAACLAB_DIR=/path/to/IsaacLab
 ```
 
-To run a policy, fetch the released policy files and install ONNX Runtime in
-the project-local environment:
+For single-policy playback or the skill playground, fetch the released policy
+files and install ONNX Runtime in the project-local environment:
 
 ```bash
 ./scripts/fetch_upstream.sh
@@ -52,7 +52,8 @@ the project-local environment:
 These commands create ignored `reference/` and `work/` directories inside the
 project. They do not modify your Isaac Lab checkout.
 
-Continue with [Open MicroDuck in Isaac Sim](/isaac/).
+Continue with [Open MicroDuck in Isaac Sim](/isaac/). The native training task
+does not require ONNX Runtime, but uses the same Isaac Sim and Isaac Lab setup.
 
 ::: tip Other versions may work
 The list above is the tested setup. With another Isaac release, open the USD

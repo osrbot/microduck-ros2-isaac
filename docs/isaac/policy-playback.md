@@ -86,6 +86,6 @@ simulation model. Physics runs at 200 Hz and policy inference at 50 Hz. These
 details matter when modifying the runner, but not for the first playback.
 :::
 
-This is policy playback, not a ready-made Isaac Lab training task. The current
-project does not include rewards, reset logic, curriculum, or a ROS-to-Isaac
-control bridge.
+Once one duck walks cleanly, open the [multi-skill playground](./playground) for
+sitting, ground pick, kicks, and a roll. To create a new checkpoint instead of
+replaying one, continue with [Isaac Lab training](./training).

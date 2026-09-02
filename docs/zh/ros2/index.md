@@ -41,7 +41,8 @@ ros2 launch microduck_description view_microduck.launch.py use_gui:=true
 - 左键拖动可旋转，滚轮缩放，中键拖动可平移；
 - 拖动滑块时机器人姿态会变化。
 
-下一步查看[移动镜头和关节](./rviz)，里面也有 RViz 缺件的处理方法。
+下一步可以查看[移动镜头和关节](./rviz)，或者直接跑
+[ROS 2 自动例程](./examples)，让鸭子自己点头、踏步和指挥 Isaac 表演。
 
 ## 常用启动参数
 

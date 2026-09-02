@@ -33,8 +33,8 @@ assets/isaac/robot_allcollisions/robot_allcollisions.usda
 - 头部、身体、腿和脚都能看到；
 - 点击 **Play** 后机器人不会立刻消失或散架。
 
-只查看模型或截图，做到这里就够了。要让机器人运行站立或行走策略，继续看
-[运行行走策略](./policy-playback)。
+只查看模型或截图，做到这里就够了。下一步可以先[运行一张行走策略](./policy-playback)，再去
+[多动作游乐场](./playground)一次玩完整套动作，或者从[原生 Isaac Lab 训练](./training)开始自己教。
 
 ## 鸭子没有出现在 Stage 里？
 

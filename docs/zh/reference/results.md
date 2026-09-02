@@ -1,6 +1,6 @@
 # 已记录验证结果
 
-验证日期：2026-08-31（Asia/Shanghai）。`artifacts/` 下 JSON 是机器可读证据，本页是人工摘要。
+验证日期：2026-08-31 至 2026-09-02（Asia/Shanghai）。`artifacts/` 下 JSON 是机器可读证据，本页是人工摘要。
 
 ## 输入与结构
 
@@ -47,4 +47,21 @@ RViz 在已验证主机全屏运行 75 秒，自动输入确认默认 Orbit 旋�
 
 首次 60 秒 Isaac Kit 运行复现了重复 Vulkan ICD 引起的 GPU crash。包装脚本选择单一 ICD 并关闭多 GPU 后，同一仿真正常完成、退出码为 0，且没有新 GPU dump。
 
-这些结果不证明原生训练一致、实体硬件行为或最终直播画面已经验收。
+## 原生训练与真实 ROS bridge
+
+- 16 个并行环境、1 个 iteration 的 Isaac Lab smoke 共采集 384 step，速度 530 step/s，完成 PPO
+  更新并写出 `model_final.pt`。
+- 左右脚接触传感器各自只解析到一个正确刚体（`ankle_left`、`ankle_right`），feet-air-time 奖励出现
+  非零值，说明这项奖励确实跑到了。
+- checkpoint 确定性回放完成 80 步，留下 960×720 PNG 和 JSON。这个 checkpoint 只训练了 1 轮，
+  所以它证明的是流水线和渲染，不是“已经学会走路”。
+- 真实 ROS 闭环发送 `kick_left`，收到 317 帧 JointState、316 帧策略状态，保留 14 关节与
+  `world → base_link`；Isaac 报告记录了 `standing → kick_left → walking`。
+- 42.9 秒双窗口 GUI 流程实际发送了前进、转向、左右踢、低头碰地、坐起、头部姿态与 reset；最终回到
+  `standing`、`upright=true`，RViz 完整显示模型并完成 Orbit 拖动与缩放，没有新增 Isaac crash dump。
+- `ground_pick` 的主动低姿态期间有 11 帧短暂报告 `upright=false`，最大倾角仍低于 0.18 rad，随后自行
+  恢复；这个状态不能直接等同于摔倒终止条件。
+- ROS bridge 的正常 `SIGINT` 关闭回归为 `LAUNCH_EXIT=0`；对应包 12 项测试通过，关闭过程不再留下
+  `ExternalShutdownException` traceback。
+
+这些结果不证明原生策略已经收敛、实体硬件行为或最终直播画面已经验收。

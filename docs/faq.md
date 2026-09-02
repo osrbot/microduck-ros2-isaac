@@ -13,13 +13,23 @@ TF/RViz launch, an official home-pose publisher, and optional joint sliders.
 
 ## Can Isaac Sim use it directly?
 
-The included USD and runner were tested with policy playback in Isaac Sim 6.0.1
-on the recorded host. This is not a native Isaac Lab training task.
+Yes. The included USD and runners support single-policy playback and a
+multi-skill playground. The repository also contains a native flat-velocity
+Isaac Lab task. Replaying a released ONNX file and training a new checkpoint
+remain separate paths.
 
 ## Can ROS control Isaac or the real robot?
 
-No. There is currently no ROS-to-Isaac bridge, `ros2_control` stack, hardware
-driver, or servo calibration in this project.
+ROS 2 can drive the localhost Isaac playground through
+`microduck_control_bridge` and receive joints, policy state, and TF. It cannot
+drive the physical robot; there is still no `ros2_control`, hardware driver, or
+servo calibration.
+
+## Can an Isaac-trained policy go directly onto hardware?
+
+No such conclusion should be made. The current task is an implicit-PD teaching
+and experimentation environment. It does not reproduce the upstream BAM
+actuator and complete sim-to-real recipe.
 
 ## Why are there 14 joints instead of 15 actuators?
 

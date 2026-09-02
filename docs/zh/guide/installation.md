@@ -40,7 +40,7 @@ sudo apt install \
 export ISAACLAB_DIR=/path/to/IsaacLab
 ```
 
-仓库已经带了 USD。要运行策略，再下载公开策略文件并准备项目自己的 ONNX Runtime：
+仓库已经带了 USD。要运行单策略或多动作游乐场，再下载公开策略文件并准备项目自己的 ONNX Runtime：
 
 ```bash
 ./scripts/fetch_upstream.sh
@@ -49,7 +49,8 @@ export ISAACLAB_DIR=/path/to/IsaacLab
 
 这些命令只会在项目里创建被 Git 忽略的 `reference/` 和 `work/`，不会修改你的 Isaac Lab。
 
-安装完成后继续：[在 Isaac Sim 打开 MicroDuck](/zh/isaac/)。
+安装完成后继续：[在 Isaac Sim 打开 MicroDuck](/zh/isaac/)。原生训练任务不需要 ONNX Runtime，
+但使用同一套 Isaac Sim / Isaac Lab 安装。
 
 ::: tip 其他版本也可能可以运行
 上面的版本是我们实际使用过的组合，不代表其他版本一定不能用。如果你使用更新的 Isaac，建议先
