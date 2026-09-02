@@ -206,11 +206,6 @@ ros2 bag record -o work/rosbags/microduck_showcase \
 `work/rosbags/microduck_showcase/` 目录；直接关终端可能让录制来不及正常收尾。
 
 <div class="md-page-complete">
-  <strong>例程不是戛然而止，它们都能留下可检查的结果。</strong>
-  <p>RViz-only 证明 description 与关节链；showcase 证明 ROS 与 Isaac 闭环；键盘和 rosbag 则把它变成可互动、可复盘的演示。</p>
-</div>
-
-<div class="md-next-grid">
-  <a class="md-next-card" href="/microduck-ros2-isaac/zh/ros2/isaac-control"><span>想看每个 topic</span><strong>手动遥控 Isaac 里的鸭子 →</strong><p>按三个终端拆开命令、反馈、截图与收尾。</p></a>
-  <a class="md-next-card" href="/microduck-ros2-isaac/zh/isaac/training"><span>想自己教动作</span><strong>进入原生 Isaac Lab 训练 →</strong><p>先跑 smoke，再看曲线和 checkpoint 回放。</p></a>
+  <strong>ROS 2 的几个动作都玩过了。</strong>
+  <p>你已经会运行、键盘控制和录包。下一页把仓库自带的 MicroDuck USD 放进 Isaac Sim。</p>
 </div>

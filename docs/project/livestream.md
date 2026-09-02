@@ -25,7 +25,7 @@ pinned source -> reproducible conversion -> ROS description
 | 4 min | Contract | 15 bodies, 14 joints, 61 observations, 14 actions |
 | 5 min | ROS 2 | TF, visual/collision layers, interactive joints |
 | 4 min | USD | Why opening a stage is not structural validation |
-| 6 min | Isaac | 200 Hz physics, 50 Hz policy, following camera |
+| 6 min | Isaac | 200 Hz physics, 50 Hz policy, follow camera |
 | 4 min | Evidence | Smoke parity passed; trajectory/training parity did not |
 
 ## RViz commands

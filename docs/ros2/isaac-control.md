@@ -1,8 +1,8 @@
-# Drive the Isaac duck from ROS 2
+# Control MicroDuck in Isaac Sim with ROS 2
 
-Three terminals, one duck. Terminal A runs Isaac Sim, terminal B starts the ROS
-bridge and RViz, and terminal C sends commands. Follow this page end to end and
-you will see the same live motion in Isaac and RViz.
+Three terminals, one duck. Terminal A runs Isaac Sim. Terminal B runs the ROS
+bridge and RViz. Terminal C sends commands. Follow the steps and you will see
+the same live motion in Isaac Sim and RViz.
 
 This exact route was exercised on Ubuntu 24.04, ROS 2 Jazzy, Isaac Sim 6.0.1
 standalone, and Isaac Lab 3.0.0 beta 2. The screenshots below are from that run.
@@ -11,7 +11,7 @@ standalone, and Isaac Lab 3.0.0 beta 2. The screenshots below are from that run.
   <div role="listitem"><span>Time</span><strong>25–40 minutes</strong></div>
   <div role="listitem"><span>Prerequisite</span><strong>ROS 2 and Isaac work separately</strong></div>
   <div role="listitem"><span>Terminals</span><strong>A, B, and C</strong></div>
-  <div role="listitem"><span>Result</span><strong>Commands and live state round trip</strong></div>
+  <div role="listitem"><span>Result</span><strong>Commands out, live state back</strong></div>
 </div>
 
 <div class="md-terminal-map" role="list" aria-label="Three terminal roles">
@@ -21,7 +21,7 @@ standalone, and Isaac Lab 3.0.0 beta 2. The screenshots below are from that run.
 </div>
 
 <div class="md-command-steps">
-  <strong>Arrange the three windows before starting</strong>
+  <strong>Put the three windows side by side</strong>
   <p>Press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd> for terminal A, then press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd> twice for B and C. In each window, run <code>cd /your/path/microduck-ros2-isaac</code>. A, B, and C are labels, not three computers.</p>
 </div>
 
@@ -31,7 +31,7 @@ them `A-Isaac`, `B-Bridge`, and `C-Command` helps prevent stopping the wrong
 process.
 :::
 
-## Before you start: prepare the released policies
+## Before you start: get the ready-made policies
 
 If you have not completed the [installation guide](/guide/installation), run
 this once:
@@ -80,7 +80,7 @@ open once you can see the complete MicroDuck, the floor, and the yellow ball.
 
 <figure class="md-doc-figure">
   <div class="md-doc-image-stage"><img src="/images/isaac-playground-live.webp" alt="The live MicroDuck multi-skill playground in Isaac Lab" width="1400" height="876" loading="lazy"></div>
-  <figcaption><strong>This is the expected terminal-A result.</strong>The robot and ball are both in the scene, and the viewport follows the robot. This is a real project run, not a concept render.</figcaption>
+  <figcaption><strong>This is what Terminal A should show.</strong>The duck and ball are in the scene, and the camera follows the duck. This is a real project run, not a concept picture.</figcaption>
 </figure>
 
 If the robot is missing, check terminal A for a traceback, missing assets, or a
@@ -108,7 +108,7 @@ demo.
 
 <figure class="md-doc-figure">
   <div class="md-doc-image-stage"><img src="/images/ros-isaac-rviz-live.webp" alt="RViz showing the complete MicroDuck pose streamed from Isaac" width="1400" height="900" loading="lazy"></div>
-  <figcaption><strong>A healthy bridge shows one complete duck in RViz.</strong>The head, neck, body, both legs, and both feet are present, and the MicroDuck and Ground grid displays are healthy.</figcaption>
+  <figcaption><strong>When the bridge works, RViz shows one full duck.</strong>You should see the head, neck, body, both legs, and both feet. The MicroDuck and Ground displays should have no errors.</figcaption>
 </figure>
 
 ::: warning Does RViz show only part of the robot?
@@ -153,7 +153,7 @@ ros2 topic pub --once /cmd_vel geometry_msgs/msg/Twist \
   </figure>
   <figure class="md-doc-figure">
     <img src="/images/isaac-action-turn.webp" alt="MicroDuck turning in Isaac after a ROS 2 yaw command" width="1200" height="750" loading="lazy">
-    <figcaption><strong>Turn.</strong>The ball may drift toward the edge of the following camera while the duck keeps moving.</figcaption>
+    <figcaption><strong>Turn.</strong>The ball may move to the edge of the frame while the camera follows the duck.</figcaption>
   </figure>
 </div>
 
@@ -166,7 +166,7 @@ ros2 topic pub -r 10 --times 35 /cmd_vel geometry_msgs/msg/Twist \
 
 Publish the zero-velocity message again when the turn is complete.
 
-## 5. Trigger a skill
+## 5. Try a move
 
 All discrete skills use the same topic. Change only `data`:
 
@@ -187,11 +187,11 @@ Kicks last about half a second and the roll lasts about one second. Let one
 timed skill finish before requesting another; the controller rejects an unsafe
 mid-motion switch.
 
-<div class="md-result-label">REAL RUN · SITSTAND COMMAND</div>
+<div class="md-result-label">REAL RUN · THE DUCK SITS</div>
 
 <figure class="md-doc-figure">
   <div class="md-doc-image-stage"><img src="/images/isaac-action-sit.webp" alt="MicroDuck lowering its body during the sitstand skill in Isaac" width="1200" height="750" loading="lazy"></div>
-  <figcaption><strong>sitstand in progress.</strong>The head and body lower visibly. Publish the same command again to rise.</figcaption>
+  <figcaption><strong>The <code>sitstand</code> move is running.</strong>The head and body go down. Send the same command again to stand up.</figcaption>
 </figure>
 
 The head fields are ordered as `neck_pitch, head_pitch, head_yaw, head_roll`.
@@ -229,7 +229,7 @@ Select **Move Camera** in RViz:
   <figcaption><strong>This frame follows a real drag-and-zoom test.</strong>Distance changed from 0.38 to about 0.23, and both Yaw and Pitch changed.</figcaption>
 </figure>
 
-## 7. Inspect live ROS state
+## 7. Watch the live ROS data
 
 List the graph:
 
@@ -268,7 +268,7 @@ data: '{"policy":"standing","upright":true,"tilt_rad":0.0026}'
 `upright:false` before recovering. If you use this field as an RL termination
 condition, distinguish intentional low postures from an actual fall.
 
-## 8. Check the full round trip headlessly
+## 8. Try the full loop without windows
 
 Run the live ROS → Isaac → ROS check without opening the three windows:
 
@@ -304,11 +304,6 @@ The bridge should report `process has finished cleanly`, without an
 use, first check whether an earlier duck is still running.
 
 <div class="md-page-complete">
-  <strong>The three-terminal loop is complete.</strong>
-  <p>ROS commands reached Isaac, 14 joints and the base pose returned to RViz, and all three processes shut down cleanly.</p>
-</div>
-
-<div class="md-next-grid">
-  <a class="md-next-card" href="/microduck-ros2-isaac/isaac/playground"><span>KEEP PLAYING</span><strong>Return to the skill playground →</strong><p>Use direct keyboard control for demos and recording.</p></a>
-  <a class="md-next-card" href="/microduck-ros2-isaac/isaac/training"><span>KEEP BUILDING</span><strong>Train a native walking policy →</strong><p>Complete smoke, checkpoint, TensorBoard, and replay gates.</p></a>
+  <strong>ROS 2 and Isaac are talking both ways!</strong>
+  <p>Commands reached Isaac, and all 14 joints came back to RViz. The next page starts a short Isaac Lab training run.</p>
 </div>

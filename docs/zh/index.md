@@ -10,11 +10,11 @@ hero:
     alt: 招手走来的表情包黄鸭与 MicroDuck 机器人融合角色
   actions:
     - theme: brand
-      text: 先玩 ROS 2
-      link: /zh/ros2/
+      text: 从这里开始
+      link: /zh/guide/
     - theme: alt
-      text: 再去 Isaac Sim
-      link: /zh/isaac/
+      text: 先看环境要求
+      link: /zh/guide/installation
 
 features:
   - icon: 👀
@@ -29,13 +29,25 @@ features:
 ---
 
 <section class="md-home-section">
-  <h2>今天想怎么玩这只鸭子？</h2>
-  <p class="md-home-lead">不用先啃模型格式和参数表。选 ROS 2 或 Isaac Sim，先把鸭子玩起来，再决定要不要自己训练一张新策略。</p>
-  <div class="md-route-grid">
-    <a class="md-route-card md-route-orange" href="./ros2/"><span>01</span><strong>把鸭子请进 RViz</strong><p>构建功能包，转转镜头，再试试关节滑块。</p></a>
-    <a class="md-route-card md-route-aqua" href="./isaac/playground"><span>02</span><strong>打开多动作游乐场</strong><p>走路、坐起、低头碰地、踢球、前滚，键盘说换就换。</p></a>
-    <a class="md-route-card md-route-pink" href="./troubleshooting"><span>03</span><strong>鸭子闹脾气了？</strong><p>处理 RViz 缺件、画面卡住，以及 Isaac Sim 启动或 GPU 崩溃问题。</p></a>
+  <div class="md-section-kicker">先看电脑，别急着敲命令</div>
+  <h2>你的电脑能跑哪条路线？</h2>
+  <p class="md-home-lead">ROS 2 路线比较轻，Isaac Sim 则需要 NVIDIA 显卡和更多软件。先看清楚，再决定怎么开玩。</p>
+  <div class="md-requirement-grid">
+    <div class="md-requirement-card md-route-orange"><span>ROS 2 + RViz</span><strong>Ubuntu 24.04 + ROS 2 Jazzy</strong><p>不需要 NVIDIA 显卡，也不需要 Isaac Sim。</p></div>
+    <div class="md-requirement-card md-route-aqua"><span>Isaac Sim</span><strong>Ubuntu 24.04 + NVIDIA GPU</strong><p>完整测试组合是 Isaac Sim 6.0.1 与 Isaac Lab 3.0.0 beta 2。</p></div>
   </div>
+  <p class="md-home-start"><a href="./guide/installation">查看完整环境要求 →</a></p>
+</section>
+
+<section class="md-home-section">
+  <h2>一路上会玩到什么？</h2>
+  <p class="md-home-lead">下面只是预告，不会把你直接扔进半路。正式教程会先检查电脑，再从 ROS 2 一步一步走到 Isaac Sim。</p>
+  <div class="md-route-grid">
+    <div class="md-route-card md-route-orange"><span>01</span><strong>把鸭子请进 RViz</strong><p>看完整模型、转镜头，再试试 14 个关节。</p></div>
+    <div class="md-route-card md-route-aqua"><span>02</span><strong>打开 Isaac 游乐场</strong><p>走路、坐起、低头碰地、踢球和前滚。</p></div>
+    <div class="md-route-card md-route-pink"><span>03</span><strong>自己教一只鸭</strong><p>先跑小测试，再用 Isaac Lab 训练新动作。</p></div>
+  </div>
+  <p class="md-home-start"><a href="./guide/">按步骤开始 →</a></p>
 </section>
 
 <section class="md-home-section md-duck-gallery">
@@ -58,7 +70,7 @@ features:
     <div><div class="md-section-kicker">挑一条路线，开鸭</div><h2>第一次玩鸭，从哪儿下手？</h2></div>
     <div class="md-play-duck" role="img" aria-label="来玩鸭"><span>来玩鸭</span><img src="/images/play-duck-sticker.webp" alt="" width="640" height="640" loading="lazy"></div>
   </div>
-  <p>想最快和鸭子打个照面，就从 <a href="./ros2/">ROS 2 与 RViz</a> 开始。不需要 Isaac Sim，也不要求 NVIDIA 显卡。</p>
-  <p>电脑里已经装好 Isaac Sim 和 Isaac Lab，就直接去 <a href="./isaac/playground">多动作游乐场</a>。想自己教它走路，再接着做 <a href="./isaac/training">Isaac Lab 训练</a>。</p>
-  <p class="md-home-links"><a href="./guide/">从这里开始</a><span>·</span><a href="./faq">常见问题</a><span>·</span><a href="./reference/limitations">目前没有什么</a><span>·</span><a href="./project/licensing">来源与许可</a></p>
+  <p>第一次来就走引导路线：先看电脑，再运行命令。每一页底部只留一个明确的“下一页”，不会突然把你扔到别的章节。</p>
+  <p class="md-home-start"><a href="./guide/">从第 1 步开始 →</a></p>
+  <p class="md-home-links"><a href="./guide/installation">环境要求</a><span>·</span><a href="./troubleshooting">遇到问题</a><span>·</span><a href="./faq">常见问题</a><span>·</span><a href="./project/licensing">来源与许可</a></p>
 </section>

@@ -1,17 +1,17 @@
-# Design another training task
+# Make a new training task
 
-This page is a development recipe, not a one-command task generator. Define the scene, success condition, reward,
-termination, and replay gate before spending hours on PPO.
+There is no magic one-line command for a new task. Pick the scene, goal, reward,
+stop rules, and replay check before you spend hours on PPO.
 
 <div class="md-tutorial-meta" role="list" aria-label="Page overview">
   <div role="listitem"><span>Planning</span><strong>20–30 minutes</strong></div>
   <div role="listitem"><span>Implementation</span><strong>Depends on the task</strong></div>
   <div role="listitem"><span>Prerequisite</span><strong>Velocity smoke run passes</strong></div>
-  <div role="listitem"><span>Output</span><strong>A testable task definition</strong></div>
+  <div role="listitem"><span>Result</span><strong>A task you can test</strong></div>
 </div>
 
 <div class="md-tutorial-goals">
-  <strong>Describe the new task in four statements</strong>
+  <strong>Explain your task in four lines</strong>
   <ul>
     <li>what enters the scene;</li>
     <li>what command the robot receives;</li>
@@ -20,7 +20,7 @@ termination, and replay gate before spending hours on PPO.
   </ul>
 </div>
 
-## Recommended first task: kick a ball
+## A good first task: kick a ball
 
 The repository already has a tested 70 mm, 15 g ball and left/right placement baseline. The result is easier to judge
 than a scalar reward. Train one side first, then mirror it. Do not combine walking, recovery, kicking, and rolling in one
@@ -28,7 +28,7 @@ reward on day one.
 
 <figure class="md-doc-figure">
   <div class="md-doc-image-stage"><img src="/images/isaac-playground-live.webp" alt="MicroDuck and the yellow ball in the real Isaac skill playground" width="1400" height="876" loading="lazy"></div>
-  <figcaption><strong>Start from a scene baseline that already runs.</strong>The ball dimensions, mass, and placement are exercised by the playground. Reuse those facts, but do not present released-policy playback as your training result.</figcaption>
+  <figcaption><strong>Start with a scene that already works.</strong>The playground already checks the ball size, mass, and position. Reuse those facts, but do not call a ready-made policy your own training result.</figcaption>
 </figure>
 
 ## Suggested task order
@@ -41,7 +41,7 @@ reward on day one.
 | Ground pick | Mouth-tip contact target | Touch the floor and recover | Object grasping |
 | Sit / rise | Binary posture command | Complete both transitions smoothly | Forward roll |
 
-<div class="md-step-kicker"><span>STEP 1</span><strong>Write acceptance criteria first</strong></div>
+<div class="md-step-kicker"><span>STEP 1</span><strong>Write down what “good” means</strong></div>
 
 ## Example: define one kick episode
 
@@ -79,9 +79,9 @@ First make reset, observations, and rewards finite. Then make a short run save a
 those gates pass. Mirror the second kick side only after one side is stable.
 :::
 
-<div class="md-step-kicker"><span>STEP 3</span><strong>Pass five gates</strong></div>
+<div class="md-step-kicker"><span>STEP 3</span><strong>Pass five checks</strong></div>
 
-## Minimum acceptance matrix
+## Five checks before you train
 
 | Gate | Required check | Inspect first after failure |
 | --- | --- | --- |
@@ -94,9 +94,9 @@ those gates pass. Mirror the second kick side only after one side is stable.
 A rising reward only proves that the policy found a way to score. The final two gates test whether it learned the action
 you intended.
 
-<div class="md-step-kicker"><span>STEP 4</span><strong>Combine skills only after one is stable</strong></div>
+<div class="md-step-kicker"><span>STEP 4</span><strong>Get one move working before you mix moves</strong></div>
 
-## Choose a multi-skill architecture later
+## Pick how the moves work together later
 
 After one skill works across varied starts, compare:
 
@@ -107,11 +107,6 @@ After one skill works across varied starts, compare:
 The [skill playground](./playground) already demonstrates the first option, which is the easiest to inspect and debug.
 
 <div class="md-page-complete">
-  <strong>Creating a folder is not the completion condition.</strong>
-  <p>You should leave this page with one selected skill, explicit scene and command inputs, success and failure rules, and a replay acceptance gate.</p>
-</div>
-
-<div class="md-next-grid">
-  <a class="md-next-card" href="/microduck-ros2-isaac/isaac/training"><span>RETURN TO BASELINE</span><strong>Recheck the existing training loop →</strong><p>Make sure smoke, TensorBoard, and replay work before copying the task.</p></a>
-  <a class="md-next-card" href="/microduck-ros2-isaac/isaac/playground"><span>STUDY BEHAVIOR</span><strong>Inspect released skills again →</strong><p>Use continuous motion and state changes to define acceptance criteria.</p></a>
+  <strong>You made it through the whole route!</strong>
+  <p>You can now pick one move, describe the scene and controls, and decide what success should look like before you write code.</p>
 </div>

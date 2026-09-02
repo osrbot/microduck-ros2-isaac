@@ -108,11 +108,6 @@ source/microduck_isaac_lab/microduck_isaac_lab/tasks/velocity/
 听起来厉害，就提前放弃可验收性。
 
 <div class="md-page-complete">
-  <strong>这页的完成标志不是新建了一个文件夹。</strong>
-  <p>你应该已经选定一个动作，写清场景、命令、成功、失败与回放标准，并知道要复用和替换哪些配置。下一步才进入代码实现。</p>
-</div>
-
-<div class="md-next-grid">
-  <a class="md-next-card" href="/microduck-ros2-isaac/zh/isaac/training"><span>返回基线</span><strong>复查现有训练闭环 →</strong><p>确认 smoke、TensorBoard 与回放都能跑，再复制任务。</p></a>
-  <a class="md-next-card" href="/microduck-ros2-isaac/zh/isaac/playground"><span>观察动作</span><strong>回游乐场研究现成技能 →</strong><p>从连续动作与状态切换中确定自己的验收指标。</p></a>
+  <strong>整条教程路线走完了。</strong>
+  <p>现在你可以挑一个新动作，写清场景、控制方式和成功画面，再开始动手实现。</p>
 </div>

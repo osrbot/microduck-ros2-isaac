@@ -1,32 +1,32 @@
 # Make MicroDuck walk in Isaac Sim
 
-This page requires Isaac Sim and Isaac Lab. The setup below downloads the
-released policy files and installs ONNX Runtime inside the project.
+You need Isaac Sim and Isaac Lab for this page. The steps below get the
+ready-made policies and add ONNX Runtime to this project.
 
 <div class="md-tutorial-meta" role="list" aria-label="Page overview">
   <div role="listitem"><span>Time</span><strong>15–25 minutes</strong></div>
   <div role="listitem"><span>Run from</span><strong>Repository root</strong></div>
   <div role="listitem"><span>Windows</span><strong>Terminal + Isaac Sim</strong></div>
-  <div role="listitem"><span>Result</span><strong>Released policy and JSON report</strong></div>
+  <div role="listitem"><span>Result</span><strong>A walking duck and a saved report</strong></div>
 </div>
 
 <div class="md-tutorial-goals">
-  <strong>This page will</strong>
+  <strong>You will</strong>
   <ul>
-    <li>prepare released policies and project-local ONNX Runtime;</li>
-    <li>run the walking policy for 60 simulated seconds;</li>
-    <li>finish with a 10-second headless check and saved report.</li>
+    <li>get the ready-made policies and ONNX Runtime;</li>
+    <li>make the duck walk for 60 simulated seconds;</li>
+    <li>run a 10-second no-window check and save a report.</li>
   </ul>
 </div>
 
 <div class="md-command-steps">
-  <strong>This page needs terminal A</strong>
+  <strong>Keep Terminal A open</strong>
   <p>Press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd> and <code>cd</code> to the repository root. Run GUI playback, the standing policy, and the headless check one after another. Wait for the current command to finish or stop it with <kbd>Ctrl</kbd>+<kbd>C</kbd> first.</p>
 </div>
 
 <div class="md-step-kicker"><span>STEP 1</span><strong>Terminal A · repository root</strong></div>
 
-## 1. Prepare the policy runner
+## 1. Get the runner ready
 
 From the repository root:
 
@@ -40,7 +40,7 @@ You can omit `ISAACLAB_DIR` when Isaac Lab is at the default
 `~/rlgpu_ws/IsaacLab` path.
 
 <div class="md-checkpoint">
-  <strong>Dependencies are ready</strong>
+  <strong>Ready to run!</strong>
   <p>Released policies exist under <code>reference/microduck/</code>, and <code>work/isaac_python_pkgs/onnxruntime</code> exists. This setup is required only once.</p>
 </div>
 
@@ -74,11 +74,11 @@ the ground, joints continue moving, the camera follows, and no traceback appears
 
 <figure class="md-doc-figure">
   <div class="md-doc-image-stage"><img src="/images/isaac-action-walk.webp" alt="MicroDuck replaying the released walking policy in Isaac Sim" width="1200" height="750" loading="lazy"></div>
-  <figcaption><strong>The policy is in control.</strong> This is a real walking-policy playback. A stepping duck is not necessarily tracking a perfectly straight line; first confirm that simulation continues, the joints move normally, and the terminal stays free of errors.</figcaption>
+  <figcaption><strong>The policy is moving the duck.</strong>This is a real run. The duck may not walk in a perfect straight line. First check that it keeps moving and the terminal shows no error.</figcaption>
 </figure>
 
 <div class="md-checkpoint">
-  <strong>Walking replay passed</strong>
+  <strong>The duck is walking!</strong>
   <p>Progress reaches 60 simulated seconds and the process exits cleanly with a report. Stepping without perfectly straight tracking is a behavior-quality issue, not a loading failure.</p>
 </div>
 
@@ -96,9 +96,9 @@ Wait for the 60-second run to finish. To stop early, press
   --viz kit
 ```
 
-<div class="md-step-kicker"><span>STEP 3</span><strong>Terminal · headless check</strong></div>
+<div class="md-step-kicker"><span>STEP 3</span><strong>Terminal · no-window check</strong></div>
 
-## Run a headless test
+## Run a quick test without the window
 
 Make sure the GUI playback has exited, then use this quick terminal check:
 
@@ -149,11 +149,6 @@ details matter when modifying the runner, but not for the first playback.
 :::
 
 <div class="md-page-complete">
-  <strong>Single-policy playback is complete.</strong>
-  <p>You checked the released ONNX contract, Isaac physics loop, GUI playback, and a headless report. Continue with interactive skills or your own training task.</p>
-</div>
-
-<div class="md-next-grid">
-  <a class="md-next-card" href="/microduck-ros2-isaac/isaac/playground"><span>KEEP PLAYING</span><strong>Open the multi-skill playground →</strong><p>Switch sit, ground pick, kick, and roll from the keyboard.</p></a>
-  <a class="md-next-card" href="/microduck-ros2-isaac/isaac/training"><span>TRAIN NEXT</span><strong>Run the native Isaac Lab task →</strong><p>Go from five-iteration smoke to checkpoint replay.</p></a>
+  <strong>One policy is up and running!</strong>
+  <p>You ran the ready-made ONNX policy in a window and without one. The next page puts all the released moves under your keyboard.</p>
 </div>

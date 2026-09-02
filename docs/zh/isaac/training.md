@@ -255,11 +255,6 @@ MICRODUCK_PLAY_STEPS=1000 ./scripts/play_isaac_velocity.sh
 导出契约、安全限制与实体测试。当前没有真机，也不会把仿真结果写成真机验收。
 
 <div class="md-page-complete">
-  <strong>训练闭环到这里才算完整。</strong>
-  <p>你已经从环境预检走到 smoke、checkpoint、TensorBoard 和回放验收。下一次实验只改一个变量，并保留 run 目录，才看得出改动到底帮了忙还是添了乱。</p>
-</div>
-
-<div class="md-next-grid">
-  <a class="md-next-card" href="/microduck-ros2-isaac/zh/isaac/custom-environment"><span>继续开发</span><strong>把平地行走改成新任务 →</strong><p>从场景、成功条件、reward、终止与课程逐项设计。</p></a>
-  <a class="md-next-card" href="/microduck-ros2-isaac/zh/isaac/playground"><span>先看现成动作</span><strong>回游乐场玩踢球与起身 →</strong><p>对照公开策略的动作效果，再决定下一项训练目标。</p></a>
+  <strong>第一轮训练跑完了。</strong>
+  <p>你已经跑过短训练、看过 TensorBoard，也回放了 checkpoint。下一页教你把一个新动作整理成可实现的训练任务。</p>
 </div>

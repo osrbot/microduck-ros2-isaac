@@ -1,7 +1,8 @@
-# Open MicroDuck in ROS 2 and RViz
+# Open MicroDuck in RViz with ROS 2
 
-This is the shortest complete route: build the description package, inspect the full model in RViz, move all 14 joints,
-and verify that `/joint_states` contains real data. Isaac Sim and physical hardware are not required.
+This is the quickest full route. Build the package, see the whole duck in RViz,
+move all 14 joints, and read real `/joint_states` data. You do not need Isaac Sim
+or a real robot.
 
 <div class="md-tutorial-meta" role="list" aria-label="Page overview">
   <div role="listitem"><span>Time</span><strong>10–15 minutes</strong></div>
@@ -11,7 +12,7 @@ and verify that `/joint_states` contains real data. Isaac Sim and physical hardw
 </div>
 
 <div class="md-tutorial-goals">
-  <strong>This page will</strong>
+  <strong>You will</strong>
   <ul>
     <li>build only <code>microduck_description</code>;</li>
     <li>check the head, body, both legs, and both feet;</li>
@@ -24,8 +25,27 @@ and verify that `/joint_states` contains real data. Isaac Sim and physical hardw
 The first command assumes you are at the repository root, where `README.md` and `ros2_ws/` are visible.
 :::
 
+## Pick the launch you need
+
+These are the options you will use most. The first run below uses the default;
+the joint-slider step adds `use_gui:=true`.
+
+| Option | Use it when |
+| --- | --- |
+| `use_gui:=true` | You want the joint sliders |
+| `rviz_fullscreen:=true` | A remote desktop cannot maximize RViz |
+| `use_rviz:=false` | You only need the description and TF nodes |
+| `with_collision_meshes:=true` | You are debugging collision geometry |
+
+For example, open the sliders and full-screen RViz together:
+
+```bash
+ros2 launch microduck_description view_microduck.launch.py \
+  use_gui:=true rviz_fullscreen:=true
+```
+
 <div class="md-command-steps">
-  <strong>Open terminal A first</strong>
+  <strong>Open Terminal A</strong>
   <p>Press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd>. If it opens in your home directory, run <code>cd /your/path/microduck-ros2-isaac</code> with the real repository path.</p>
 </div>
 
@@ -56,13 +76,13 @@ The path should end in `ros2_ws/install/microduck_description`. If the package i
 `install/setup.bash` again. If `colcon` is missing, return to [installation](/guide/installation).
 
 <div class="md-checkpoint">
-  <strong>Build check passed</strong>
+  <strong>Build looks good!</strong>
   <p>No package failed, and <code>ros2 pkg prefix</code> returns the current workspace path. Fix build errors before opening RViz.</p>
 </div>
 
 <div class="md-step-kicker"><span>STEP 2</span><strong>Terminal A · ros2_ws</strong></div>
 
-## Launch the default pose
+## Open the duck
 
 ```bash
 ros2 launch microduck_description view_microduck.launch.py
@@ -77,15 +97,15 @@ items before moving the camera:
 3. Both legs and both feet are visible.
 4. The grid remains stable with `base_link` as the fixed frame.
 
-<div class="md-result-label">REAL RUN · AFTER RVIZ OPENS</div>
+<div class="md-result-label">REAL RUN · RVIZ IS OPEN</div>
 
 <figure class="md-doc-figure">
   <div class="md-doc-image-stage"><img src="/images/ros2-rviz-motion-demo.webp" alt="The ROS 2 motion example showing the complete MicroDuck in RViz" width="1400" height="900" loading="lazy"></div>
-  <figcaption><strong>The complete robot should have these parts and proportions.</strong>This image comes from the motion demo, so one leg is raised. The command above opens the home pose.</figcaption>
+  <figcaption><strong>Your duck should have all these parts.</strong>This image comes from the motion demo, so one leg is up. The command above opens the home pose.</figcaption>
 </figure>
 
 <div class="md-checkpoint">
-  <strong>Visual check passed</strong>
+  <strong>The duck looks right!</strong>
   <p>The complete robot is visible and RobotModel reports no mesh-path error. If parts are missing, use the <a href="/microduck-ros2-isaac/ros2/rviz">missing-part checklist</a> before moving on.</p>
 </div>
 
@@ -111,7 +131,7 @@ matching joint chain should move in RViz. These sliders publish joint positions;
 
 <div class="md-step-kicker"><span>STEP 4</span><strong>Terminal B · new terminal</strong></div>
 
-## Verify the ROS message
+## Check the ROS message
 
 Leave terminal A, RViz, and the sliders running. Press
 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd> in Terminal to open window B. Use
@@ -137,43 +157,11 @@ press <kbd>↑</kbd> in the terminal to recall the command, and press <kbd>Enter
 that the related position changes.
 
 <div class="md-checkpoint">
-  <strong>ROS data check passed</strong>
+  <strong>ROS data looks good!</strong>
   <p><code>/joint_states</code> returns all 14 joints and changes with the sliders. Both visualization and state publication now work.</p>
 </div>
 
-## Useful launch options
-
-| Option | Use it when |
-| --- | --- |
-| `use_gui:=true` | You want the joint sliders |
-| `rviz_fullscreen:=true` | A remote desktop cannot maximize RViz |
-| `use_rviz:=false` | You only need the description and TF nodes |
-| `with_collision_meshes:=true` | You are debugging collision geometry |
-
-```bash
-ros2 launch microduck_description view_microduck.launch.py \
-  use_gui:=true rviz_fullscreen:=true
-```
-
-::: details For contributors: regenerate the description
-Normal users do not run the generator. After changing the upstream model or generator, run from the repository root:
-
-```bash
-./scripts/fetch_upstream.sh
-./scripts/setup_mujoco_env.sh
-./scripts/generate_ros_description.py
-./scripts/validate_ros2_package.sh
-```
-
-Then repeat Step 1 and reopen RViz.
-:::
-
 <div class="md-page-complete">
-  <strong>Your first ROS 2 run is complete.</strong>
-  <p>You built the package, inspected the full model, moved joints, and read their ROS state. Continue with camera and mesh checks, or start the automatic motion demo.</p>
-</div>
-
-<div class="md-next-grid">
-  <a class="md-next-card" href="/microduck-ros2-isaac/ros2/rviz"><span>MODEL CHECKS</span><strong>Camera controls and missing parts →</strong><p>Work through RViz view, mesh, and joint-state diagnostics.</p></a>
-  <a class="md-next-card" href="/microduck-ros2-isaac/ros2/examples"><span>MORE FUN</span><strong>Run the automatic ROS 2 demo →</strong><p>Nod, step, and bow without Isaac Sim.</p></a>
+  <strong>Your first ROS 2 duck run is done!</strong>
+  <p>You built the package, saw the full duck, moved its joints, and read its ROS state. The next page shows how to move the camera and fix missing parts.</p>
 </div>

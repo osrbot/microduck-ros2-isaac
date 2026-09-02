@@ -742,57 +742,15 @@ body {
   line-height: 1.65;
 }
 
-.md-next-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin: 16px 0 8px;
-}
-
-.md-next-card {
-  display: block;
-  min-width: 0;
-  padding: 17px 18px;
-  border: 1px solid var(--md-line);
-  border-radius: 17px;
-  background: var(--md-panel);
-  color: var(--md-ink) !important;
-  text-decoration: none !important;
-  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
-}
-
-.md-next-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(255, 122, 47, 0.34);
-  box-shadow: 0 14px 34px rgba(71, 49, 31, 0.08);
-}
-
-.md-next-card span {
-  display: block;
-  margin-bottom: 4px;
-  color: var(--vp-c-brand-1);
-  font-size: 0.74rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-}
-
-.md-next-card strong {
-  display: block;
-  margin-bottom: 4px;
-}
-
-.md-next-card p {
-  margin: 0;
-  color: var(--md-muted);
-  font-size: 0.88rem;
-  line-height: 1.5;
-}
-
 .md-route-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
   margin-top: 22px;
+}
+
+.md-route-grid-two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .md-route-card {
@@ -807,7 +765,7 @@ body {
   transition: transform 180ms ease, box-shadow 180ms ease;
 }
 
-.md-route-card:hover {
+a.md-route-card:hover {
   transform: translateY(-3px);
   box-shadow: var(--md-shadow);
 }
@@ -842,6 +800,64 @@ body {
   background: linear-gradient(145deg, rgba(242, 74, 157, 0.12), rgba(255, 253, 249, 0.9));
 }
 
+.md-requirement-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.md-requirement-card {
+  min-width: 0;
+  padding: 20px 22px;
+  border: 1px solid var(--md-line);
+  border-radius: 20px;
+}
+
+.md-requirement-card span {
+  display: block;
+  color: var(--vp-c-brand-1);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.md-requirement-card strong {
+  display: block;
+  margin-top: 7px;
+  color: var(--md-ink);
+  font-size: 1.04rem;
+}
+
+.md-requirement-card p {
+  margin: 8px 0 0;
+  color: var(--md-muted);
+  line-height: 1.6;
+}
+
+.md-home-start {
+  margin: 18px 0 0;
+}
+
+.md-home-start a {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--vp-c-brand-1);
+  color: #fff !important;
+  font-weight: 750;
+  line-height: 1.2;
+  text-decoration: none !important;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.md-home-start a:hover {
+  background: var(--vp-c-brand-2);
+  transform: translateY(-1px);
+}
+
 .md-home-links {
   display: flex;
   flex-wrap: wrap;
@@ -861,6 +877,10 @@ body {
   }
 
   .md-route-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .md-requirement-grid {
     grid-template-columns: 1fr;
   }
 
@@ -905,8 +925,7 @@ body {
 
   .md-tutorial-meta,
   .md-terminal-map,
-  .md-shortcut-grid,
-  .md-next-grid {
+  .md-shortcut-grid {
     grid-template-columns: 1fr;
   }
 

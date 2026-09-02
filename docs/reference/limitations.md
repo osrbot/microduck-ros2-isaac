@@ -1,4 +1,7 @@
-# Known limitations
+# Technical notes and limits
+
+This is the detailed contributor reference. If you are following the tutorial,
+the shorter, plain-language version is in the [FAQ](/faq).
 
 ## The Isaac task is not the upstream sim-to-real recipe
 

@@ -24,6 +24,24 @@
 下面第一条命令假设你位于仓库根目录，也就是能看到 `README.md` 和 `ros2_ws/` 的位置。
 :::
 
+## 开始前，先看这四个常用参数
+
+后面第一次启动会使用默认参数；需要关节滑块时，再加 `use_gui:=true`。
+
+| 参数 | 什么时候用 |
+| --- | --- |
+| `use_gui:=true` | 打开关节滑块，手动检查 14 个关节 |
+| `rviz_fullscreen:=true` | 远程桌面无法最大化窗口时，直接全屏启动 |
+| `use_rviz:=false` | 只运行 description 和 TF，不打开 RViz |
+| `with_collision_meshes:=true` | 调试碰撞几何；普通浏览建议关闭 |
+
+例如，同时打开滑块和全屏 RViz：
+
+```bash
+ros2 launch microduck_description view_microduck.launch.py \
+  use_gui:=true rviz_fullscreen:=true
+```
+
 <div class="md-command-steps">
   <strong>先开终端 A</strong>
   <p>按 <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd>。如果终端默认打开在主目录，先执行 <code>cd /你的路径/microduck-ros2-isaac</code> 进入仓库；代码里的“你的路径”要换成真实路径。</p>
@@ -147,41 +165,7 @@ position: [0.0, ..., 0.0]
   <p><code>/joint_states</code> 能返回 14 个关节，并且滑块变化会进入消息。到这里，“模型显示”和“ROS 状态发布”两条链都已打通。</p>
 </div>
 
-## 常用启动参数
-
-| 参数 | 什么时候用 |
-| --- | --- |
-| `use_gui:=true` | 打开关节滑块，手动检查 14 个关节 |
-| `rviz_fullscreen:=true` | 远程桌面无法最大化窗口时，直接全屏启动 |
-| `use_rviz:=false` | 只运行 description 和 TF，不打开 RViz |
-| `with_collision_meshes:=true` | 调试碰撞几何；普通浏览建议关闭 |
-
-例如，远程桌面下同时打开滑块和全屏 RViz：
-
-```bash
-ros2 launch microduck_description view_microduck.launch.py \
-  use_gui:=true rviz_fullscreen:=true
-```
-
-::: details 给维护者：什么时候才需要重新生成 description
-普通使用者不需要运行生成器。只有修改上游模型或生成代码时，才从仓库根目录运行：
-
-```bash
-./scripts/fetch_upstream.sh
-./scripts/setup_mujoco_env.sh
-./scripts/generate_ros_description.py
-./scripts/validate_ros2_package.sh
-```
-
-生成后重新执行本页步骤 1，再启动 RViz 验证。
-:::
-
 <div class="md-page-complete">
   <strong>第一圈遛完了。</strong>
-  <p>你已经构建了 ROS 2 包、看到了完整模型、拖动了真实关节消息。想继续手动看模型就去相机与缺件页；想让鸭子自己表演，就直接跑自动例程。</p>
-</div>
-
-<div class="md-next-grid">
-  <a class="md-next-card" href="/microduck-ros2-isaac/zh/ros2/rviz"><span>模型检查</span><strong>学会拖镜头与排查缺件 →</strong><p>视角、全屏、RobotModel、网格路径和 joint_states 都逐项检查。</p></a>
-  <a class="md-next-card" href="/microduck-ros2-isaac/zh/ros2/examples"><span>更好玩</span><strong>让鸭子自动点头和踏步 →</strong><p>不需要 Isaac，直接运行 RViz-only 动作例程。</p></a>
+  <p>你已经构建 ROS 2 包、看到了完整模型，也读到了真实关节消息。下一页专门讲怎么转镜头和处理缺件。</p>
 </div>

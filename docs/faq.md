@@ -1,56 +1,64 @@
-# Frequently asked questions
+# FAQ
 
-## Does the repository contain URDF and USD?
+Quick answers for the questions that usually come up on a first run.
 
-Yes. It contains the generated ROS Xacro/meshes and a generated Isaac USD asset.
-Both derive from the pinned upstream MJCF and remain subject to the model's
-upstream terms.
+## What can I do with this project today?
 
-## Is there a ROS 2 package?
+- Open the complete MicroDuck model in RViz and move all 14 joints.
+- Run ready-made ROS 2 motion examples.
+- Open the included USD in Isaac Sim.
+- Play released walking and skill policies.
+- Train the included flat-velocity task in Isaac Lab.
+- Send commands from ROS 2 to the local Isaac playground and see the pose in RViz.
 
-Yes: `microduck_description`. It provides robot description, meshes, inertias,
-TF/RViz launch, an official home-pose publisher, and optional joint sliders.
+## What can it not do yet?
 
-## Can Isaac Sim use it directly?
+- It does not control a physical MicroDuck. There is no `ros2_control`, servo
+  driver, calibration, or hardware safety setup here.
+- An Isaac checkpoint cannot go straight onto a real robot.
+- Isaac and MuJoCo do not produce the same path. Their contacts and actuator
+  models are different.
+- The physical mouth actuator is not part of the released simulation model or
+  policies, so this project does not invent one.
 
-Yes. The included USD and runners support single-policy playback and a
-multi-skill playground. The repository also contains a native flat-velocity
-Isaac Lab task. Replaying a released ONNX file and training a new checkpoint
-remain separate paths.
+## Do I need ROS 2 and Isaac Sim together?
 
-## Can ROS control Isaac or the real robot?
+No. Start with ROS 2 if you only want RViz, joints, and the motion examples.
+Install Isaac Sim only when you want physics, policies, the playground, or
+training. The ROS-to-Isaac bridge is an optional later step.
 
-ROS 2 can drive the localhost Isaac playground through
-`microduck_control_bridge` and receive joints, policy state, and TF. It cannot
-drive the physical robot; there is still no `ros2_control`, hardware driver, or
-servo calibration.
+## Does the repository already include URDF, USD, and a ROS 2 package?
 
-## Can an Isaac-trained policy go directly onto hardware?
+Yes. `microduck_description` provides the ROS robot description, meshes,
+inertias, TF/RViz launch, home pose, and joint sliders. The generated Isaac USD
+is also included. First-time users do not need to convert either model.
 
-No such conclusion should be made. The current task is an implicit-PD teaching
-and experimentation environment. It does not reproduce the upstream BAM
-actuator and complete sim-to-real recipe.
+## Can Isaac Sim use the model directly?
+
+Yes. Open the included top-level USD to inspect the model. Use the ready-made
+runners for one-policy playback or the keyboard playground. Training a new
+checkpoint is a separate Isaac Lab route.
 
 ## Why are there 14 joints instead of 15 actuators?
 
-The released MJCF and policies define 14 movable joints. A mouth actuator is
-mentioned by the physical runtime but absent from this simulation/policy
-contract, so its behavior is not guessed.
+The released MJCF and policies contain 14 movable joints. The physical runtime
+mentions a mouth actuator, but the public simulation model does not define its
+geometry, limits, or policy behavior.
 
-## Are the inertia and model poses verified?
+## Are the mass and inertia values checked?
 
-All 15 physical inertia matrices are positive definite, total mass agrees
-across source/ROS/Isaac, and 109 source-to-ROS pose matrices pass the recorded
-tolerance. This validates conversion consistency, not independent measurement
-of manufactured hardware.
-
-## Why do MuJoCo and Isaac walk differently?
-
-They use different contacts and actuator models. Both recorded runs stay finite
-and upright, but trajectory parity is explicitly not claimed.
+The repository checks that the converted ROS and Isaac models agree with the
+pinned source model. That catches broken conversion, but it is not an
+independent measurement of a manufactured robot.
 
 ## Can I use the assets commercially?
 
-Do not assume so. Upstream labels the 3D files “Creative Commons BY-SA-NC” but
-does not provide a version. Read [licensing](/project/licensing) and ask Pollen
-Robotics for clarification when commercial, sponsored, or monetized use matters.
+Do not assume so. Upstream describes the 3D files as “Creative Commons BY-SA-NC”
+without naming a version. Read [licensing](/project/licensing) and ask Pollen
+Robotics before commercial, sponsored, or monetized use.
+
+## Something broke. Where do I start?
+
+Use [Troubleshooting](/troubleshooting). It starts with the exact symptom —
+missing RViz parts, a missing command, an Isaac crash, or a policy that will not
+load — so you do not have to read the whole site again.

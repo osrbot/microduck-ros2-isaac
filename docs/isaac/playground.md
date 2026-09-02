@@ -1,33 +1,33 @@
-# Open the MicroDuck skill playground
+# Play with MicroDuck in Isaac Sim
 
-Single-policy playback is only a warm-up. The playground loads the released
-61→14 ONNX policy family and switches one simulated duck between standing,
-walking, sitting, ground pick, ball kicks, and a forward roll. A 70 mm, 15 g
-ball is placed beside the selected foot before each kick.
+One walking policy was just the warm-up. Here the duck can stand, walk, sit,
+pick from the ground, kick a ball, and roll forward. The playground uses the
+ready-made 61→14 ONNX policies. It puts a 70 mm, 15 g ball beside the foot before
+each kick.
 
 <div class="md-tutorial-meta" role="list" aria-label="Page overview">
   <div role="listitem"><span>Time</span><strong>15–25 minutes</strong></div>
   <div role="listitem"><span>Controls</span><strong>Keyboard or ROS 2</strong></div>
-  <div role="listitem"><span>Skills</span><strong>Walking + five skill types</strong></div>
-  <div role="listitem"><span>Result</span><strong>Interactive, repeatable demo</strong></div>
+  <div role="listitem"><span>Moves</span><strong>Walking + five tricks</strong></div>
+  <div role="listitem"><span>Result</span><strong>A duck you can control and reset</strong></div>
 </div>
 
 <div class="md-tutorial-goals">
-  <strong>Use GUI first, then headless</strong>
+  <strong>Start with the window. Try headless later.</strong>
   <ul>
-    <li>confirm each available policy loads;</li>
-    <li>walk, turn, and complete at least two skills;</li>
+    <li>check that every ready-made policy loads;</li>
+    <li>walk, turn, and finish at least two moves;</li>
     <li>reset the robot and ball;</li>
-    <li>finish with a five-second headless startup check.</li>
+    <li>run a five-second test without the window.</li>
   </ul>
 </div>
 
 <div class="md-command-steps">
-  <strong>One terminal A is enough</strong>
+  <strong>You only need Terminal A</strong>
   <p>Press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd> and <code>cd</code> to the repository root. Do not paste the headless command into the same terminal while the GUI playground is running; stop the GUI with <kbd>Ctrl</kbd>+<kbd>C</kbd> first.</p>
 </div>
 
-## 1. Prepare the released policies
+## 1. Get the ready-made moves
 
 From the repository root:
 
@@ -86,7 +86,7 @@ low-pass coefficients. They can be overridden from the CLI, but the defaults
 are the useful demo baseline.
 
 <div class="md-checkpoint">
-  <strong>Interaction check passed</strong>
+  <strong>The controls work!</strong>
   <p>Velocity returns to standing when keys are released, at least two skills finish, and <kbd>Backspace</kbd> resets both robot and ball. Rejecting a new skill while another is busy is a safety feature.</p>
 </div>
 
@@ -107,7 +107,7 @@ are the useful demo baseline.
   </figure>
 </div>
 
-## 3. Run a headless smoke test
+## 3. Run a quick test without the window
 
 Return to terminal A, press <kbd>Ctrl</kbd>+<kbd>C</kbd> to close the GUI, and wait
 for the prompt before running:
@@ -136,11 +136,6 @@ This page adds interactive Isaac playback; it does not relabel that upstream
 training as Isaac training.
 
 <div class="md-page-complete">
-  <strong>The playground is more than an open window.</strong>
-  <p>You verified policy loading, keyboard interaction, state switching, reset, and a headless report.</p>
-</div>
-
-<div class="md-next-grid">
-  <a class="md-next-card" href="/microduck-ros2-isaac/ros2/isaac-control"><span>ADD ROS 2</span><strong>Drive the playground from RViz →</strong><p>Use the full three-terminal command and telemetry route.</p></a>
-  <a class="md-next-card" href="/microduck-ros2-isaac/isaac/training"><span>TRAIN YOUR OWN</span><strong>Start native Isaac Lab training →</strong><p>Run smoke training, TensorBoard, and checkpoint replay.</p></a>
+  <strong>The duck is ready to play!</strong>
+  <p>You changed moves, reset the duck and ball, and saved a headless report. The next page controls this playground from ROS 2.</p>
 </div>

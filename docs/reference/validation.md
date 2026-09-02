@@ -1,4 +1,4 @@
-# Validation model
+# How this project was tested
 
 The project keeps evidence levels separate. A later level cannot retroactively
 prove an earlier contract, and a GUI screenshot cannot replace structural or

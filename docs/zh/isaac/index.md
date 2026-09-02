@@ -90,8 +90,7 @@ test -f assets/isaac/robot_allcollisions/robot_allcollisions.usda \
   <p>Stage 树、外观和 articulation 都正常，点击 <strong>Play</strong> 后机器人仍在场。到这里还没有运行策略，也没有开始训练。</p>
 </div>
 
-只查看模型或截图，做到这里就够了。下一步可以先[运行一张行走策略](./policy-playback)，再去
-[多动作游乐场](./playground)一次玩完整套动作，或者从[原生 Isaac Lab 训练](./training)开始自己教。
+只查看模型或截图，做到这里就够了。下一页先跑一张行走策略，再去多动作游乐场玩完整套动作。
 
 ## 鸭子没有出现在 Stage 里？
 
@@ -100,24 +99,7 @@ test -f assets/isaac/robot_allcollisions/robot_allcollisions.usda \
 - 查看 Isaac Sim Console 是否提示相对路径资源缺失；
 - 视口里什么都没有时，选中机器人并按 <kbd>F</kbd> 聚焦。
 
-::: details 给维护者：从上游 MJCF 重新生成 USD
-教程已经带了可用 USD。只有修改源模型或转换代码时才需要重新生成：
-
-```bash
-./scripts/fetch_upstream.sh
-export ISAACLAB_DIR=/path/to/IsaacLab
-./scripts/convert_mjcf_to_usd.sh
-```
-
-脚本会转换模型、应用项目的碰撞调整，并更新 `assets/isaac/` 下的资产。
-:::
-
 <div class="md-page-complete">
   <strong>USD 已经站稳。</strong>
-  <p>现在可以选择轻量的单策略回放，或直接进入带键盘和多动作切换的游乐场。第一次建议先跑行走策略，出问题时更容易定位。</p>
-</div>
-
-<div class="md-next-grid">
-  <a class="md-next-card" href="/microduck-ros2-isaac/zh/isaac/policy-playback"><span>推荐下一步</span><strong>回放一张行走策略 →</strong><p>先验证 ONNX、物理循环与跟随镜头。</p></a>
-  <a class="md-next-card" href="/microduck-ros2-isaac/zh/isaac/playground"><span>环境已经熟悉</span><strong>直接进入多动作游乐场 →</strong><p>走路、坐起、踢球、捡球和前滚一起玩。</p></a>
+  <p>下一页先跑一张行走策略。这是检查 Isaac、ONNX Runtime 和模型能不能一起工作的最快方法。</p>
 </div>

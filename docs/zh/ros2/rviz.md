@@ -112,11 +112,6 @@ ros2 launch microduck_description view_microduck.launch.py \
 随后在 RobotModel 中打开 **Collision Enabled**。正常查看时建议关闭，否则 RViz 会更卡。
 
 <div class="md-page-complete">
-  <strong>RViz 这关检查完了。</strong>
-  <p>镜头能拖、14 关节消息能读、visual 网格完整，就可以把问题从“模型显示”推进到“自动动作”或“Isaac 联动”。</p>
-</div>
-
-<div class="md-next-grid">
-  <a class="md-next-card" href="/microduck-ros2-isaac/zh/ros2/examples"><span>继续玩</span><strong>运行 ROS 2 自动动作 →</strong><p>让鸭子点头、摆头、踏步和鞠躬。</p></a>
-  <a class="md-next-card" href="/microduck-ros2-isaac/zh/troubleshooting"><span>仍有异常</span><strong>继续做系统排查 →</strong><p>处理卡顿、网格路径、Vulkan 和启动问题。</p></a>
+  <strong>RViz 里已经是一只完整鸭了。</strong>
+  <p>镜头能转、零件齐全、14 个关节也能读。下一页让它自己点头、踏步和鞠躬。</p>
 </div>

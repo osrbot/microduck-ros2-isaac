@@ -1,4 +1,4 @@
-# 安装与环境检查
+# 先看环境，再装软件
 
 这一页只做准备工作：把仓库放好，并确认你选中的那条路线能找到对应工具。ROS 2 和 Isaac 是两套独立
 环境，只玩其中一条，就做对应一半。
@@ -9,6 +9,15 @@
   <div role="listitem"><span>执行位置</span><strong>Linux 终端</strong></div>
   <div role="listitem"><span>完成标志</span><strong>检查命令全部通过</strong></div>
 </div>
+
+## 两条路线要准备什么
+
+<div class="md-requirement-grid">
+  <div class="md-requirement-card md-route-orange"><span>ROS 2 路线</span><strong>Ubuntu 24.04 + ROS 2 Jazzy</strong><p>不需要 NVIDIA 显卡，也不需要 Isaac Sim。第一次建议先走这条。</p></div>
+  <div class="md-requirement-card md-route-aqua"><span>Isaac 路线</span><strong>Ubuntu 24.04 + NVIDIA GPU</strong><p>完整测试组合是 Isaac Sim 6.0.1 standalone 和 Isaac Lab 3.0.0 beta 2。</p></div>
+</div>
+
+今天想玩哪条，就准备哪一套。不确定时先装 ROS 2，后面再补 Isaac。
 
 <div class="md-tutorial-goals">
   <strong>走完这一页，你会完成</strong>
@@ -174,11 +183,6 @@ test -d work/isaac_python_pkgs/onnxruntime && echo "ONNX Runtime: OK"
 | ONNX Runtime 缺失 | 是否从仓库根目录执行 `setup_isaac_python_env.sh` |
 
 <div class="md-page-complete">
-  <strong>准备工作完成。</strong>
-  <p>现在选择一条路线继续：ROS 2 会先构建三个小包；Isaac 会先打开已经准备好的 USD。后续页面不会默认你“应该知道”上一条命令的结果。</p>
-</div>
-
-<div class="md-next-grid">
-  <a class="md-next-card" href="/microduck-ros2-isaac/zh/ros2/"><span>轻量起步</span><strong>把鸭子请进 RViz →</strong><p>构建、启动、检查完整模型，再打开 14 关节滑块。</p></a>
-  <a class="md-next-card" href="/microduck-ros2-isaac/zh/isaac/"><span>NVIDIA 路线</span><strong>把鸭子放进 Isaac Sim →</strong><p>先打开仓库自带 USD，确认模型和 articulation 正常。</p></a>
+  <strong>准备好了，下一站先玩 ROS 2。</strong>
+  <p>下一页会构建最小 ROS 2 包并打开 RViz。只想玩 Isaac，也可以在左侧直接点第 6 步。</p>
 </div>

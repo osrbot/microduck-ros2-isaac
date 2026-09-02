@@ -1,4 +1,4 @@
-# Recorded results
+# Saved test results
 
 Validation dates: 2026-08-31 to 2026-09-02 (Asia/Shanghai). JSON files below `artifacts/` are
 the machine-readable evidence; this page is the human summary.

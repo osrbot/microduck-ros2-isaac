@@ -128,11 +128,6 @@ test -s artifacts/isaac/playground_session.json \
 Isaac Sim 交互回放，并没有把上游训练过程偷换成 Isaac 训练。
 
 <div class="md-page-complete">
-  <strong>游乐场已经不只是“窗口能打开”。</strong>
-  <p>你确认了策略加载、键盘互动、状态切换、reset 和 headless 报告。下一步可以把键盘换成 ROS 2，或把现成策略换成自己的 checkpoint。</p>
-</div>
-
-<div class="md-next-grid">
-  <a class="md-next-card" href="/microduck-ros2-isaac/zh/ros2/isaac-control"><span>接上 ROS 2</span><strong>从 RViz 遥控游乐场 →</strong><p>三个终端完成指令与 telemetry 闭环。</p></a>
-  <a class="md-next-card" href="/microduck-ros2-isaac/zh/isaac/training"><span>自己教一只</span><strong>开始原生 Isaac Lab 训练 →</strong><p>跑 smoke、看 TensorBoard、回放 checkpoint。</p></a>
+  <strong>这下真的玩起来了。</strong>
+  <p>你会切动作、重置鸭子和小球，也跑过无界面检查。下一页把键盘换成 ROS 2 命令。</p>
 </div>

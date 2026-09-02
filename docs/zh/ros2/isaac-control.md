@@ -306,11 +306,6 @@ bridge 正常退出时会显示 `process has finished cleanly`，不应该留下
 `ExternalShutdownException` traceback。端口占用报错时，也先确认是不是上一只鸭还没退场。
 
 <div class="md-page-complete">
-  <strong>三终端闭环完成。</strong>
-  <p>你已经看到 ROS 命令进入 Isaac、14 关节与位姿回到 RViz，并学会正常关闭三个进程。下一步可以继续做交互演示，也可以把控制对象换成自己的训练策略。</p>
-</div>
-
-<div class="md-next-grid">
-  <a class="md-next-card" href="/microduck-ros2-isaac/zh/isaac/playground"><span>继续互动</span><strong>回到多动作游乐场 →</strong><p>用键盘切动作，适合直播与录屏。</p></a>
-  <a class="md-next-card" href="/microduck-ros2-isaac/zh/isaac/training"><span>继续开发</span><strong>训练自己的平地策略 →</strong><p>跑通 smoke、曲线、checkpoint 和回放闭环。</p></a>
+  <strong>ROS 2 已经能指挥 Isaac 了。</strong>
+  <p>命令进了 Isaac，14 个关节也回到了 RViz。下一页开始跑一轮短小的 Isaac Lab 训练。</p>
 </div>

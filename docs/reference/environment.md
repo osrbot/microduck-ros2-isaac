@@ -1,4 +1,4 @@
-# Validated environment
+# Tested setup
 
 Recorded on 2026-08-31 (Asia/Shanghai). This is a known working matrix, not a
 claim that other versions cannot work.

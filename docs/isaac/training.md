@@ -1,29 +1,29 @@
-# Train a walking duck in Isaac Lab
+# Teach the duck to walk in Isaac Lab
 
-This page runs the repository's native Isaac Lab task instead of replaying a released ONNX file. First validate the full
-training pipeline; only then spend hours on a real PPO experiment.
+This time, you will train a policy instead of playing a ready-made ONNX file.
+First run a quick check. Start a long PPO job only after that works.
 
 <div class="md-tutorial-meta" role="list" aria-label="Page overview">
-  <div role="listitem"><span>Pipeline check</span><strong>About 10–30 minutes</strong></div>
+  <div role="listitem"><span>Quick test</span><strong>About 10–30 minutes</strong></div>
   <div role="listitem"><span>Full training</span><strong>Hours, depending on GPU</strong></div>
   <div role="listitem"><span>Environment</span><strong>Isaac Sim + Isaac Lab</strong></div>
-  <div role="listitem"><span>Outputs</span><strong>Checkpoint, curves, replay image</strong></div>
+  <div role="listitem"><span>You get</span><strong>Checkpoint, charts, replay picture</strong></div>
 </div>
 
 <div class="md-tutorial-goals">
-  <strong>You will complete the whole loop</strong>
+  <strong>You will do the whole loop</strong>
   <ul>
     <li>start <code>Isaac-MicroDuck-Velocity-Flat-v0</code>;</li>
-    <li>finish five iterations and verify the checkpoint on disk;</li>
-    <li>watch the run in TensorBoard;</li>
-    <li>reload the newest checkpoint and save a report and image;</li>
-    <li>separate “pipeline works” from “policy learned to walk.”</li>
+    <li>run five steps and find the saved checkpoint;</li>
+    <li>watch the charts in TensorBoard;</li>
+    <li>open the newest checkpoint and save a report and picture;</li>
+    <li>learn the difference between “the tools work” and “the duck learned to walk.”</li>
   </ul>
 </div>
 
-## The complete route
+## Here is the full path
 
-| Stage | Action | Pass condition |
+| Step | What to do | Ready when |
 | --- | --- | --- |
 | 1. Preflight | Check the GPU and Isaac Lab launcher | `nvidia-smi` works and `isaaclab.sh` is executable |
 | 2. Smoke train | Run 64 environments for 5 iterations | Output reaches `MICRODUCK_TRAIN_STAGE=complete` |
@@ -38,13 +38,13 @@ training pipeline; only then spend hours on a real PPO experiment.
 </div>
 
 <div class="md-command-steps">
-  <strong>Open terminal A first; terminal B can wait</strong>
+  <strong>Open Terminal A now. Terminal B can wait.</strong>
   <p>Press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd> and <code>cd</code> to the repository root. Terminal A owns preflight and training. After a full run starts, press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd> for terminal B and TensorBoard.</p>
 </div>
 
 <div class="md-step-kicker"><span>STEP 1</span><strong>Terminal A · Ctrl + Alt + T</strong></div>
 
-## Run the preflight check
+## Check the setup
 
 The native task does not need ONNX Runtime, but it does need working CUDA and Isaac Lab:
 
@@ -57,11 +57,11 @@ test -x "$ISAACLAB_DIR/isaaclab.sh" && echo "Isaac Lab launcher: OK"
 Skip the export when Isaac Lab is at `~/rlgpu_ws/IsaacLab`. Close other Isaac windows before the first run.
 
 <div class="md-checkpoint">
-  <strong>Continue when preflight passes</strong>
+  <strong>See OK? Keep going.</strong>
   <p>The GPU is visible and the terminal prints <code>Isaac Lab launcher: OK</code>.</p>
 </div>
 
-<div class="md-step-kicker"><span>STEP 2</span><strong>Terminal A · smoke test first</strong></div>
+<div class="md-step-kicker"><span>STEP 2</span><strong>Terminal A · quick test first</strong></div>
 
 ## Run five training iterations
 
@@ -100,13 +100,13 @@ MICRODUCK_TRAIN_ITERATIONS=1 \
 ```
 
 <div class="md-checkpoint">
-  <strong>Training process passed</strong>
+  <strong>The training pipeline looks good!</strong>
   <p>No traceback occurred, and the run ended with <code>MICRODUCK_TRAIN_STAGE=complete</code>. An OOM or interrupted save is a failed run.</p>
 </div>
 
-<div class="md-step-kicker"><span>STEP 3</span><strong>Terminal A · inspect the files</strong></div>
+<div class="md-step-kicker"><span>STEP 3</span><strong>Terminal A · check the files</strong></div>
 
-## Verify the checkpoint
+## Check the checkpoint
 
 Each run creates a timestamped directory:
 
@@ -134,13 +134,13 @@ params/agent.yaml
 the run saved successfully; it does not prove a useful gait.
 
 <div class="md-checkpoint">
-  <strong>File check passed</strong>
+  <strong>Checkpoint saved!</strong>
   <p><code>model_final.pt</code> and <code>training_summary.json</code> are non-empty and belong to the same new run.</p>
 </div>
 
 <div class="md-step-kicker"><span>STEP 4</span><strong>Terminal A + Terminal B</strong></div>
 
-## Start a full experiment
+## Start a full training run
 
 Scale from 64 to 256 or 512 environments first. Use the larger example only when VRAM and the smoke run are stable:
 
@@ -193,7 +193,7 @@ MICRODUCK_PLAYBACK_STAGE=complete
 
 <figure class="md-doc-figure">
   <div class="md-doc-image-stage"><img src="/images/isaac-training-playback.webp" alt="Replay of a one-iteration native Isaac Lab MicroDuck checkpoint" width="960" height="720" loading="lazy"></div>
-  <figcaption><strong>This frame proves that the checkpoint reloads and renders.</strong>It came from one PPO iteration, so the awkward pose is expected. Judge a full experiment from continuous motion, curves, and repeated replays.</figcaption>
+  <figcaption><strong>The checkpoint opens and shows the duck.</strong>This came from only one PPO iteration, so the odd pose is normal. For a full run, watch the motion, charts, and several replays.</figcaption>
 </figure>
 
 Select a checkpoint or extend replay:
@@ -242,11 +242,6 @@ battery, backlash, or communication-delay behavior. Hardware deployment requires
 safety, domain randomization, and physical validation.
 
 <div class="md-page-complete">
-  <strong>The training loop is now complete.</strong>
-  <p>You moved from preflight to smoke training, checkpoint inspection, TensorBoard, and replay. Change one experiment variable at a time and keep each run directory.</p>
-</div>
-
-<div class="md-next-grid">
-  <a class="md-next-card" href="/microduck-ros2-isaac/isaac/custom-environment"><span>BUILD NEXT</span><strong>Design another training task →</strong><p>Define the scene, success condition, reward, termination, and replay gate.</p></a>
-  <a class="md-next-card" href="/microduck-ros2-isaac/isaac/playground"><span>COMPARE SKILLS</span><strong>Return to the released playground →</strong><p>Study existing kick, recovery, and sit/stand behavior.</p></a>
+  <strong>The whole training loop works!</strong>
+  <p>You ran a short job, opened TensorBoard, and replayed the checkpoint. The next page shows how to turn one new move into a clear training task.</p>
 </div>

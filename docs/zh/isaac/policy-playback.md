@@ -142,11 +142,6 @@ export MICRODUCK_ISAAC_ACTIVE_GPU=0
 :::
 
 <div class="md-page-complete">
-  <strong>单策略回放完整走通。</strong>
-  <p>你已经验证公开 ONNX、61→14 接口、Isaac 物理循环、GUI 与 headless 两种运行方式。接下来要么增加互动动作，要么进入自己的训练任务。</p>
-</div>
-
-<div class="md-next-grid">
-  <a class="md-next-card" href="/microduck-ros2-isaac/zh/isaac/playground"><span>继续玩</span><strong>进入多动作游乐场 →</strong><p>用键盘切坐起、捡球、踢球和前滚。</p></a>
-  <a class="md-next-card" href="/microduck-ros2-isaac/zh/isaac/training"><span>开始训练</span><strong>跑原生 Isaac Lab 任务 →</strong><p>从 5 轮 smoke 到 checkpoint 回放。</p></a>
+  <strong>鸭子已经会走了。</strong>
+  <p>窗口运行和无界面运行都试过了。下一页把公开的几种动作都交给键盘。</p>
 </div>

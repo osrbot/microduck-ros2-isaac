@@ -1,26 +1,35 @@
-# Install and check the environment
+# Check your computer, then install what you need
 
-This page prepares the repository and verifies one route at a time. ROS 2 and Isaac are independent; complete only the
-section you need.
+Set up only the route you want. ROS 2 and Isaac Sim work on their own, so you do
+not need both.
 
 <div class="md-tutorial-meta" role="list" aria-label="Page overview">
   <div role="listitem"><span>ROS 2 setup</span><strong>10–20 minutes</strong></div>
   <div role="listitem"><span>Isaac setup</span><strong>About 10 minutes after install</strong></div>
   <div role="listitem"><span>Run in</span><strong>A Linux terminal</strong></div>
-  <div role="listitem"><span>Pass condition</span><strong>All checks print OK</strong></div>
+  <div role="listitem"><span>Ready when</span><strong>All checks print OK</strong></div>
 </div>
 
+## The two setups at a glance
+
+<div class="md-requirement-grid">
+  <div class="md-requirement-card md-route-orange"><span>ROS 2 route</span><strong>Ubuntu 24.04 + ROS 2 Jazzy</strong><p>No NVIDIA GPU and no Isaac Sim. This is the best first route.</p></div>
+  <div class="md-requirement-card md-route-aqua"><span>Isaac route</span><strong>Ubuntu 24.04 + NVIDIA GPU</strong><p>Fully tested with Isaac Sim 6.0.1 standalone and Isaac Lab 3.0.0 beta 2.</p></div>
+</div>
+
+Set up only the route you want today. If you are unsure, prepare ROS 2 first.
+
 <div class="md-tutorial-goals">
-  <strong>By the end, you will</strong>
+  <strong>You will</strong>
   <ul>
-    <li>clone the repository and verify the working directory;</li>
-    <li>prepare ROS 2 Jazzy and colcon, or confirm the Isaac Lab launcher;</li>
-    <li>fetch released policies and install project-local ONNX Runtime when needed;</li>
-    <li>catch environment problems before opening a GUI.</li>
+    <li>clone the project and check the folder;</li>
+    <li>get ROS 2 and colcon ready, or find your Isaac Lab launcher;</li>
+    <li>get the ready-made policies and ONNX Runtime when you need them;</li>
+    <li>find setup problems before a window opens.</li>
   </ul>
 </div>
 
-## New to terminals? Learn these keys first
+## New to the terminal? Try these keys first
 
 Run the commands on an **Ubuntu desktop** in the Terminal app. This is not the
 Isaac Sim Console and not the browser address bar.
@@ -45,7 +54,7 @@ labels; one computer is enough.
 :::
 
 <div class="md-command-steps">
-  <strong>Run every code block this way</strong>
+  <strong>Run each command like this</strong>
   <p>Use the copy button → return to Terminal → press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd> → press <kbd>Enter</kbd>. A short command is finished when the <code>user@computer:folder$</code> prompt returns. A command that opens RViz or Isaac keeps running, so leave that terminal open.</p>
 </div>
 
@@ -69,7 +78,7 @@ test -f README.md && test -d ros2_ws && test -d assets/isaac \
 ```
 
 <div class="md-checkpoint">
-  <strong>Continue when this passes</strong>
+  <strong>See OK? Keep going.</strong>
   <p>The terminal prints <code>MicroDuck repository: OK</code>. The ROS package and Isaac USD are already included; first-time users do not regenerate them.</p>
 </div>
 
@@ -105,7 +114,7 @@ A successful `source` command normally prints nothing; the next three lines are
 the checks that should produce output.
 
 <div class="md-checkpoint">
-  <strong>ROS 2 is ready</strong>
+  <strong>ROS 2 is ready!</strong>
   <p>The first line says <code>ROS_DISTRO=jazzy</code>; the next two lines print paths for <code>ros2</code> and <code>colcon</code>.</p>
 </div>
 
@@ -156,7 +165,7 @@ test -d work/isaac_python_pkgs/onnxruntime && echo "ONNX Runtime: OK"
 ```
 
 <div class="md-checkpoint">
-  <strong>Policy playback is ready</strong>
+  <strong>Isaac is ready!</strong>
   <p>Both checks print <code>OK</code>. You may skip this section when you only want to open the included USD.</p>
 </div>
 
@@ -172,11 +181,6 @@ test -d work/isaac_python_pkgs/onnxruntime && echo "ONNX Runtime: OK"
 | ONNX Runtime missing | Run `setup_isaac_python_env.sh` from the repository root |
 
 <div class="md-page-complete">
-  <strong>Environment ready.</strong>
-  <p>The next pages start with a small build or USD check and state the expected output after every command.</p>
-</div>
-
-<div class="md-next-grid">
-  <a class="md-next-card" href="/microduck-ros2-isaac/ros2/"><span>LIGHTWEIGHT START</span><strong>Open MicroDuck in RViz →</strong><p>Build, launch, inspect the complete model, and move all 14 joints.</p></a>
-  <a class="md-next-card" href="/microduck-ros2-isaac/isaac/"><span>NVIDIA ROUTE</span><strong>Open MicroDuck in Isaac Sim →</strong><p>Load the included USD and verify the articulation.</p></a>
+  <strong>You’re ready!</strong>
+  <p>The next page starts with the lighter ROS 2 route. If you only want Isaac Sim, use the left sidebar and jump to step 6.</p>
 </div>

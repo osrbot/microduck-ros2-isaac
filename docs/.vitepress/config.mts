@@ -35,8 +35,41 @@ const helpSidebar: DefaultTheme.SidebarItem[] = [
     text: 'Help',
     items: [
       { text: 'Troubleshooting', link: '/troubleshooting' },
-      { text: 'Frequently asked questions', link: '/faq' },
-      { text: 'Known limitations', link: '/reference/limitations' }
+      { text: 'FAQ', link: '/faq' }
+    ]
+  }
+]
+
+const englishTutorialSidebar: DefaultTheme.SidebarItem[] = [
+  {
+    text: 'Start',
+    items: [
+      { text: '1. Pick a route', link: '/guide/' },
+      { text: '2. Check your computer', link: '/guide/installation' }
+    ]
+  },
+  {
+    text: 'ROS 2',
+    items: [
+      { text: '3. Open MicroDuck in RViz', link: '/ros2/' },
+      { text: '4. Move the camera and joints', link: '/ros2/rviz' },
+      { text: '5. Try the ROS 2 examples', link: '/ros2/examples' }
+    ]
+  },
+  {
+    text: 'Isaac Sim',
+    items: [
+      { text: '6. Open MicroDuck in Isaac Sim', link: '/isaac/' },
+      { text: '7. Make the duck walk', link: '/isaac/policy-playback' },
+      { text: '8. Play with the moves', link: '/isaac/playground' }
+    ]
+  },
+  {
+    text: 'Go further',
+    items: [
+      { text: '9. Connect ROS 2 and Isaac', link: '/ros2/isaac-control' },
+      { text: '10. Train a walking policy', link: '/isaac/training' },
+      { text: '11. Make a new training task', link: '/isaac/custom-environment' }
     ]
   }
 ]
@@ -48,53 +81,23 @@ const englishTheme: DefaultTheme.Config = {
   socialLinks: [{ icon: 'github', link: repository }],
   nav: [
     { text: 'Start here', link: '/guide/' },
+    { text: 'Requirements', link: '/guide/installation' },
     { text: 'ROS 2', link: '/ros2/' },
     { text: 'Isaac Sim', link: '/isaac/' },
     {
       text: 'Help',
       items: [
         { text: 'Troubleshooting', link: '/troubleshooting' },
-        { text: 'Frequently asked questions', link: '/faq' },
-        { text: 'Tested setup', link: '/reference/environment' },
-        { text: 'Known limitations', link: '/reference/limitations' }
+        { text: 'FAQ', link: '/faq' }
       ]
     }
   ],
   sidebar: {
     '/troubleshooting': helpSidebar,
     '/faq': helpSidebar,
-    '/guide/': [
-      {
-        text: 'Start here',
-        items: [
-          { text: 'Choose a tutorial', link: '/guide/' },
-          { text: 'Installation', link: '/guide/installation' }
-        ]
-      }
-    ],
-    '/ros2/': [
-      {
-        text: 'ROS 2 tutorial',
-        items: [
-          { text: 'Open MicroDuck in RViz', link: '/ros2/' },
-          { text: 'RViz controls and joints', link: '/ros2/rviz' },
-          { text: 'Run the ROS 2 examples', link: '/ros2/examples' },
-          { text: 'Drive Isaac from ROS 2', link: '/ros2/isaac-control' }
-        ]
-      }
-    ],
-    '/isaac/': [
-      {
-        text: 'Isaac Sim tutorial',
-        items: [
-          { text: 'Open MicroDuck in Isaac Sim', link: '/isaac/' },
-          { text: 'Run one policy', link: '/isaac/policy-playback' },
-          { text: 'Open the skill playground', link: '/isaac/playground' },
-          { text: 'Train a walking policy', link: '/isaac/training' },
-          { text: 'Build another task', link: '/isaac/custom-environment' }
-        ]
-      }
-    ],
+    '/guide/': englishTutorialSidebar,
+    '/ros2/': englishTutorialSidebar,
+    '/isaac/': englishTutorialSidebar,
     '/concepts/': [
       {
         text: 'Concepts',
@@ -103,12 +106,12 @@ const englishTheme: DefaultTheme.Config = {
     ],
     '/reference/': [
       {
-        text: 'Reference',
+        text: 'Contributor notes',
         items: [
-          { text: 'Validated environment', link: '/reference/environment' },
-          { text: 'Validation model', link: '/reference/validation' },
-          { text: 'Recorded results', link: '/reference/results' },
-          { text: 'Known limitations', link: '/reference/limitations' }
+          { text: 'Tested setup', link: '/reference/environment' },
+          { text: 'How this project was tested', link: '/reference/validation' },
+          { text: 'Saved test results', link: '/reference/results' },
+          { text: 'Technical limits', link: '/reference/limitations' }
         ]
       }
     ],
@@ -146,8 +149,41 @@ const chineseHelpSidebar: DefaultTheme.SidebarItem[] = [
     text: '帮助',
     items: [
       { text: '故障排查', link: '/zh/troubleshooting' },
-      { text: '常见问题', link: '/zh/faq' },
-      { text: '已知限制', link: '/zh/reference/limitations' }
+      { text: '常见问题', link: '/zh/faq' }
+    ]
+  }
+]
+
+const chineseTutorialSidebar: DefaultTheme.SidebarItem[] = [
+  {
+    text: '先准备好',
+    items: [
+      { text: '1. 先选一条路线', link: '/zh/guide/' },
+      { text: '2. 看电脑能不能跑', link: '/zh/guide/installation' }
+    ]
+  },
+  {
+    text: '先玩 ROS 2',
+    items: [
+      { text: '3. 把鸭子请进 RViz', link: '/zh/ros2/' },
+      { text: '4. 转镜头、动关节', link: '/zh/ros2/rviz' },
+      { text: '5. 跑几个 ROS 2 例程', link: '/zh/ros2/examples' }
+    ]
+  },
+  {
+    text: '再去 Isaac Sim',
+    items: [
+      { text: '6. 打开 MicroDuck 模型', link: '/zh/isaac/' },
+      { text: '7. 先让鸭子走起来', link: '/zh/isaac/policy-playback' },
+      { text: '8. 玩多动作游乐场', link: '/zh/isaac/playground' }
+    ]
+  },
+  {
+    text: '继续折腾',
+    items: [
+      { text: '9. 用 ROS 2 控制 Isaac', link: '/zh/ros2/isaac-control' },
+      { text: '10. 训练一只会走的鸭', link: '/zh/isaac/training' },
+      { text: '11. 自己做一个训练任务', link: '/zh/isaac/custom-environment' }
     ]
   }
 ]
@@ -158,54 +194,24 @@ const chineseTheme: DefaultTheme.Config = {
   search,
   socialLinks: [{ icon: 'github', link: repository }],
   nav: [
-    { text: '从这里开始', link: '/zh/guide/' },
-    { text: 'ROS 2 教程', link: '/zh/ros2/' },
-    { text: 'Isaac Sim 教程', link: '/zh/isaac/' },
+    { text: '开始玩鸭', link: '/zh/guide/' },
+    { text: '环境要求', link: '/zh/guide/installation' },
+    { text: 'ROS 2', link: '/zh/ros2/' },
+    { text: 'Isaac Sim', link: '/zh/isaac/' },
     {
       text: '遇到问题',
       items: [
         { text: '故障排查', link: '/zh/troubleshooting' },
-        { text: '常见问题', link: '/zh/faq' },
-        { text: '测试环境', link: '/zh/reference/environment' },
-        { text: '已知限制', link: '/zh/reference/limitations' }
+        { text: '常见问题', link: '/zh/faq' }
       ]
     }
   ],
   sidebar: {
     '/zh/troubleshooting': chineseHelpSidebar,
     '/zh/faq': chineseHelpSidebar,
-    '/zh/guide/': [
-      {
-        text: '从这里开始',
-        items: [
-          { text: '今天怎么遛鸭？', link: '/zh/guide/' },
-          { text: '安装需要的软件', link: '/zh/guide/installation' }
-        ]
-      }
-    ],
-    '/zh/ros2/': [
-      {
-        text: 'ROS 2 教程',
-        items: [
-          { text: '把鸭子请进 RViz', link: '/zh/ros2/' },
-          { text: '转转镜头，活动关节', link: '/zh/ros2/rviz' },
-          { text: '跑几个 ROS 2 例程', link: '/zh/ros2/examples' },
-          { text: '用 ROS 2 遥控 Isaac', link: '/zh/ros2/isaac-control' }
-        ]
-      }
-    ],
-    '/zh/isaac/': [
-      {
-        text: 'Isaac Sim 教程',
-        items: [
-          { text: '把鸭子放进 Isaac Sim', link: '/zh/isaac/' },
-          { text: '先放一只鸭开跑', link: '/zh/isaac/policy-playback' },
-          { text: '打开多动作游乐场', link: '/zh/isaac/playground' },
-          { text: '训练一只会走的鸭', link: '/zh/isaac/training' },
-          { text: '自己再造一个训练任务', link: '/zh/isaac/custom-environment' }
-        ]
-      }
-    ],
+    '/zh/guide/': chineseTutorialSidebar,
+    '/zh/ros2/': chineseTutorialSidebar,
+    '/zh/isaac/': chineseTutorialSidebar,
     '/zh/concepts/': [
       {
         text: '概念',
@@ -214,12 +220,12 @@ const chineseTheme: DefaultTheme.Config = {
     ],
     '/zh/reference/': [
       {
-        text: '参考资料',
+        text: '维护者资料',
         items: [
-          { text: '已验证环境', link: '/zh/reference/environment' },
-          { text: '验证体系', link: '/zh/reference/validation' },
-          { text: '验证结果', link: '/zh/reference/results' },
-          { text: '已知限制', link: '/zh/reference/limitations' }
+          { text: '测试过的环境', link: '/zh/reference/environment' },
+          { text: '这个项目怎么测试', link: '/zh/reference/validation' },
+          { text: '保留的测试记录', link: '/zh/reference/results' },
+          { text: '技术边界', link: '/zh/reference/limitations' }
         ]
       }
     ],

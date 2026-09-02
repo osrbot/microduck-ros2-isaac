@@ -1,17 +1,17 @@
 # Open MicroDuck in Isaac Sim
 
-The repository includes a converted MicroDuck USD. You can open it before
-setting up policy playback. No conversion is required.
+The ready-to-open MicroDuck USD is already here. You can open it before setting
+up any policy. You do not need to convert anything.
 
 <div class="md-tutorial-meta" role="list" aria-label="Page overview">
   <div role="listitem"><span>Time</span><strong>8–15 minutes</strong></div>
   <div role="listitem"><span>Environment</span><strong>Isaac Sim</strong></div>
   <div role="listitem"><span>Policies</span><strong>Not required</strong></div>
-  <div role="listitem"><span>Result</span><strong>USD loads and survives Play</strong></div>
+  <div role="listitem"><span>Result</span><strong>USD opens and stays put when you press Play</strong></div>
 </div>
 
 <div class="md-tutorial-goals">
-  <strong>This page checks only the model layer</strong>
+  <strong>You will check the model</strong>
   <ul>
     <li>locate the included top-level USD;</li>
     <li>open the complete stage in Isaac Sim;</li>
@@ -20,7 +20,7 @@ setting up policy playback. No conversion is required.
 </div>
 
 <div class="md-command-steps">
-  <strong>Check the file in Terminal before opening Isaac Sim</strong>
+  <strong>Check the file first</strong>
   <p>Press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd> for terminal A and <code>cd</code> to the repository root. This catches a missing USD or payload before the GUI starts.</p>
 </div>
 
@@ -47,11 +47,11 @@ Press <kbd>Enter</kbd>. The command should immediately print
 `MicroDuck USD: OK` and return to the prompt. No output means at least one path
 is missing, often because the terminal is not at the repository root.
 
-<div class="md-result-label">USD RENDER PREVIEW · CHECK THE APPEARANCE</div>
+<div class="md-result-label">QUICK LOOK · THIS IS THE DUCK</div>
 
 <figure class="md-doc-figure md-usd-figure">
   <div class="md-doc-image-stage"><img src="/images/isaac-usd-preview.webp" alt="Three-quarter rendered preview of the MicroDuck USD included in this repository" width="1200" height="800" loading="lazy"></div>
-  <figcaption><strong>Rendered from the included USD.</strong> Use this preview to identify the model before opening Isaac Sim.</figcaption>
+  <figcaption><strong>This picture comes from the included USD.</strong>Use it to check that you opened the right model.</figcaption>
 </figure>
 
 <div class="md-step-kicker"><span>STEP 2</span><strong>Isaac Sim window</strong></div>
@@ -69,7 +69,7 @@ Launch commands differ between releases, so this step does not ask you to guess
 an install path. In the file picker, use <kbd>Ctrl</kbd>+<kbd>L</kbd> to enter a
 full path or browse from the repository folder.
 
-## Expected result
+## What you should see
 
 - MicroDuck appears as one complete robot rather than loose mesh files.
 - The Stage tree contains the robot body and its joints.
@@ -84,18 +84,16 @@ while assets load; a red asset error, detached body, or disappearance after
 
 <figure class="md-doc-figure">
   <div class="md-doc-image-stage"><img src="/images/isaac-playground-live.webp" alt="MicroDuck, the viewport, and the Stage tree in a real Isaac Lab run" width="1400" height="876" loading="lazy"></div>
-  <figcaption><strong>Use the center viewport and the Stage tree on the right.</strong>This real screenshot comes from this repository's multi-skill playground, not the no-policy open step above, but the panels and checks are the same. After opening the top-level USD, confirm the complete duck in the viewport and a clean robot hierarchy in Stage.</figcaption>
+  <figcaption><strong>Look at the center view and the Stage tree on the right.</strong>This real picture comes from the skill playground, but the panels are the same. You should see one full duck and no broken links in the Stage tree.</figcaption>
 </figure>
 
 <div class="md-checkpoint">
-  <strong>Model-layer check passed</strong>
+  <strong>The model looks good!</strong>
   <p>The stage hierarchy, appearance, and articulation are intact after <strong>Play</strong>. No policy or training has run yet.</p>
 </div>
 
-Opening the stage is enough for viewing and screenshots. Next, run
-[one walking policy](./policy-playback), open the
-[multi-skill playground](./playground), or start
-[native Isaac Lab training](./training).
+Opening the stage is enough for viewing and screenshots. Follow the next page
+to run one walking policy before you open the multi-skill playground.
 
 ## The model does not appear
 
@@ -104,26 +102,7 @@ Opening the stage is enough for viewing and screenshots. Next, run
 - Check the Isaac Sim console for a missing relative asset path.
 - If the viewport is blank, frame the selected robot with <kbd>F</kbd>.
 
-::: details For contributors: rebuild the USD from the upstream MJCF
-The included USD is ready for the tutorial. Rebuild it only when changing the
-source model or conversion code:
-
-```bash
-./scripts/fetch_upstream.sh
-export ISAACLAB_DIR=/path/to/IsaacLab
-./scripts/convert_mjcf_to_usd.sh
-```
-
-The script converts the model, applies the project collision adjustment, and
-updates the asset under `assets/isaac/`.
-:::
-
 <div class="md-page-complete">
-  <strong>The USD is stable.</strong>
-  <p>Run one walking policy next for the easiest runtime check, or open the playground if your policy environment already works.</p>
-</div>
-
-<div class="md-next-grid">
-  <a class="md-next-card" href="/microduck-ros2-isaac/isaac/policy-playback"><span>RECOMMENDED NEXT</span><strong>Replay one walking policy →</strong><p>Check ONNX, physics, progress output, and the follow camera.</p></a>
-  <a class="md-next-card" href="/microduck-ros2-isaac/isaac/playground"><span>ALREADY FAMILIAR</span><strong>Open the multi-skill playground →</strong><p>Walk, sit, kick, ground-pick, and roll.</p></a>
+  <strong>The duck is standing. Now make it move!</strong>
+  <p>The next page runs one walking policy. It is the quickest way to check that Isaac, ONNX Runtime, and the model work together.</p>
 </div>

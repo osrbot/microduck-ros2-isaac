@@ -1,60 +1,56 @@
-# Start here: choose your duck run
+# Start here: pick your first route
 
-You do not need to install every tool or read every page. Pick the result you want today, finish one route, then decide
-whether to keep going.
+First visit? Follow the pages in order. We check your computer before the first
+command, start with the lighter ROS 2 route, and move into Isaac Sim after that.
 
 <div class="md-tutorial-meta" role="list" aria-label="Page overview">
   <div role="listitem"><span>Reading time</span><strong>3 minutes</strong></div>
   <div role="listitem"><span>For</span><strong>First-time visitors</strong></div>
   <div role="listitem"><span>Terminals</span><strong>None yet</strong></div>
-  <div role="listitem"><span>You leave with</span><strong>One clear starting route</strong></div>
+  <div role="listitem"><span>Next</span><strong>Check your computer</strong></div>
 </div>
 
-## Pick one route
-
-<div class="md-route-grid">
-  <a class="md-route-card md-route-orange" href="/microduck-ros2-isaac/ros2/">
-    <span>ROUTE 1 · 10–15 MIN · RECOMMENDED</span>
-    <strong>Start with ROS 2</strong>
-    <p>Open the complete model in RViz, move all 14 joints, then run the nod, step, and bow demo. Isaac Sim is not required.</p>
-  </a>
-  <a class="md-route-card md-route-aqua" href="/microduck-ros2-isaac/isaac/">
-    <span>ROUTE 2 · 20–30 MIN</span>
-    <strong>Continue in Isaac Sim</strong>
-    <p>Open the included USD, replay a walking policy, then use the playground for sitting, kicking, ground pick, and rolling.</p>
-  </a>
-  <a class="md-route-card md-route-pink" href="/microduck-ros2-isaac/ros2/isaac-control">
-    <span>ROUTE 3 · 25–40 MIN</span>
-    <strong>Drive Isaac from ROS 2</strong>
-    <p>Use three terminals to send ROS commands into Isaac and return the live pose to RViz.</p>
-  </a>
-</div>
-
-## Not sure? Use this order
-
-1. **ROS 2 first.** Check the model, meshes, joints, and TF with the lightest setup.
-2. **One Isaac policy next.** Check the GPU, Vulkan, Isaac Sim, and a released policy together.
-3. **Open the playground.** Switch skills from the keyboard and learn what is already available.
-4. **Train last.** Run the five-iteration smoke test before spending hours on a full experiment.
-
-Each stage has a visible pass condition. If something breaks, you know whether the issue belongs to ROS, rendering,
-policy playback, or training.
-
-## Minimum setup by route
+## Check your computer first
 
 | Route | You need | You do not need yet |
 | --- | --- | --- |
-| ROS 2 / RViz | Ubuntu 24.04 and ROS 2 Jazzy | NVIDIA GPU or Isaac Sim |
-| Open the USD | Linux and Isaac Sim | USD conversion |
-| Policy playground | Isaac Sim, Isaac Lab, NVIDIA GPU | Training your own policy |
-| Native training | Isaac Sim, Isaac Lab, enough VRAM | Physical hardware or a sim-to-real claim |
+| ROS 2 and RViz | Ubuntu 24.04 and ROS 2 Jazzy | NVIDIA GPU or Isaac Sim |
+| Isaac Sim | Ubuntu 24.04, NVIDIA GPU, Isaac Sim | A real robot |
+| Isaac Lab policies and training | Isaac Sim and Isaac Lab | A physical MicroDuck or a sim-to-real setup |
 
-<div class="md-page-complete">
-  <strong>Route chosen? Move on.</strong>
-  <p>The setup page starts with terminal shortcuts, copy and paste, and opening another window, then gives separate ROS 2 and Isaac pass checks.</p>
+The fully tested Isaac setup is **Isaac Sim 6.0.1 standalone + Isaac Lab 3.0.0
+beta 2**. Other versions may work, but start with the [full requirements and
+checks](./installation) before chasing an Isaac error.
+
+## Which route should you take?
+
+<div class="md-route-grid md-route-grid-two">
+  <div class="md-route-card md-route-orange">
+    <span>ROUTE 1 · RECOMMENDED</span>
+    <strong>Start with ROS 2</strong>
+    <p>See the whole duck in RViz, move all 14 joints, then try the ready-made motion examples. No Isaac Sim needed.</p>
+  </div>
+  <div class="md-route-card md-route-aqua">
+    <span>ROUTE 2 · AFTER ROS 2</span>
+    <strong>Move on to Isaac Sim</strong>
+    <p>Open the included USD, play one walking policy, then try the keyboard playground and training.</p>
+  </div>
 </div>
 
-<div class="md-next-grid">
-  <a class="md-next-card" href="/microduck-ros2-isaac/guide/installation"><span>NEXT FOR EVERY ROUTE</span><strong>Install and check the environment →</strong><p>Learn the terminal keys, clone the repository, and check ROS 2 or Isaac Lab.</p></a>
-  <a class="md-next-card" href="/microduck-ros2-isaac/ros2/"><span>ALREADY SET UP</span><strong>Open MicroDuck in RViz →</strong><p>Build the description package, inspect the model, and move a joint.</p></a>
+## The simple order
+
+1. **Check the computer and install only what your route needs.**
+2. **Try ROS 2 first.** It is faster to set up and easier to troubleshoot.
+3. **Open Isaac Sim next.** Start with the included USD, then add policies.
+4. **Train last.** Run the short five-iteration check before a long job.
+
+::: tip No real robot is needed
+This tutorial is for simulation, learning, and open-source demos. The ROS 2
+examples are not a hardware driver, and an Isaac checkpoint is not ready for a
+physical robot without separate work and testing.
+:::
+
+<div class="md-page-complete">
+  <strong>Route picked? Good.</strong>
+  <p>Use the single “Next page” button below. It checks your computer and shows the terminal shortcuts before the first real command.</p>
 </div>
