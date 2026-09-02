@@ -6,8 +6,27 @@
 这条路线已经在 Ubuntu 24.04、ROS 2 Jazzy、Isaac Sim 6.0.1 standalone 和 Isaac Lab 3.0.0 beta 2
 上完整跑过。下面的图片也是这次实际运行留下的，不是示意图。
 
-::: tip 第一次玩鸭？
-先把三个终端都切到仓库根目录。A、B、C 只是方便叫名字，不需要三台电脑。
+<div class="md-tutorial-meta" role="list" aria-label="本页概览">
+  <div role="listitem"><span>预计时间</span><strong>25–40 分钟</strong></div>
+  <div role="listitem"><span>前置环境</span><strong>ROS 2 + Isaac 已分别跑通</strong></div>
+  <div role="listitem"><span>终端数量</span><strong>A、B、C 共 3 个</strong></div>
+  <div role="listitem"><span>完成结果</span><strong>ROS 指令与 Isaac 状态闭环</strong></div>
+</div>
+
+<div class="md-terminal-map" role="list" aria-label="三终端分工">
+  <div role="listitem"><strong>终端 A · Isaac</strong><p>运行多动作游乐场，窗口与物理循环一直保留。</p></div>
+  <div role="listitem"><strong>终端 B · Bridge</strong><p>运行 ROS bridge、Robot State Publisher 与 RViz。</p></div>
+  <div role="listitem"><strong>终端 C · 命令</strong><p>发布速度、绝活、头部和 reset 指令，观察返回 topic。</p></div>
+</div>
+
+<div class="md-command-steps">
+  <strong>先把三个窗口摆好，再放鸭</strong>
+  <p>按 <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd> 打开终端 A，再按两次 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd> 得到 B、C。三个窗口都用 <code>cd /你的路径/microduck-ros2-isaac</code> 进入仓库根目录。A、B、C 只是窗口标签，不是三台电脑。</p>
+</div>
+
+::: tip 屏幕放不下三个窗口？
+用 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> 开三个标签页也可以。建议把标签页重命名为 `A-Isaac`、
+`B-Bridge`、`C-Command`，避免把停止命令发错窗口。
 :::
 
 ## 开始前：把公开策略准备好
@@ -24,7 +43,7 @@ export ISAACLAB_DIR=/path/to/IsaacLab
 
 ## 1. 先把 ROS 2 小桥搭好
 
-终端 B 运行：
+切到终端 B 运行：
 
 ```bash
 cd ros2_ws
@@ -53,6 +72,8 @@ Summary: 2 packages finished
 第一次启动要加载扩展，等一会儿很正常。看到完整的 MicroDuck、地面和黄色小球，就说明模型、物理和
 公开策略都已经进场。这个终端先别关。
 
+<div class="md-result-label">真实运行截图 · 终端 A 启动成功</div>
+
 <figure class="md-doc-figure">
   <div class="md-doc-image-stage"><img src="/images/isaac-playground-live.webp" alt="MicroDuck 多动作游乐场在 Isaac Lab 中实际运行的窗口" width="1400" height="876" loading="lazy"></div>
   <figcaption><strong>终端 A 跑起来以后应该长这样。</strong>鸭子和球都在场，视口会跟着机器人移动；图片来自本项目的真实 GUI 测试。</figcaption>
@@ -63,7 +84,8 @@ Isaac 窗口——两只鸭抢同一块显卡，事情通常不会更简单。
 
 ## 3. 终端 B：打开 bridge 和 RViz
 
-新开一个终端：
+回到刚才构建成功的终端 B。它应该位于仓库根目录；如果你关掉了它，就按
+<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd> 重开并 `cd` 回仓库：
 
 ```bash
 source /opt/ros/jazzy/setup.bash
@@ -82,6 +104,8 @@ rviz2
 RViz 会接收 Isaac 发来的 14 个关节位置和 `world → base_link` 位姿。这里显示的是仿真器正在发生的
 动作，不是 Joint State Publisher 的手工滑块。
 
+<div class="md-result-label">真实运行截图 · 终端 B 的 bridge 接通后</div>
+
 <figure class="md-doc-figure">
   <div class="md-doc-image-stage"><img src="/images/ros-isaac-rviz-live.webp" alt="RViz 中完整显示由 Isaac 实时驱动的 MicroDuck" width="1400" height="900" loading="lazy"></div>
   <figcaption><strong>bridge 接通后，RViz 里应该是一只完整的鸭。</strong>头、颈、身体、两条腿和两只脚都在；左侧的 MicroDuck 和 Ground grid 状态正常。</figcaption>
@@ -95,7 +119,7 @@ RViz 会接收 Isaac 发来的 14 个关节位置和 `world → base_link` 位�
 
 ## 4. 终端 C：让它走两步
 
-再开一个终端并加载 ROS 环境：
+切到终端 C（还没有就按 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd> 新开），加载 ROS 环境：
 
 ```bash
 source /opt/ros/jazzy/setup.bash
@@ -109,12 +133,16 @@ ros2 topic pub -r 10 --times 40 /cmd_vel geometry_msgs/msg/Twist \
   "{linear: {x: 0.30, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}"
 ```
 
+终端会打印 `publisher: beginning loop` 和发布次数，4 秒左右自动回到提示符。此时才执行停车命令。
+
 走完记得停车：
 
 ```bash
 ros2 topic pub --once /cmd_vel geometry_msgs/msg/Twist \
   "{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}"
 ```
+
+<div class="md-result-label">真实运行截图 · 前进与转向命令</div>
 
 <div class="md-runtime-grid">
   <figure class="md-doc-figure">
@@ -155,6 +183,8 @@ ros2 topic pub --once /microduck/behavior std_msgs/msg/String \
 
 踢球动作只有约半秒，前滚约一秒。一个动作还没做完时，不要马上塞进另一个绝活；运行器会拒绝硬切，
 免得鸭子半个前滚突然决定踢球。
+
+<div class="md-result-label">真实运行截图 · sitstand 命令</div>
 
 <figure class="md-doc-figure">
   <div class="md-doc-image-stage"><img src="/images/isaac-action-sit.webp" alt="MicroDuck 接收 sitstand 命令后在 Isaac 中降低身体" width="1200" height="750" loading="lazy"></div>
@@ -228,6 +258,9 @@ ros2 topic echo --once /joint_states
 ros2 topic echo /microduck/policy_state
 ```
 
+这条命令会持续等新消息，不会自己结束。观察完站立、行走或绝活切换后，按
+<kbd>Ctrl</kbd>+<kbd>C</kbd> 回到提示符。
+
 站稳时会看到类似：
 
 ```yaml
@@ -244,6 +277,9 @@ data: '{"policy":"standing","upright":true,"tilt_rad":0.0026}'
 ```bash
 ./scripts/validate_ros_isaac_e2e.sh
 ```
+
+这条自检会自己启动和关闭 headless 进程。等待它回到提示符再看结论；中途按
+<kbd>Ctrl</kbd>+<kbd>C</kbd> 只能说明你中断了测试，不能算通过。
 
 脚本会启动真实的 headless Isaac 游乐场，从 ROS 2 发送 `kick_left`，再等 JointState、策略状态、upright
 和 TF 回来。通过时应满足：
@@ -269,5 +305,12 @@ data: '{"policy":"standing","upright":true,"tilt_rad":0.0026}'
 bridge 正常退出时会显示 `process has finished cleanly`，不应该留下
 `ExternalShutdownException` traceback。端口占用报错时，也先确认是不是上一只鸭还没退场。
 
-这条链跑通后，可以回到[多动作游乐场](/zh/isaac/playground)继续用键盘玩，也可以去
-[训练一只会走的鸭](/zh/isaac/training)，开始自己的强化学习实验。
+<div class="md-page-complete">
+  <strong>三终端闭环完成。</strong>
+  <p>你已经看到 ROS 命令进入 Isaac、14 关节与位姿回到 RViz，并学会正常关闭三个进程。下一步可以继续做交互演示，也可以把控制对象换成自己的训练策略。</p>
+</div>
+
+<div class="md-next-grid">
+  <a class="md-next-card" href="/microduck-ros2-isaac/zh/isaac/playground"><span>继续互动</span><strong>回到多动作游乐场 →</strong><p>用键盘切动作，适合直播与录屏。</p></a>
+  <a class="md-next-card" href="/microduck-ros2-isaac/zh/isaac/training"><span>继续开发</span><strong>训练自己的平地策略 →</strong><p>跑通 smoke、曲线、checkpoint 和回放闭环。</p></a>
+</div>

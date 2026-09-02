@@ -1,4 +1,55 @@
-# Install what you need
+# Install and check the environment
+
+This page prepares the repository and verifies one route at a time. ROS 2 and Isaac are independent; complete only the
+section you need.
+
+<div class="md-tutorial-meta" role="list" aria-label="Page overview">
+  <div role="listitem"><span>ROS 2 setup</span><strong>10–20 minutes</strong></div>
+  <div role="listitem"><span>Isaac setup</span><strong>About 10 minutes after install</strong></div>
+  <div role="listitem"><span>Run in</span><strong>A Linux terminal</strong></div>
+  <div role="listitem"><span>Pass condition</span><strong>All checks print OK</strong></div>
+</div>
+
+<div class="md-tutorial-goals">
+  <strong>By the end, you will</strong>
+  <ul>
+    <li>clone the repository and verify the working directory;</li>
+    <li>prepare ROS 2 Jazzy and colcon, or confirm the Isaac Lab launcher;</li>
+    <li>fetch released policies and install project-local ONNX Runtime when needed;</li>
+    <li>catch environment problems before opening a GUI.</li>
+  </ul>
+</div>
+
+## New to terminals? Learn these keys first
+
+Run the commands on an **Ubuntu desktop** in the Terminal app. This is not the
+Isaac Sim Console and not the browser address bar.
+
+<div class="md-terminal-school">
+  <strong>Ubuntu terminal shortcuts</strong>
+  <p>Open, duplicate, paste, and stop are enough for the whole tutorial.</p>
+  <div class="md-shortcut-grid" role="list" aria-label="Ubuntu terminal shortcuts">
+    <div role="listitem"><strong><kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd></strong><p>Open the first terminal window.</p></div>
+    <div role="listitem"><strong><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>N</kbd></strong><p>Open another window for terminal B or C.</p></div>
+    <div role="listitem"><strong><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd></strong><p>Open a tab in the current window.</p></div>
+    <div role="listitem"><strong><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd></strong><p>Paste a copied command into the terminal.</p></div>
+    <div role="listitem"><strong><kbd>Ctrl</kbd> + <kbd>C</kbd></strong><p>Stop the running program. It does not copy in a terminal.</p></div>
+    <div role="listitem"><strong><kbd>Ctrl</kbd> + <kbd>L</kbd></strong><p>Clear the visible text without stopping the program.</p></div>
+  </div>
+</div>
+
+::: tip If the shortcut is captured by Remote Desktop
+Open **Activities**, search for **Terminal**, and launch it there. Use
+**File → New Window** when you need another one. “Terminal A, B, and C” are only
+labels; one computer is enough.
+:::
+
+<div class="md-command-steps">
+  <strong>Run every code block this way</strong>
+  <p>Use the copy button → return to Terminal → press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd> → press <kbd>Enter</kbd>. A short command is finished when the <code>user@computer:folder$</code> prompt returns. A command that opens RViz or Isaac keeps running, so leave that terminal open.</p>
+</div>
+
+<div class="md-step-kicker"><span>STEP 1</span><strong>Terminal A · Ctrl + Alt + T</strong></div>
 
 ## Clone the repository
 
@@ -7,11 +58,26 @@ git clone https://github.com/osrbot/microduck-ros2-isaac.git
 cd microduck-ros2-isaac
 ```
 
-The ROS 2 package and Isaac USD are included. No conversion is required.
+The first line downloads the repository and the second enters it. Wait for the
+prompt to return before running the check below.
 
-## For the ROS 2 tutorial
+Verify the directory:
 
-The commands below are for Ubuntu 24.04 with ROS 2 Jazzy:
+```bash
+test -f README.md && test -d ros2_ws && test -d assets/isaac \
+  && echo "MicroDuck repository: OK"
+```
+
+<div class="md-checkpoint">
+  <strong>Continue when this passes</strong>
+  <p>The terminal prints <code>MicroDuck repository: OK</code>. The ROS package and Isaac USD are already included; first-time users do not regenerate them.</p>
+</div>
+
+<div class="md-step-kicker"><span>STEP 2A</span><strong>ROS 2 route only</strong></div>
+
+## Prepare ROS 2 Jazzy
+
+These commands target Ubuntu 24.04 with the official ROS apt source already configured:
 
 ```bash
 sudo apt update
@@ -22,40 +88,95 @@ sudo apt install \
   python3-colcon-common-extensions
 ```
 
-After installation, continue with [Open MicroDuck in RViz](/ros2/).
+When `sudo` asks for your password, the terminal shows no dots or asterisks.
+Type it and press <kbd>Enter</kbd>. Continue after the prompt returns without an
+error starting with `E:`.
 
-## For the Isaac Sim tutorial
+Load and check the tools:
 
-Install NVIDIA Isaac Sim and Isaac Lab first. This project was tested with:
+```bash
+source /opt/ros/jazzy/setup.bash
+echo "ROS_DISTRO=$ROS_DISTRO"
+command -v ros2
+command -v colcon
+```
 
-- Ubuntu 24.04;
-- Isaac Sim 6.0.1 standalone;
-- Isaac Lab 3.0.0 beta 2;
-- an NVIDIA GPU with a working driver and Vulkan setup;
-- `git`, `bash`, Python 3.12, and `uv`.
+A successful `source` command normally prints nothing; the next three lines are
+the checks that should produce output.
 
-If your Isaac Lab checkout is not at `~/rlgpu_ws/IsaacLab`, tell the scripts
-where it is:
+<div class="md-checkpoint">
+  <strong>ROS 2 is ready</strong>
+  <p>The first line says <code>ROS_DISTRO=jazzy</code>; the next two lines print paths for <code>ros2</code> and <code>colcon</code>.</p>
+</div>
+
+::: tip Source each new terminal
+`source /opt/ros/jazzy/setup.bash` affects only the current shell. The tutorials repeat every required source command.
+:::
+
+<div class="md-step-kicker"><span>STEP 2B</span><strong>Isaac route only</strong></div>
+
+## Check Isaac Sim and Isaac Lab
+
+The fully tested setup is Ubuntu 24.04, Isaac Sim 6.0.1 standalone, Isaac Lab 3.0.0 beta 2, and an NVIDIA GPU with
+working drivers and Vulkan.
+
+If Isaac Lab is not at `~/rlgpu_ws/IsaacLab`, set its path:
 
 ```bash
 export ISAACLAB_DIR=/path/to/IsaacLab
 ```
 
-For single-policy playback or the skill playground, fetch the released policy
-files and install ONNX Runtime in the project-local environment:
+Replace `/path/to/IsaacLab` with the real directory on your computer, for
+example `/home/duck/rlgpu_ws/IsaacLab`. Do not paste the placeholder unchanged.
+
+Check the GPU and launcher:
+
+```bash
+nvidia-smi
+test -x "${ISAACLAB_DIR:-$HOME/rlgpu_ws/IsaacLab}/isaaclab.sh" \
+  && echo "Isaac Lab launcher: OK"
+```
+
+Fix the path if the second command does not print `OK`. Reopening Isaac will not repair a missing launcher.
+
+## Fetch policies and local dependencies
+
+From the repository root:
 
 ```bash
 ./scripts/fetch_upstream.sh
 ./scripts/setup_isaac_python_env.sh
 ```
 
-These commands create ignored `reference/` and `work/` directories inside the
-project. They do not modify your Isaac Lab checkout.
+The scripts create ignored `reference/` and `work/` directories inside this project. They do not modify Isaac Lab.
 
-Continue with [Open MicroDuck in Isaac Sim](/isaac/). The native training task
-does not require ONNX Runtime, but uses the same Isaac Sim and Isaac Lab setup.
+```bash
+test -d reference/microduck && echo "Upstream assets: OK"
+test -d work/isaac_python_pkgs/onnxruntime && echo "ONNX Runtime: OK"
+```
 
-::: tip Other versions may work
-The list above is the tested setup. With another Isaac release, open the USD
-before trying policy playback.
-:::
+<div class="md-checkpoint">
+  <strong>Policy playback is ready</strong>
+  <p>Both checks print <code>OK</code>. You may skip this section when you only want to open the included USD.</p>
+</div>
+
+## Fast troubleshooting
+
+| Symptom | Check first |
+| --- | --- |
+| `ros2: command not found` | Source `/opt/ros/jazzy/setup.bash` in this terminal |
+| `colcon: command not found` | Install `python3-colcon-common-extensions` |
+| Isaac Lab launcher missing | Point `ISAACLAB_DIR` at the directory containing `isaaclab.sh` |
+| `nvidia-smi` fails | Repair the NVIDIA driver or host GPU access |
+| Released policy missing | Rerun `fetch_upstream.sh` and check the download |
+| ONNX Runtime missing | Run `setup_isaac_python_env.sh` from the repository root |
+
+<div class="md-page-complete">
+  <strong>Environment ready.</strong>
+  <p>The next pages start with a small build or USD check and state the expected output after every command.</p>
+</div>
+
+<div class="md-next-grid">
+  <a class="md-next-card" href="/microduck-ros2-isaac/ros2/"><span>LIGHTWEIGHT START</span><strong>Open MicroDuck in RViz →</strong><p>Build, launch, inspect the complete model, and move all 14 joints.</p></a>
+  <a class="md-next-card" href="/microduck-ros2-isaac/isaac/"><span>NVIDIA ROUTE</span><strong>Open MicroDuck in Isaac Sim →</strong><p>Load the included USD and verify the articulation.</p></a>
+</div>

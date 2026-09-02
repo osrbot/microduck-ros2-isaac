@@ -1,52 +1,65 @@
 # 从这里开始：今天怎么遛鸭？
 
-这份教程先分两条入口：在 RViz 里打个招呼，或者直接把鸭子放进 Isaac Sim。Isaac 路线里面再分成
-现成动作游乐场和从头训练。挑一条顺眼的走，不用为了看个模型先把整本说明书背下来。
+不用从头读到尾，也不用先装齐 ROS 2、Isaac Sim 和一大筐工具。先选今天想看到的结果，走完一条，
+再决定要不要继续加戏。
 
-## 路线一：先在 RViz 打个招呼
+<div class="md-tutorial-meta" role="list" aria-label="本页概览">
+  <div role="listitem"><span>阅读时间</span><strong>3 分钟</strong></div>
+  <div role="listitem"><span>适合谁</span><strong>第一次打开仓库的人</strong></div>
+  <div role="listitem"><span>需要终端</span><strong>先不用</strong></div>
+  <div role="listitem"><span>读完得到</span><strong>一条明确的起跑路线</strong></div>
+</div>
 
-适合下面这些目标：
+## 三条路线，挑一条开玩
 
-- 在 RViz 里看到完整的 MicroDuck；
-- 旋转、缩放和平移镜头；
-- 用滑块移动机器人的关节；
-- 把 description 包用到其他 ROS 2 项目中。
+<div class="md-route-grid">
+  <a class="md-route-card md-route-orange" href="/microduck-ros2-isaac/zh/ros2/">
+    <span>路线 1 · 10–15 分钟 · 最推荐</span>
+    <strong>先玩 ROS 2</strong>
+    <p>在 RViz 里看到完整模型，用滑块活动 14 个关节，再跑点头、踏步和鞠躬例程。不需要 Isaac Sim。</p>
+  </a>
+  <a class="md-route-card md-route-aqua" href="/microduck-ros2-isaac/zh/isaac/">
+    <span>路线 2 · 20–30 分钟</span>
+    <strong>再去 Isaac Sim</strong>
+    <p>打开仓库自带 USD，回放行走策略，再进多动作游乐场切换坐起、踢球、捡球和前滚。</p>
+  </a>
+  <a class="md-route-card md-route-pink" href="/microduck-ros2-isaac/zh/ros2/isaac-control">
+    <span>路线 3 · 25–40 分钟</span>
+    <strong>让 ROS 2 指挥 Isaac</strong>
+    <p>三个终端完成 ROS 命令、Isaac 动作和 RViz 状态回传的闭环，适合演示、录屏和继续开发。</p>
+  </a>
+</div>
 
-需要 Ubuntu 24.04 和 ROS 2 Jazzy，不需要 Isaac Sim。
+## 不知道选哪个？照这个顺序
 
-**完成后的样子：**MicroDuck 会稳稳站在 RViz 中央。打开 GUI 后，另一个窗口可以控制
-14 个关节。
+1. **先走 ROS 2 路线。** 安装轻、反馈快，先确认模型、网格、关节和 TF 都正常。
+2. **再走 Isaac 单策略路线。** 确认显卡、Vulkan、Isaac Sim 和公开策略能一起跑。
+3. **然后进多动作游乐场。** 用键盘切动作，先把现成能力玩明白。
+4. **最后再训练。** 先做 5 轮 smoke，确认任务、PPO 和 checkpoint 流水线，再开正式实验。
 
-[开始 ROS 2 教程 →](/zh/ros2/)
+这样每一步都有清楚的成功画面。某一步出错时，也知道问题停在哪一层，不会把 ROS、渲染、策略和训练
+搅成一锅鸭汤。
 
-## 路线二：放进 Isaac Sim 遛两圈
+## 开始前只确认这几件事
 
-适合下面这些目标：
+| 你想走的路线 | 最低准备 | 不需要先做什么 |
+| --- | --- | --- |
+| ROS 2 / RViz | Ubuntu 24.04、ROS 2 Jazzy | 不需要 NVIDIA 显卡，不需要 Isaac |
+| Isaac 查看模型 | Linux、Isaac Sim | 不需要重新转换 USD |
+| 策略游乐场 | Isaac Sim、Isaac Lab、NVIDIA GPU | 不需要先训练策略 |
+| 原生训练 | Isaac Sim、Isaac Lab、足够显存 | 不需要真机，不承诺直接 sim2real |
 
-- 打开仓库自带的 MicroDuck USD；
-- 在 Isaac Sim 里查看机器人；
-- 运行已经发布的站立或行走策略；
-- 切换坐起、低头碰地、踢球和前滚；
-- 用原生 Isaac Lab 环境跑一次 PPO 训练；
-- 录制一段仿真视频或做直播演示。
+::: tip 真机暂时不在这条路线里
+当前教程以仿真、教学和开源演示为主。ROS 2 例程不等于真机驱动，Isaac checkpoint 也不等于可以直接
+下发到实体机器人。我们会把每一层证据写清楚，不让鸭子替我们吹牛。
+:::
 
-需要 Linux、支持的 NVIDIA 显卡、Isaac Sim 和 Isaac Lab。
+<div class="md-page-complete">
+  <strong>路线选好了，就别继续在目录口徘徊。</strong>
+  <p>下一页先把仓库和对应环境准备好；从“怎么打开终端、怎么粘贴、怎么新开窗口”开始，再分别给 ROS 2 与 Isaac 的命令、检查方法和成功标志。</p>
+</div>
 
-**完成后的样子：**MicroDuck 会落到 Isaac Sim 的地面上，能用键盘切动作；训练路线还会产出自己的
-checkpoint。
-
-[开始 Isaac Sim 教程 →](/zh/isaac/)
-
-## 路线三：ROS 2 和 Isaac 一起开
-
-模型已经分别跑通，想看 ROS 命令怎样真的传进 Isaac，再把姿态同步回 RViz，就走这条三终端路线。
-页面里已经配好每一步命令、预期画面、动作示例和一键闭环测试。
-
-[用 ROS 2 遥控 Isaac 里的鸭子 →](/zh/ros2/isaac-control)
-
-## 先别管那些维护工具
-
-仓库里还有模型转换脚本、检查工具和 JSON 测试记录。它们是给修改模型和维护项目时使用的，
-不是入门门票。第一次来，直接从已经准备好的 ROS 包或 USD 开始，先把鸭子玩起来。
-
-下一步：[安装当前路线需要的软件](./installation)。
+<div class="md-next-grid">
+  <a class="md-next-card" href="/microduck-ros2-isaac/zh/guide/installation"><span>所有路线的下一站</span><strong>安装与环境检查 →</strong><p>先学终端快捷键，再克隆仓库并检查 ROS 2 或 Isaac Lab。</p></a>
+  <a class="md-next-card" href="/microduck-ros2-isaac/zh/ros2/"><span>环境已经准备好</span><strong>直接把鸭子请进 RViz →</strong><p>构建 description 包，打开模型，再拖动关节。</p></a>
+</div>

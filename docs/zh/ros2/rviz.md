@@ -1,5 +1,17 @@
 # 转转镜头，活动一下关节
 
+这一页专门解决两件事：怎么把 RViz 镜头拖听话，以及模型看起来缺件时应该按什么顺序查。先确认画面，
+再确认关节消息，不靠重启碰运气。
+
+<div class="md-tutorial-meta" role="list" aria-label="本页概览">
+  <div role="listitem"><span>预计时间</span><strong>8–12 分钟</strong></div>
+  <div role="listitem"><span>前置结果</span><strong>RViz 已能启动</strong></div>
+  <div role="listitem"><span>需要窗口</span><strong>RViz + 1 个终端</strong></div>
+  <div role="listitem"><span>完成结果</span><strong>镜头、关节和网格都可检查</strong></div>
+</div>
+
+<div class="md-step-kicker"><span>步骤 1</span><strong>RViz 窗口</strong></div>
+
 ## 先围着鸭子转一圈
 
 仓库自带的 RViz 配置默认选择 **Move Camera**：
@@ -7,6 +19,13 @@
 - 左键拖动：绕机器人旋转；
 - 鼠标滚轮：缩放；
 - 中键拖动：平移。
+
+<div class="md-result-label">真实运行截图 · 镜头旋转并拉近后</div>
+
+<figure class="md-doc-figure">
+  <div class="md-doc-image-stage"><img src="/images/ros-isaac-rviz-camera.webp" alt="RViz Orbit 镜头旋转、缩放后的 MicroDuck 近景" width="1400" height="900" loading="lazy"></div>
+  <figcaption><strong>镜头操作成功时，机器人不会散架，只是观察角度在变。</strong>这张来自联调时的实际 RViz 画面；左侧 Distance、Yaw 和 Pitch 都已经随着拖动发生变化。</figcaption>
+</figure>
 
 如果远程桌面不能把 RViz 最大化，可以直接全屏启动：
 
@@ -17,13 +36,29 @@ ros2 launch microduck_description view_microduck.launch.py \
 
 直接拖机器人不会改变关节，关节要用滑块控制。
 
+<div class="md-checkpoint">
+  <strong>镜头操作正常</strong>
+  <p>左键能绕机器人旋转，滚轮能拉近拉远，中键能平移。若拖动没有反应，先确认顶部工具栏选中的是 <strong>Move Camera</strong>。</p>
+</div>
+
+<div class="md-step-kicker"><span>步骤 2</span><strong>终端 · ros2_ws 已 source</strong></div>
+
 ## 再让它动起来
+
+如果原来的 launch 还在运行，先回到那个终端按 <kbd>Ctrl</kbd>+<kbd>C</kbd>，等日志停止，再执行：
 
 ```bash
 ros2 launch microduck_description view_microduck.launch.py use_gui:=true
 ```
 
 可以逐个移动滑块，也可以点击 **Randomize** 快速演示。当前公开仿真模型包含 14 个可动关节。
+
+<div class="md-checkpoint">
+  <strong>关节操作正常</strong>
+  <p>拖动一个滑块时，只有对应关节链发生变化；把滑块归零后，姿态能回到容易辨认的默认位置。</p>
+</div>
+
+<div class="md-step-kicker"><span>步骤 3</span><strong>只在画面异常时执行</strong></div>
 
 ## 鸭子看起来少了块零件？
 
@@ -48,9 +83,12 @@ ros2 launch microduck_description view_microduck.launch.py use_gui:=true
 
 不要用 collision 网格去“补”缺失的 visual。碰撞网格本来就是更简单的调试模型。
 
+<div class="md-step-kicker"><span>步骤 4</span><strong>新终端 · 检查 ROS 消息</strong></div>
+
 ## 滑块动了，鸭子却没动？
 
-打开另一个终端，source workspace，然后检查关节消息：
+保持 RViz 和滑块窗口运行。在原终端按 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd> 打开另一个窗口，
+source workspace，然后检查关节消息：
 
 ```bash
 cd ros2_ws
@@ -58,6 +96,9 @@ source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 topic echo /joint_states --once
 ```
+
+命令会在收到一帧数据后自动结束。看到 `name:` 与 `position:` 就说明消息已经到达；它一直等着不返回时，
+才需要检查 Joint State Publisher 是否仍在运行。
 
 如果没有消息，重新使用 `use_gui:=true` 启动，并查看 Joint State Publisher 终端的错误。
 
@@ -70,4 +111,12 @@ ros2 launch microduck_description view_microduck.launch.py \
 
 随后在 RobotModel 中打开 **Collision Enabled**。正常查看时建议关闭，否则 RViz 会更卡。
 
-如果仍然卡顿或网格路径持续报错，继续看[故障排查](/zh/troubleshooting)。
+<div class="md-page-complete">
+  <strong>RViz 这关检查完了。</strong>
+  <p>镜头能拖、14 关节消息能读、visual 网格完整，就可以把问题从“模型显示”推进到“自动动作”或“Isaac 联动”。</p>
+</div>
+
+<div class="md-next-grid">
+  <a class="md-next-card" href="/microduck-ros2-isaac/zh/ros2/examples"><span>继续玩</span><strong>运行 ROS 2 自动动作 →</strong><p>让鸭子点头、摆头、踏步和鞠躬。</p></a>
+  <a class="md-next-card" href="/microduck-ros2-isaac/zh/troubleshooting"><span>仍有异常</span><strong>继续做系统排查 →</strong><p>处理卡顿、网格路径、Vulkan 和启动问题。</p></a>
+</div>

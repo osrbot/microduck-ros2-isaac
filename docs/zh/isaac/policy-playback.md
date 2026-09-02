@@ -3,6 +3,29 @@
 这部分假设电脑里已经安装 Isaac Sim 和 Isaac Lab。USD 已经在仓库里；下面只需要下载公开策略，
 并在项目目录准备 ONNX Runtime。环境准备好以后，就可以正式放鸭开跑。
 
+<div class="md-tutorial-meta" role="list" aria-label="本页概览">
+  <div role="listitem"><span>预计时间</span><strong>15–25 分钟</strong></div>
+  <div role="listitem"><span>执行位置</span><strong>仓库根目录</strong></div>
+  <div role="listitem"><span>需要窗口</span><strong>终端 + Isaac Sim</strong></div>
+  <div role="listitem"><span>完成结果</span><strong>公开策略持续运行并有报告</strong></div>
+</div>
+
+<div class="md-tutorial-goals">
+  <strong>这页会完成</strong>
+  <ul>
+    <li>准备公开策略和项目本地 ONNX Runtime；</li>
+    <li>运行 60 秒行走策略，并识别正常进度输出；</li>
+    <li>再跑一次 10 秒 headless 自检，留下 JSON 结果。</li>
+  </ul>
+</div>
+
+<div class="md-command-steps">
+  <strong>这页只需要终端 A</strong>
+  <p>按 <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd> 打开终端，<code>cd</code> 到仓库根目录。GUI 回放、站立策略和 headless 自检要依次运行；前一个结束或按 <kbd>Ctrl</kbd>+<kbd>C</kbd> 停止后，才能启动下一个。</p>
+</div>
+
+<div class="md-step-kicker"><span>步骤 1</span><strong>终端 A · 仓库根目录</strong></div>
+
 ## 1. 准备策略运行环境
 
 在仓库根目录运行：
@@ -14,6 +37,13 @@ export ISAACLAB_DIR=/path/to/IsaacLab
 ```
 
 如果 Isaac Lab 正好在默认的 `~/rlgpu_ws/IsaacLab`，可以省略 `ISAACLAB_DIR`。
+
+<div class="md-checkpoint">
+  <strong>依赖准备完成</strong>
+  <p><code>reference/microduck/</code> 中已有公开策略，<code>work/isaac_python_pkgs/onnxruntime</code> 目录存在。后面再玩不用重复下载。</p>
+</div>
+
+<div class="md-step-kicker"><span>步骤 2</span><strong>终端保持运行 · GUI 回放</strong></div>
 
 ## 2. 放鸭开跑
 
@@ -28,10 +58,30 @@ export ISAACLAB_DIR=/path/to/IsaacLab
   --viz kit
 ```
 
+按 <kbd>Enter</kbd> 后终端会持续打印日志，提示符不会马上回来。第一次加载 Kit 扩展可能需要几分钟，
+不要因为窗口还没出现就重复执行同一条命令。
+
 Isaac Sim 会打开，把 MicroDuck 放到地面上，然后运行行走策略，镜头会跟随机器人。仿真速度可能
 比真实时间慢，终端每五个仿真秒会输出一次进度。
 
-## 想让它先乖乖站好
+进度行类似 `Rollout progress: sim=5.0/60.0s`。它表示仿真控制循环确实向前走，不要求 wall time 与
+sim time 完全一致。窗口打开后先看四件事：机器人落在地面、关节持续运动、镜头跟随、终端无 traceback。
+
+<div class="md-result-label">真实运行截图 · 行走策略开始后</div>
+
+<figure class="md-doc-figure">
+  <div class="md-doc-image-stage"><img src="/images/isaac-action-walk.webp" alt="MicroDuck 在 Isaac Sim 中实际回放公开行走策略" width="1200" height="750" loading="lazy"></div>
+  <figcaption><strong>策略开始接管。</strong>这张实测图来自行走回放过程。鸭子会迈步不等于一定笔直向前；先看仿真是否持续、关节是否正常运动、终端有没有报错。</figcaption>
+</figure>
+
+<div class="md-checkpoint">
+  <strong>行走回放通过</strong>
+  <p>进度能走到 60 秒，关节持续更新，进程正常退出并写入报告。鸭子迈步但轨迹不够直，不等于加载失败；先把“能运行”和“行为质量”分开判断。</p>
+</div>
+
+## 可选：让它先乖乖站好
+
+先等 60 秒行走回放正常结束；想提前结束，就在终端 A 按 <kbd>Ctrl</kbd>+<kbd>C</kbd>，等提示符回来再运行：
 
 ```bash
 ./scripts/run_isaac_policy.sh \
@@ -42,9 +92,11 @@ Isaac Sim 会打开，把 MicroDuck 放到地面上，然后运行行走策略�
   --viz kit
 ```
 
-## 不看画面，先跑一小圈
+<div class="md-step-kicker"><span>步骤 3</span><strong>终端 · Headless 自检</strong></div>
 
-下面的命令适合快速检查环境：
+## 不看画面，跑一小圈
+
+先确认 GUI 回放已经退出，下面的命令适合快速检查环境：
 
 ```bash
 ./scripts/run_isaac_policy.sh \
@@ -56,6 +108,16 @@ Isaac Sim 会打开，把 MicroDuck 放到地面上，然后运行行走策略�
 
 运行结束后会把简单结果写到 `artifacts/isaac/policy_rollout.json`。普通教程不需要阅读这个文件，
 只有排查问题时才用得上。
+
+检查文件已经生成：
+
+```bash
+test -s artifacts/isaac/policy_rollout.json \
+  && echo "Policy rollout report: OK"
+```
+
+最后一行打印 `Policy rollout report: OK`，才说明本次报告确实写出来了；没有输出时先检查上一条 headless
+命令是否完整结束，而不是反复执行 `test`。
 
 ## 鸭子走着走着，Isaac Sim 崩了？
 
@@ -79,5 +141,12 @@ export MICRODUCK_ISAAC_ACTIVE_GPU=0
 50 Hz。这些信息在修改运行器时有用，第一次回放时不用先理解。
 :::
 
-一只鸭走通以后，去[多动作游乐场](./playground)切换坐起、低头碰地、踢球和前滚；想从 checkpoint
-真正开始训练，继续看[Isaac Lab 训练教程](./training)。
+<div class="md-page-complete">
+  <strong>单策略回放完整走通。</strong>
+  <p>你已经验证公开 ONNX、61→14 接口、Isaac 物理循环、GUI 与 headless 两种运行方式。接下来要么增加互动动作，要么进入自己的训练任务。</p>
+</div>
+
+<div class="md-next-grid">
+  <a class="md-next-card" href="/microduck-ros2-isaac/zh/isaac/playground"><span>继续玩</span><strong>进入多动作游乐场 →</strong><p>用键盘切坐起、捡球、踢球和前滚。</p></a>
+  <a class="md-next-card" href="/microduck-ros2-isaac/zh/isaac/training"><span>开始训练</span><strong>跑原生 Isaac Lab 任务 →</strong><p>从 5 轮 smoke 到 checkpoint 回放。</p></a>
+</div>

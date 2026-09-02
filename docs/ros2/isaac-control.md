@@ -7,9 +7,28 @@ you will see the same live motion in Isaac and RViz.
 This exact route was exercised on Ubuntu 24.04, ROS 2 Jazzy, Isaac Sim 6.0.1
 standalone, and Isaac Lab 3.0.0 beta 2. The screenshots below are from that run.
 
-::: tip First time here?
-Open all three terminals in the repository root. A, B, and C are only labels;
-you do not need three computers.
+<div class="md-tutorial-meta" role="list" aria-label="Page overview">
+  <div role="listitem"><span>Time</span><strong>25–40 minutes</strong></div>
+  <div role="listitem"><span>Prerequisite</span><strong>ROS 2 and Isaac work separately</strong></div>
+  <div role="listitem"><span>Terminals</span><strong>A, B, and C</strong></div>
+  <div role="listitem"><span>Result</span><strong>Commands and live state round trip</strong></div>
+</div>
+
+<div class="md-terminal-map" role="list" aria-label="Three terminal roles">
+  <div role="listitem"><strong>Terminal A · Isaac</strong><p>Runs the playground and simulation loop.</p></div>
+  <div role="listitem"><strong>Terminal B · Bridge</strong><p>Runs the ROS bridge, Robot State Publisher, and RViz.</p></div>
+  <div role="listitem"><strong>Terminal C · Commands</strong><p>Sends velocity, skill, head, and reset commands.</p></div>
+</div>
+
+<div class="md-command-steps">
+  <strong>Arrange the three windows before starting</strong>
+  <p>Press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd> for terminal A, then press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd> twice for B and C. In each window, run <code>cd /your/path/microduck-ros2-isaac</code>. A, B, and C are labels, not three computers.</p>
+</div>
+
+::: tip Not enough screen space?
+Use <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> for three tabs instead. Naming
+them `A-Isaac`, `B-Bridge`, and `C-Command` helps prevent stopping the wrong
+process.
 :::
 
 ## Before you start: prepare the released policies
@@ -28,7 +47,7 @@ each new terminal when Isaac Lab is not installed at the default path.
 
 ## 1. Build the ROS bridge
 
-In terminal B:
+Switch to terminal B:
 
 ```bash
 cd ros2_ws
@@ -57,6 +76,8 @@ separate makes both much easier to diagnose.
 The first launch may take a while while Kit loads extensions. Leave terminal A
 open once you can see the complete MicroDuck, the floor, and the yellow ball.
 
+<div class="md-result-label">REAL RUN · TERMINAL A IS READY</div>
+
 <figure class="md-doc-figure">
   <div class="md-doc-image-stage"><img src="/images/isaac-playground-live.webp" alt="The live MicroDuck multi-skill playground in Isaac Lab" width="1400" height="876" loading="lazy"></div>
   <figcaption><strong>This is the expected terminal-A result.</strong>The robot and ball are both in the scene, and the viewport follows the robot. This is a real project run, not a concept render.</figcaption>
@@ -68,7 +89,9 @@ running.
 
 ## 3. Terminal B: start the bridge and RViz
 
-Open a new terminal:
+Return to terminal B, where the build completed. It should still be at the
+repository root. If you closed it, press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd>
+and `cd` back to the repository:
 
 ```bash
 source /opt/ros/jazzy/setup.bash
@@ -80,6 +103,8 @@ The launch starts `robot_state_publisher`, `microduck_control_bridge`, and
 `rviz2`. RViz follows the 14 live joint positions and the
 `world → base_link` pose coming from Isaac; it is not a manual joint-slider
 demo.
+
+<div class="md-result-label">REAL RUN · TERMINAL B BRIDGE CONNECTED</div>
 
 <figure class="md-doc-figure">
   <div class="md-doc-image-stage"><img src="/images/ros-isaac-rviz-live.webp" alt="RViz showing the complete MicroDuck pose streamed from Isaac" width="1400" height="900" loading="lazy"></div>
@@ -94,7 +119,8 @@ playground, then rotate the view before assuming meshes are missing.
 
 ## 4. Terminal C: take a few steps
 
-Open a third terminal and source the workspace:
+Switch to terminal C. If it is not open, press
+<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd>, then source the workspace:
 
 ```bash
 source /opt/ros/jazzy/setup.bash
@@ -108,12 +134,17 @@ ros2 topic pub -r 10 --times 40 /cmd_vel geometry_msgs/msg/Twist \
   "{linear: {x: 0.30, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}"
 ```
 
+The terminal prints `publisher: beginning loop` and publish counts, then returns
+to the prompt after about four seconds. Send the stop command only after that.
+
 Then stop explicitly:
 
 ```bash
 ros2 topic pub --once /cmd_vel geometry_msgs/msg/Twist \
   "{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}"
 ```
+
+<div class="md-result-label">REAL RUN · FORWARD AND TURN COMMANDS</div>
 
 <div class="md-runtime-grid">
   <figure class="md-doc-figure">
@@ -155,6 +186,8 @@ ros2 topic pub --once /microduck/behavior std_msgs/msg/String \
 Kicks last about half a second and the roll lasts about one second. Let one
 timed skill finish before requesting another; the controller rejects an unsafe
 mid-motion switch.
+
+<div class="md-result-label">REAL RUN · SITSTAND COMMAND</div>
 
 <figure class="md-doc-figure">
   <div class="md-doc-image-stage"><img src="/images/isaac-action-sit.webp" alt="MicroDuck lowering its body during the sitstand skill in Isaac" width="1200" height="750" loading="lazy"></div>
@@ -221,6 +254,10 @@ Watch policy switches with:
 ros2 topic echo /microduck/policy_state
 ```
 
+This command keeps streaming and does not exit by itself. After you have seen a
+standing, walking, or skill transition, press <kbd>Ctrl</kbd>+<kbd>C</kbd> to
+return to the prompt.
+
 A settled robot reports something like:
 
 ```yaml
@@ -238,6 +275,10 @@ Run the live ROS → Isaac → ROS check without opening the three windows:
 ```bash
 ./scripts/validate_ros_isaac_e2e.sh
 ```
+
+The check starts and stops its own headless processes. Wait for the prompt to
+return before judging the result. Pressing <kbd>Ctrl</kbd>+<kbd>C</kbd> midway is
+an interrupted check, not a pass.
 
 The script starts the real headless playground, publishes `kick_left` from ROS,
 and waits for JointState, policy, upright, and TF messages to return. A passing
@@ -262,5 +303,12 @@ The bridge should report `process has finished cleanly`, without an
 `ExternalShutdownException` traceback. If a later launch says a UDP port is in
 use, first check whether an earlier duck is still running.
 
-Continue with the [multi-skill playground](/isaac/playground), or start an
-[Isaac Lab walking experiment](/isaac/training).
+<div class="md-page-complete">
+  <strong>The three-terminal loop is complete.</strong>
+  <p>ROS commands reached Isaac, 14 joints and the base pose returned to RViz, and all three processes shut down cleanly.</p>
+</div>
+
+<div class="md-next-grid">
+  <a class="md-next-card" href="/microduck-ros2-isaac/isaac/playground"><span>KEEP PLAYING</span><strong>Return to the skill playground →</strong><p>Use direct keyboard control for demos and recording.</p></a>
+  <a class="md-next-card" href="/microduck-ros2-isaac/isaac/training"><span>KEEP BUILDING</span><strong>Train a native walking policy →</strong><p>Complete smoke, checkpoint, TensorBoard, and replay gates.</p></a>
+</div>

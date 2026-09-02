@@ -29,3 +29,4 @@ __pycache__/
 /docs/.vitepress/dist/
 /docs/.vitepress/temp/
 /output/playwright/
+/output/audit/

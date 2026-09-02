@@ -44,3 +44,10 @@ No affiliation with or endorsement by Pollen Robotics is implied.
   this repository.
 - `docs/public/images/rviz-missing-parts.png` is a user-supplied runtime
   screenshot included as a troubleshooting example.
+- `docs/public/images/joint-state-publisher-gui-official.png` is an unmodified
+  copy of the screenshot shipped with the ROS `joint_state_publisher_gui`
+  package. Its source is
+  <https://github.com/ros/joint_state_publisher/blob/ros2/joint_state_publisher_gui/screenshot.png>.
+  The package is distributed under the BSD license recorded alongside the
+  screenshot in the upstream repository; the complete notice is preserved in
+  `docs/public/images/joint-state-publisher-gui-official.LICENSE.txt`.

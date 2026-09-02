@@ -1,5 +1,17 @@
 # RViz controls and joint sliders
 
+This page separates camera problems, missing meshes, and joint-state problems. Check them in that order instead of
+restarting RViz at random.
+
+<div class="md-tutorial-meta" role="list" aria-label="Page overview">
+  <div role="listitem"><span>Time</span><strong>8–12 minutes</strong></div>
+  <div role="listitem"><span>Prerequisite</span><strong>RViz already opens</strong></div>
+  <div role="listitem"><span>Windows</span><strong>RViz + one terminal</strong></div>
+  <div role="listitem"><span>Result</span><strong>Camera, mesh, and joints checked</strong></div>
+</div>
+
+<div class="md-step-kicker"><span>STEP 1</span><strong>RViz window</strong></div>
+
 ## Camera controls
 
 The supplied RViz profile starts with **Move Camera** selected:
@@ -7,6 +19,13 @@ The supplied RViz profile starts with **Move Camera** selected:
 - left-drag rotates around the robot;
 - the mouse wheel zooms;
 - middle-drag pans the view.
+
+<div class="md-result-label">REAL RUN · AFTER ROTATING AND ZOOMING</div>
+
+<figure class="md-doc-figure">
+  <div class="md-doc-image-stage"><img src="/images/ros-isaac-rviz-camera.webp" alt="Close RViz view after rotating and zooming the Orbit camera" width="1400" height="900" loading="lazy"></div>
+  <figcaption><strong>A camera move changes the view, not the robot assembly.</strong>This is a real RViz frame from the integration run; Distance, Yaw, and Pitch changed as the camera moved.</figcaption>
+</figure>
 
 If a remote desktop will not let you maximize RViz, launch it fullscreen:
 
@@ -17,7 +36,17 @@ ros2 launch microduck_description view_microduck.launch.py \
 
 Dragging the robot itself does not move a joint. Use the sliders instead.
 
+<div class="md-checkpoint">
+  <strong>Camera check passed</strong>
+  <p>Left-drag rotates, the wheel zooms, and middle-drag pans. If nothing moves, select <strong>Move Camera</strong> in the toolbar.</p>
+</div>
+
+<div class="md-step-kicker"><span>STEP 2</span><strong>Terminal · sourced ros2_ws</strong></div>
+
 ## Move the joints
+
+If the previous launch is still running, return to its terminal, press
+<kbd>Ctrl</kbd>+<kbd>C</kbd>, and wait for the log to stop before running:
 
 ```bash
 ros2 launch microduck_description view_microduck.launch.py use_gui:=true
@@ -25,6 +54,13 @@ ros2 launch microduck_description view_microduck.launch.py use_gui:=true
 
 Move one slider at a time, or click **Randomize** for a quick demonstration.
 The public simulation model used here contains 14 movable joints.
+
+<div class="md-checkpoint">
+  <strong>Joint check passed</strong>
+  <p>Moving one slider changes the matching joint chain, and returning it to zero restores a recognizable pose.</p>
+</div>
+
+<div class="md-step-kicker"><span>STEP 3</span><strong>Only when the model looks incomplete</strong></div>
 
 ## Missing or detached parts
 
@@ -53,10 +89,14 @@ Do not turn on collision geometry to fill a missing visual part. Collision
 meshes are a simpler debugging view and are not a replacement for the visible
 model.
 
+<div class="md-step-kicker"><span>STEP 4</span><strong>New terminal · inspect ROS state</strong></div>
+
 ## The sliders move, but the robot does not
 
-Open another terminal, source the workspace, and check that joint states are
-being published:
+Keep RViz and the sliders running. Press
+<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd> in the original terminal to open a
+new window, source the workspace, and check that joint states are being
+published:
 
 ```bash
 cd ros2_ws
@@ -64,6 +104,9 @@ source /opt/ros/jazzy/setup.bash
 source install/setup.bash
 ros2 topic echo /joint_states --once
 ```
+
+The command exits after one message. Seeing `name:` and `position:` means data
+arrived. If it waits forever, check that Joint State Publisher is still running.
 
 If no message appears, restart the launch with `use_gui:=true` and check the
 Joint State Publisher terminal for errors.
@@ -78,5 +121,12 @@ ros2 launch microduck_description view_microduck.launch.py \
 Then enable **Collision Enabled** in RobotModel. Turn it off again for normal
 viewing because it makes RViz heavier.
 
-See [troubleshooting](/troubleshooting) if RViz still freezes or a mesh path
-keeps failing.
+<div class="md-page-complete">
+  <strong>RViz checks complete.</strong>
+  <p>The camera moves, all visual meshes load, and the 14-joint message is readable. Continue to automatic motion or system troubleshooting.</p>
+</div>
+
+<div class="md-next-grid">
+  <a class="md-next-card" href="/microduck-ros2-isaac/ros2/examples"><span>CONTINUE</span><strong>Run the ROS 2 motion examples →</strong><p>Nod, step, and bow without Isaac Sim.</p></a>
+  <a class="md-next-card" href="/microduck-ros2-isaac/troubleshooting"><span>STILL BROKEN</span><strong>Open troubleshooting →</strong><p>Work through freezes, mesh paths, Vulkan, and launch issues.</p></a>
+</div>
