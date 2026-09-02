@@ -1,7 +1,6 @@
 import { defineConfig, type DefaultTheme } from 'vitepress'
 
 const repository = 'https://github.com/osrbot/microduck-ros2-isaac'
-const microduckStore = 'https://store.pollen-robotics.com/products/microduck'
 
 const search: DefaultTheme.Config['search'] = {
   provider: 'local',
@@ -85,7 +84,6 @@ const englishTheme: DefaultTheme.Config = {
     { text: 'Requirements', link: '/guide/installation' },
     { text: 'ROS 2', link: '/ros2/' },
     { text: 'Isaac Sim', link: '/isaac/' },
-    { text: 'Buy MicroDuck', link: microduckStore },
     {
       text: 'Help',
       items: [
@@ -200,7 +198,6 @@ const chineseTheme: DefaultTheme.Config = {
     { text: '环境要求', link: '/zh/guide/installation' },
     { text: 'ROS 2', link: '/zh/ros2/' },
     { text: 'Isaac Sim', link: '/zh/isaac/' },
-    { text: 'Buy MicroDuck', link: microduckStore },
     {
       text: '遇到问题',
       items: [
