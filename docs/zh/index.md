@@ -35,7 +35,7 @@ hero:
   <div class="md-route-grid">
     <div class="md-route-card md-route-orange"><span>01</span><strong>把鸭子请进 RViz</strong><p>看完整模型、转镜头，再试试 14 个关节。</p></div>
     <div class="md-route-card md-route-aqua"><span>02</span><strong>打开 Isaac 游乐场</strong><p>走路、坐起、低头碰地、踢球和前滚。</p></div>
-    <div class="md-route-card md-route-pink"><span>03</span><strong>自己教一只鸭</strong><p>先跑小测试，再用 Isaac Lab 训练新动作。</p></div>
+    <div class="md-route-card md-route-pink"><span>03</span><strong>自己教一只鸭</strong><p>先跑小测试，再训练连续前滚翻，学会调参和挑选模型。</p><a href="./isaac/continuous-roll">先看翻滚视频与实战教程 →</a></div>
   </div>
   <div class="md-route-start">
     <div class="md-route-start-copy">

@@ -26,6 +26,13 @@ No affiliation with or endorsement by Pollen Robotics is implied.
 
 ## Documentation images
 
+- `docs/public/media/continuous-roll/` contains project-recorded Isaac simulation
+  video and a frame extracted from that video. The robot is rendered from the
+  upstream-derived MicroDuck USD. The model attribution and terms above remain
+  applicable. `README.md` in that media directory records the source session,
+  editing scope, and original-video checksum; no trained weights are distributed
+  in that directory.
+
 - `docs/public/images/microduck-lineup.webp` is an unmodified copy of the image
   linked from the official Pollen Robotics `microduck` README. Its source is
   <https://github.com/user-attachments/assets/c2f7c245-8217-46a1-8d1e-e0ba967cd969>.

@@ -3,6 +3,8 @@
 The ready-to-open MicroDuck USD is already here. You can open it before setting
 up any policy. You do not need to convert anything.
 
+Want a look at what comes later? The [continuous-roll case study](./continuous-roll) starts with the full motion video, then covers setup, training, parameters, and debugging. If you are new to Isaac, open the model with this page first.
+
 <div class="md-tutorial-meta" role="list" aria-label="Page overview">
   <div role="listitem"><span>Time</span><strong>8–15 minutes</strong></div>
   <div role="listitem"><span>Environment</span><strong>Isaac Sim</strong></div>

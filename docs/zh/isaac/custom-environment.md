@@ -1,7 +1,7 @@
 # 下一关：自己再造一个训练任务
 
-这一页是开发路线图，不是假装“一条命令自动造环境”。目标是把一个动作拆成场景、成功条件、reward、
-终止与回放验收，避免训练几小时后才发现问题定义本身就含糊。
+前面的[连续翻滚实战](./continuous-roll)已经走过训练、调参和验收。这一页把同样的方法迁移到新动作：
+先拆出场景、成功条件、reward、终止和回放要求，再开始写任务。
 
 <div class="md-tutorial-meta" role="list" aria-label="本页概览">
   <div role="listitem"><span>规划时间</span><strong>20–30 分钟</strong></div>

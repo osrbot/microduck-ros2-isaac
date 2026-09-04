@@ -1,7 +1,7 @@
 # Make a new training task
 
-There is no magic one-line command for a new task. Pick the scene, goal, reward,
-stop rules, and replay check before you spend hours on PPO.
+The [continuous-roll case study](./continuous-roll) covered training, tuning, and evaluation. Now apply the same process to a new motion:
+define the scene, success criteria, rewards, termination rules, and replay checks before implementing the task.
 
 <div class="md-tutorial-meta" role="list" aria-label="Page overview">
   <div role="listitem"><span>Planning</span><strong>20–30 minutes</strong></div>

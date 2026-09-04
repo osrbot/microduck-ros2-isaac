@@ -234,8 +234,8 @@ MICRODUCK_PLAY_STEPS=1000 ./scripts/play_isaac_velocity.sh
 - RSL-RL PPO，actor/critic 为小型 MLP。
 
 61 维里还保留 6 个 body command 槽位，但第一版没有 body-pose tracking reward。它们是接口占位，
-不是已经学会的身体位姿技能。踢球、坐起、低头碰地和前滚仍由[多动作游乐场](./playground)回放
-各自公开策略；当前原生训练只负责新的平地行走与头部控制实验。
+并未包含身体位姿跟踪目标。本页的原生任务负责平地行走与头部控制；踢球、坐起、低头碰地等公开策略可以在[多动作游乐场](./playground)回放。
+接下来的[连续翻滚实战](./continuous-roll)使用独立的翻滚训练配置，讲解从策略热启动到奖励调试、选模和录制的完整过程。
 
 ## 常见问题
 
@@ -256,5 +256,5 @@ MICRODUCK_PLAY_STEPS=1000 ./scripts/play_isaac_velocity.sh
 
 <div class="md-page-complete">
   <strong>第一轮训练跑完了。</strong>
-  <p>你已经跑过短训练、看过 TensorBoard，也回放了 checkpoint。下一页教你把一个新动作整理成可实现的训练任务。</p>
+  <p>你已经跑过短训练、看过 TensorBoard，也回放了 checkpoint。下一页先看连续前滚翻的视频，再亲手走一遍训练、调参和验收。</p>
 </div>

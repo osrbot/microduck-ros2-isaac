@@ -33,3 +33,9 @@ the 60-second simulation run to exit normally.
 
 The wrapper does not delete or modify system driver files. Treat a different
 driver, GPU, Wayland/Xorg setup, or Isaac release as a new validation matrix.
+
+## Continuous-roll case study
+
+The [continuous-roll experiment](../isaac/continuous-roll) recorded on 2026-09-04 used the Isaac setup above; the training records report RSL-RL 5.0.1.
+Warm-starting the actor requires `onnx` in Isaac's Python. Replaying the original ONNX directly requires the project's local `onnxruntime` package.
+Run the case study's dependency preflight before the 64-environment, five-iteration smoke test. Use the same Python environment, model, and action interface for training and replay.

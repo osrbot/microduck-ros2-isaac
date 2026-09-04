@@ -68,8 +68,17 @@ const englishTutorialSidebar: DefaultTheme.SidebarItem[] = [
     text: 'Go further',
     items: [
       { text: '9. Connect ROS 2 and Isaac', link: '/ros2/isaac-control' },
-      { text: '10. Train a walking policy', link: '/isaac/training' },
-      { text: '11. Make a new training task', link: '/isaac/custom-environment' }
+      { text: '10. Train a walking policy', link: '/isaac/training' }
+    ]
+  },
+  {
+    text: 'Case study: continuous rolling',
+    items: [
+      { text: '11. Watch the result and start training', link: '/isaac/continuous-roll' },
+      { text: '12. Parameters and rewards', link: '/isaac/roll-parameters' },
+      { text: '13. Three rounds of debugging', link: '/isaac/roll-debugging' },
+      { text: '14. Evaluate and export video', link: '/isaac/roll-validation' },
+      { text: '15. Make a new training task', link: '/isaac/custom-environment' }
     ]
   }
 ]
@@ -182,8 +191,17 @@ const chineseTutorialSidebar: DefaultTheme.SidebarItem[] = [
     text: '继续折腾',
     items: [
       { text: '9. 用 ROS 2 控制 Isaac', link: '/zh/ros2/isaac-control' },
-      { text: '10. 训练一只会走的鸭', link: '/zh/isaac/training' },
-      { text: '11. 自己做一个训练任务', link: '/zh/isaac/custom-environment' }
+      { text: '10. 训练一只会走的鸭', link: '/zh/isaac/training' }
+    ]
+  },
+  {
+    text: '实战：连续翻滚',
+    items: [
+      { text: '11. 先看效果，再开始训练', link: '/zh/isaac/continuous-roll' },
+      { text: '12. 参数和奖励怎么设计', link: '/zh/isaac/roll-parameters' },
+      { text: '13. 三轮调试复盘', link: '/zh/isaac/roll-debugging' },
+      { text: '14. 验收模型，导出素材', link: '/zh/isaac/roll-validation' },
+      { text: '15. 自己做一个训练任务', link: '/zh/isaac/custom-environment' }
     ]
   }
 ]

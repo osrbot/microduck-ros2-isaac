@@ -3,6 +3,8 @@
 仓库已经带了转换好的 MicroDuck USD。第一次来不用先折腾转换脚本，也不用先配置策略，直接把
 鸭子请进场景就行。
 
+想先看看后面能做到什么？[连续翻滚实战](./continuous-roll)开头有完整动作视频，随后讲环境、训练、参数和调试。第一次用 Isaac 可以先按本页把模型打开。
+
 <div class="md-tutorial-meta" role="list" aria-label="本页概览">
   <div role="listitem"><span>预计时间</span><strong>8–15 分钟</strong></div>
   <div role="listitem"><span>需要环境</span><strong>Isaac Sim</strong></div>

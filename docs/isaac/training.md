@@ -14,7 +14,7 @@ First run a quick check. Start a long PPO job only after that works.
   <strong>You will do the whole loop</strong>
   <ul>
     <li>start <code>Isaac-MicroDuck-Velocity-Flat-v0</code>;</li>
-    <li>run five steps and find the saved checkpoint;</li>
+    <li>run five training iterations and find the saved checkpoint;</li>
     <li>watch the charts in TensorBoard;</li>
     <li>open the newest checkpoint and save a report and picture;</li>
     <li>learn the difference between “the tools work” and “the duck learned to walk.”</li>
@@ -221,8 +221,8 @@ ONNX or automatically grade the gait.
 - pushes plus mass and friction randomization;
 - an RSL-RL PPO actor and critic.
 
-Six body-command slots remain in the 61-value interface, but this first task has no body-pose tracking reward. Kicking,
-sit/stand, ground pick, and roulade remain released policies in the [playground](./playground).
+Six body-command slots remain in the 61-value interface, but this task has no body-pose tracking reward. This page covers flat-ground walking and head control; you can replay the published kicking, sit/stand, and ground-pick policies in the [playground](./playground).
+The next [continuous-roll case study](./continuous-roll) uses a separate rolling configuration and covers the full process from warm-starting to reward tuning, checkpoint selection, and recording.
 
 ## Common problems
 
@@ -243,5 +243,5 @@ safety, domain randomization, and physical validation.
 
 <div class="md-page-complete">
   <strong>The whole training loop works!</strong>
-  <p>You ran a short job, opened TensorBoard, and replayed the checkpoint. The next page shows how to turn one new move into a clear training task.</p>
+  <p>You ran a short job, opened TensorBoard, and replayed the checkpoint. Next, watch the continuous forward rolls and work through training, tuning, and evaluation yourself.</p>
 </div>
