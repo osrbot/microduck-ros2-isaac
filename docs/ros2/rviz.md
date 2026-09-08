@@ -27,7 +27,20 @@ The supplied RViz profile starts with **Move Camera** selected:
   <figcaption><strong>Moving the camera only changes your view.</strong>The duck stays together. This real RViz picture was taken after a turn and zoom.</figcaption>
 </figure>
 
-If a remote desktop will not let you maximize RViz, launch it fullscreen:
+::: warning ROS 2 Humble: omit the fullscreen option
+Do not add `rviz_fullscreen:=true` on Humble: it passes the unsupported `--fullscreen`
+option to RViz, causing it to exit before the window opens. Use the command below
+and maximize the window manually if needed:
+
+```bash
+ros2 launch microduck_description view_microduck.launch.py use_gui:=true
+```
+
+The environment commands below target Jazzy. When testing on Humble, use
+`source /opt/ros/humble/setup.bash` instead of `source /opt/ros/jazzy/setup.bash`.
+:::
+
+On Jazzy, if a remote desktop will not let you maximize RViz, you can launch it fullscreen:
 
 ```bash
 ros2 launch microduck_description view_microduck.launch.py \

@@ -45,7 +45,13 @@ Move any slider—or click `Randomize` for a quick smoke test—to publish a new
 After regenerating the Xacro, restart the launch because
 `robot_state_publisher` caches `robot_description` at startup.
 
-Force a true fullscreen window when desktop maximize is unavailable:
+> **ROS 2 Humble:** Omit `rviz_fullscreen:=true`. This project launch argument
+> passes `--fullscreen` to RViz; Humble's RViz does not support that option and
+> exits before opening a window. Use the `use_gui:=true` command above and
+> maximize the window manually if needed. When testing on Humble, source
+> `/opt/ros/humble/setup.bash` instead of `/opt/ros/jazzy/setup.bash`.
+
+On Jazzy, force a true fullscreen window when desktop maximize is unavailable:
 
 ```bash
 ros2 launch microduck_description view_microduck.launch.py rviz_fullscreen:=true

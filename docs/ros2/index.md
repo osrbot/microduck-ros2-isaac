@@ -33,11 +33,24 @@ the joint-slider step adds `use_gui:=true`.
 | Option | Use it when |
 | --- | --- |
 | `use_gui:=true` | You want the joint sliders |
-| `rviz_fullscreen:=true` | A remote desktop cannot maximize RViz |
+| `rviz_fullscreen:=true` | On Jazzy, start RViz fullscreen; not supported by RViz in Humble |
 | `use_rviz:=false` | You only need the description and TF nodes |
 | `with_collision_meshes:=true` | You are debugging collision geometry |
 
-For example, open the sliders and full-screen RViz together:
+::: warning ROS 2 Humble: omit the fullscreen option
+`rviz_fullscreen` is a project launch argument that passes `--fullscreen` to RViz.
+RViz in Humble does not support that command-line option and exits if it is supplied.
+On Humble, open RViz and the joint sliders without it, then maximize the window manually if needed:
+
+```bash
+ros2 launch microduck_description view_microduck.launch.py use_gui:=true
+```
+
+The environment commands on this page target Jazzy. When testing on Humble, replace
+`source /opt/ros/jazzy/setup.bash` with `source /opt/ros/humble/setup.bash`.
+:::
+
+On Jazzy, you can optionally open the sliders and full-screen RViz together:
 
 ```bash
 ros2 launch microduck_description view_microduck.launch.py \

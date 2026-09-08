@@ -31,11 +31,24 @@
 | 参数 | 什么时候用 |
 | --- | --- |
 | `use_gui:=true` | 打开关节滑块，手动检查 14 个关节 |
-| `rviz_fullscreen:=true` | 远程桌面无法最大化窗口时，直接全屏启动 |
+| `rviz_fullscreen:=true` | 在 Jazzy 中全屏启动 RViz；Humble 的 RViz 不支持 |
 | `use_rviz:=false` | 只运行 description 和 TF，不打开 RViz |
 | `with_collision_meshes:=true` | 调试碰撞几何；普通浏览建议关闭 |
 
-例如，同时打开滑块和全屏 RViz：
+::: warning ROS 2 Humble：不要添加全屏参数
+`rviz_fullscreen` 是本项目的 launch 参数，开启后会向 RViz 传入 `--fullscreen`。
+Humble 的 RViz 不支持这个命令行选项，传入后会退出，导致窗口无法打开。
+在 Humble 中，请使用下面的命令打开 RViz 和关节滑块，需要大窗口时手动最大化：
+
+```bash
+ros2 launch microduck_description view_microduck.launch.py use_gui:=true
+```
+
+本页环境命令以 Jazzy 为准。在 Humble 中测试时，将
+`source /opt/ros/jazzy/setup.bash` 换为 `source /opt/ros/humble/setup.bash`。
+:::
+
+在 Jazzy 中，可以按需同时打开滑块和全屏 RViz：
 
 ```bash
 ros2 launch microduck_description view_microduck.launch.py \

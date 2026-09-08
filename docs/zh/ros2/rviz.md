@@ -27,7 +27,19 @@
   <figcaption><strong>镜头操作成功时，机器人不会散架，只是观察角度在变。</strong>这张来自联调时的实际 RViz 画面；左侧 Distance、Yaw 和 Pitch 都已经随着拖动发生变化。</figcaption>
 </figure>
 
-如果远程桌面不能把 RViz 最大化，可以直接全屏启动：
+::: warning ROS 2 Humble：不要添加全屏参数
+在 Humble 中，不要添加 `rviz_fullscreen:=true`：它会向 RViz 传入不受支持的
+`--fullscreen` 选项，导致程序在窗口打开前退出。请使用下面的命令，需要大窗口时手动最大化：
+
+```bash
+ros2 launch microduck_description view_microduck.launch.py use_gui:=true
+```
+
+下文环境命令以 Jazzy 为准。在 Humble 中测试时，用
+`source /opt/ros/humble/setup.bash` 替换 `source /opt/ros/jazzy/setup.bash`。
+:::
+
+在 Jazzy 中，如果远程桌面不能把 RViz 最大化，可以直接全屏启动：
 
 ```bash
 ros2 launch microduck_description view_microduck.launch.py \
