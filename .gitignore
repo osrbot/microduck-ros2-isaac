@@ -1,6 +1,7 @@
 # Local upstream checkouts and work products
 /reference/
 /work/
+/backups/
 
 # ROS 2 workspace outputs
 /ros2_ws/build/

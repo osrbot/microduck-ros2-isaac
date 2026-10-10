@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 from pathlib import Path
@@ -19,7 +20,7 @@ REFERENCE_ROOT = PROJECT_ROOT / "reference"
 DEFAULT_SCENE = (
     REFERENCE_ROOT / "microduck_rl/src/mjlab_microduck/robot/microduck/scene.xml"
 )
-DEFAULT_POLICY = REFERENCE_ROOT / "microduck/policies/alpha_walking.onnx"
+DEFAULT_POLICY = REFERENCE_ROOT / "policies/v7/alpha_walking.onnx"
 DEFAULT_OUTPUT = PROJECT_ROOT / "artifacts/baseline/mujoco_rollout.json"
 
 POLICY_JOINTS = (
@@ -233,6 +234,9 @@ def rollout(args: argparse.Namespace) -> dict[str, Any]:
     return {
         "scene": str(args.scene.resolve().relative_to(PROJECT_ROOT)),
         "policy": str(args.policy.resolve().relative_to(PROJECT_ROOT)),
+        "scene_sha256": hashlib.sha256(args.scene.read_bytes()).hexdigest(),
+        "policy_sha256": hashlib.sha256(args.policy.read_bytes()).hexdigest(),
+        "mujoco_version": mujoco.__version__,
         "joint_order": list(POLICY_JOINTS),
         "summary": summary,
         "trace": trace,

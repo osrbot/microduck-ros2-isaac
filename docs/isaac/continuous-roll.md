@@ -26,6 +26,10 @@ We initialize the actor and observation normalizer from Pollen Robotics' `roulad
 In the recorded batch evaluation, eight slightly different starting poses each produced 39 consecutive rolls in 50 seconds, with no resets. Mean absolute lateral displacement was about 0.70 m.
 This is a flat-ground simulation case study. Direction control and recovery from disturbances are useful next steps.
 
+The October update moves the warm-start download to `reference/policies/v7/`.
+Its `roulade.onnx` SHA-256 is unchanged (`3d60da08fc13f29c1b57f41977aa898132c0d60042100149d8e775affcbca32b`).
+The case-study USD and saved results retain their historical source; see [alignment](../reference/upstream-alignment).
+
 ## Where should you start?
 
 | What you want to do | Where to go |
@@ -70,7 +74,7 @@ Fetch the pinned upstream policy and make the project's ONNX Runtime available t
 bash scripts/fetch_upstream.sh
 bash scripts/setup_isaac_python_env.sh
 export PYTHONPATH="$PWD/work/isaac_python_pkgs${PYTHONPATH:+:$PYTHONPATH}"
-test -s reference/microduck/policies/roulade.onnx
+test -s reference/policies/v7/roulade.onnx
 "$ISAACLAB_DIR/isaaclab.sh" -p -c \
   'import onnx, onnxruntime, torch; import importlib.metadata as m; print("torch", torch.__version__, "rsl-rl", m.version("rsl-rl-lib"), "onnx", onnx.__version__, "ort", onnxruntime.__version__)'
 ```
@@ -109,7 +113,7 @@ python3 scripts/run_before_deadline.py \
   --status "$roll_evidence/smoke-status.json" -- \
   bash scripts/train_isaac_velocity.sh \
     --profile continuous_roll --full-roll-v2 --viz none \
-    --init-policy-onnx reference/microduck/policies/roulade.onnx \
+    --init-policy-onnx reference/policies/v7/roulade.onnx \
     --log-root "$roll_session/smoke"
 ```
 
@@ -169,7 +173,7 @@ python3 scripts/run_before_deadline.py \
   --status "$roll_evidence/roll-status.json" -- \
   bash scripts/train_isaac_velocity.sh \
     --profile continuous_roll --full-roll-v2 --viz none \
-    --init-policy-onnx reference/microduck/policies/roulade.onnx \
+    --init-policy-onnx reference/policies/v7/roulade.onnx \
     --log-root "$roll_session/roll"
 ```
 

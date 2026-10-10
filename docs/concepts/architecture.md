@@ -10,7 +10,7 @@ pinned microduck_rl MJCF
         |-- generated Xacro + copied meshes --> ROS 2 / TF / RViz
         `-- Isaac MJCF importer --> collision correction --> validated USD
 
-pinned microduck policies
+pinned Hugging Face microduck-policies
         |-- MuJoCo 61 -> 14 playback
         `-- Isaac skill playground <--> localhost UDP <--> ROS 2 / RViz
 
@@ -24,6 +24,12 @@ validated MicroDuck USD
 them out below ignored `reference/` directories. This separates source identity
 from generated files and prevents a moving branch from silently changing a
 demonstration.
+Runtime source and policy weights are separate inputs. The current runtime is
+under `reference/microduck_runtime/`; pinned v7 weights are under
+`reference/policies/v7/` and checked by SHA-256. New conversion selects
+`robot_groundcontact.xml`, not the new full-collision model with the historical
+`robot_allcollisions.xml` name. The bundled USD and native training remain on
+their separate historical source until runtime promotion; see [alignment](../reference/upstream-alignment).
 
 ## ROS description layer
 

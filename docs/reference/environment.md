@@ -3,6 +3,10 @@
 Recorded on 2026-08-31 (Asia/Shanghai). This is a known working matrix, not a
 claim that other versions cannot work.
 
+The [October source alignment](./upstream-alignment) was checked locally with
+Python 3.12.14, MuJoCo 3.10.0 and ONNX Runtime 1.24.4. It has not repeated the
+Linux/Isaac/ROS runtime matrix below; those records retain their original inputs.
+
 ## Host
 
 - Ubuntu 24.04.4 LTS, x86_64

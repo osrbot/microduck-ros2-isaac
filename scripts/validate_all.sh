@@ -6,7 +6,9 @@ cd "$project_dir"
 
 for required in \
     reference/microduck_rl/.git \
-    reference/microduck/.git \
+    reference/microduck_runtime/.git \
+    reference/policies/v7/manifest.json \
+    reference/policies/isaac-legacy/alpha_sitstand.onnx \
     work/mujoco_env/bin/python \
     work/isaac_python_pkgs/onnxruntime; do
     if [[ ! -e "$project_dir/$required" ]]; then
@@ -29,20 +31,23 @@ printf '[4/13] Isaac conversion, collision post-process, and USD inventory\n'
 
 printf '[5/13] Isaac stand policy\n'
 ./scripts/run_isaac_policy.sh \
-    --policy reference/microduck/policies/alpha_stand.onnx \
+    --usd assets/isaac/robot_groundcontact/robot_groundcontact.usda \
+    --policy reference/policies/v7/alpha_stand.onnx \
     --duration 5 --action-scale 1.0 \
     --output artifacts/isaac/policy_stand_zero_command_scale_1_0.json
 
 printf '[6/13] Isaac walking policy\n'
 ./scripts/run_isaac_policy.sh \
-    --policy reference/microduck/policies/alpha_walking.onnx \
+    --usd assets/isaac/robot_groundcontact/robot_groundcontact.usda \
+    --policy reference/policies/v7/alpha_walking.onnx \
     --duration 10 --vx 0.3 --action-scale 0.9 \
     --output artifacts/isaac/policy_walk_vx_0_3_scale_0_9.json
 
 printf '[7/13] Interactive multi-policy playground smoke\n'
-./scripts/run_isaac_playground.sh --duration 2 --no-keyboard --headless
+./scripts/run_isaac_playground.sh --duration 2 --no-keyboard --headless \
+    --usd assets/isaac/robot_groundcontact/robot_groundcontact.usda
 
-printf '[8/13] Native Isaac Lab training-task smoke\n'
+printf '[8/13] Native Isaac Lab training-task smoke (historical bundled USD)\n'
 MICRODUCK_TRAIN_ENVS=16 MICRODUCK_TRAIN_ITERATIONS=1 \
     ./scripts/train_isaac_velocity.sh
 

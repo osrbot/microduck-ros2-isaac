@@ -61,8 +61,9 @@ BODY_COMMAND_LIMITS = (
     math.radians(30.0),
 )
 
-# These defaults mirror the pinned ``robotd`` control path in
-# pollen-robotics/microduck at the revision recorded in ``upstream.lock``.
+# Preserve the legacy Isaac playback profile (robotd at 590b986). The current
+# upstream runtime also has a unified VelStand path; downloading v7 does not
+# imply that this switching controller implements that path.
 WALKING_ACTION_SCALE = 0.9
 SKILL_ACTION_SCALE = 1.0
 GROUND_PICK_END_PHASE = 0.7

@@ -1,5 +1,8 @@
 # 把 MicroDuck 放进 Isaac Sim
 
+下方仓库自带的 USD 保留历史已验证来源。10 月新版 `robot_groundcontact.xml` 转换为独立候选，
+不会自动替换它。详见[上游对齐](../reference/upstream-alignment)。
+
 仓库已经带了转换好的 MicroDuck USD。第一次来不用先折腾转换脚本，也不用先配置策略，直接把
 鸭子请进场景就行。
 

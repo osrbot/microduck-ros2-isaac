@@ -1,5 +1,14 @@
 # Play with MicroDuck in Isaac Sim
 
+::: info Updated policy download
+Default action weights still match the historical demo: walking, standing and
+one-shot actions come from `reference/policies/v7/`, while sitting uses
+`reference/policies/isaac-legacy/alpha_sitstand.onnx`. The downloader prepares both.
+The historical USD and controller settings remain unchanged. Updated sitting
+and VelStand policies are separate experiments, not part of this default route.
+See [alignment status](../reference/upstream-alignment).
+:::
+
 One walking policy was just the warm-up. Here the duck can stand, walk, sit,
 pick from the ground, kick a ball, and roll forward. The playground uses the
 ready-made 61→14 ONNX policies. It puts a 70 mm, 15 g ball beside the foot before
@@ -80,7 +89,7 @@ Missing optional ONNX files are reported as `Skipped`; available skills still
 load. A new trick is ignored while another timed skill is mid-motion so the
 duck cannot switch from half a roll directly into a kick.
 
-The defaults follow the pinned MicroDuck runtime: walking uses a `0.9` action
+The defaults retain the historical demo's control settings: walking uses a `0.9` action
 scale, the other skills use `1.0`, and head/leg targets use `0.5` / `0.7`
 low-pass coefficients. They can be overridden from the CLI, but the defaults
 are the useful demo baseline.

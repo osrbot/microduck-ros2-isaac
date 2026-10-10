@@ -158,11 +158,19 @@ test -x "${ISAACLAB_DIR:-$HOME/rlgpu_ws/IsaacLab}/isaaclab.sh" \
 
 第一条下载 MicroDuck 公开模型和策略，第二条把 ONNX Runtime 放进项目自己的 `work/` 目录。它们不会
 修改你的 Isaac Lab checkout。
+下载脚本需要 Python 3.11 或更新版本（使用 `tomllib`）。源码分别放入
+`reference/microduck_rl/` 和 `reference/microduck_runtime/`；固定版本的官方 v7 权重、清单和模型卡
+放入 `reference/policies/v7/`。已有的历史 `reference/microduck/` 目录不改动。
+游乐场使用的历史坐起权重也会下载到 `reference/policies/isaac-legacy/`。
+升级旧工作区前先看[上游对齐说明](../reference/upstream-alignment)。
 
 检查准备结果：
 
 ```bash
-test -d reference/microduck && echo "Upstream assets: OK"
+test -s reference/policies/v7/manifest.json \
+  && test -s reference/policies/v7/alpha_walking.onnx \
+  && test -s reference/policies/isaac-legacy/alpha_sitstand.onnx \
+  && echo "Upstream policies: OK"
 test -d work/isaac_python_pkgs/onnxruntime && echo "ONNX Runtime: OK"
 ```
 

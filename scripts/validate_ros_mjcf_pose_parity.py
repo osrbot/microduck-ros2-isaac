@@ -41,7 +41,7 @@ def relative_path(path: Path) -> str:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--mjcf", type=Path, default=DEFAULT_MODEL_DIR / "robot_allcollisions.xml"
+        "--mjcf", type=Path, default=DEFAULT_MODEL_DIR / "robot_groundcontact.xml"
     )
     parser.add_argument("--xacro", type=Path, default=DEFAULT_XACRO)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)

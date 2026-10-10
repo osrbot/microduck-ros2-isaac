@@ -117,6 +117,7 @@ const englishTheme: DefaultTheme.Config = {
       {
         text: 'Contributor notes',
         items: [
+          { text: 'October upstream alignment', link: '/reference/upstream-alignment' },
           { text: 'Tested setup', link: '/reference/environment' },
           { text: 'How this project was tested', link: '/reference/validation' },
           { text: 'Saved test results', link: '/reference/results' },
@@ -240,6 +241,7 @@ const chineseTheme: DefaultTheme.Config = {
       {
         text: '维护者资料',
         items: [
+          { text: '10 月上游对齐', link: '/zh/reference/upstream-alignment' },
           { text: '测试过的环境', link: '/zh/reference/environment' },
           { text: '这个项目怎么测试', link: '/zh/reference/validation' },
           { text: '保留的测试记录', link: '/zh/reference/results' },

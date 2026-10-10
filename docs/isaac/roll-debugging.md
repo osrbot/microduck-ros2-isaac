@@ -64,7 +64,7 @@ python3 scripts/run_before_deadline.py \
   --status "$roll_evidence/onnx-check-status.json" -- \
   bash scripts/play_isaac_velocity.sh \
     --profile continuous_roll --full-roll-v2 --viz none \
-    --policy-onnx reference/microduck/policies/roulade.onnx \
+    --policy-onnx reference/policies/v7/roulade.onnx \
     --arena-half-width 25 --trace "$roll_evidence/onnx-check-trace.json"
 ```
 

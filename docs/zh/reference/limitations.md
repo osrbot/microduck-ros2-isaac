@@ -33,6 +33,7 @@ Isaac 导入器丢失 MJCF collision bitmask，因此当前把一处 `self_colli
 
 包装脚本只对项目启动隔离重复 NVIDIA ICD，不等于修复系统驱动。绕过脚本启动 Isaac 仍可能崩溃。ROS visual 约 79.7 万三角形，4K 远程桌面还可能受编码和网络限制。
 
-## 模型再分发许可需上游澄清
+## 模型再分发有单独许可
 
-Pollen Robotics 把 3D 文件描述为“Creative Commons BY-SA-NC”，但没有提供版本。在获得确切说明前，派生资产应按非商业、署名、相同方式共享处理。详见[许可边界](/zh/project/licensing)。
+锁定的上游已明确：STL 几何采用 CC BY-NC-SA 4.0，MJCF XML/配置采用 Apache-2.0。
+转换后的网格保留网格许可，混合包不能称为 Apache-only。详见[许可边界](/zh/project/licensing)。

@@ -26,6 +26,10 @@ import RollShowcase from '../../.vitepress/theme/RollShowcase.vue'
 已记录的批量回放中，8 个轻微不同的初始姿态各运行 50 秒，均连续完成 39 圈、零重置；平均绝对横向偏移约 0.70 m。
 这是平地仿真案例，后续仍可继续改善方向和扰动恢复能力。
 
+10 月更新把热启动权重的下载位置移到 `reference/policies/v7/`，其中 `roulade.onnx` 的 SHA-256 不变
+（`3d60da08fc13f29c1b57f41977aa898132c0d60042100149d8e775affcbca32b`）。
+案例 USD 和已保存结果保留历史来源，见[对齐说明](../reference/upstream-alignment)。
+
 ## 从哪一页开始？
 
 | 你现在想做什么 | 去哪里 |
@@ -70,7 +74,7 @@ test -f source/microduck_isaac_lab/microduck_isaac_lab/tasks/velocity/full_roll_
 bash scripts/fetch_upstream.sh
 bash scripts/setup_isaac_python_env.sh
 export PYTHONPATH="$PWD/work/isaac_python_pkgs${PYTHONPATH:+:$PYTHONPATH}"
-test -s reference/microduck/policies/roulade.onnx
+test -s reference/policies/v7/roulade.onnx
 "$ISAACLAB_DIR/isaaclab.sh" -p -c \
   'import onnx, onnxruntime, torch; import importlib.metadata as m; print("torch", torch.__version__, "rsl-rl", m.version("rsl-rl-lib"), "onnx", onnx.__version__, "ort", onnxruntime.__version__)'
 ```
@@ -109,7 +113,7 @@ python3 scripts/run_before_deadline.py \
   --status "$roll_evidence/smoke-status.json" -- \
   bash scripts/train_isaac_velocity.sh \
     --profile continuous_roll --full-roll-v2 --viz none \
-    --init-policy-onnx reference/microduck/policies/roulade.onnx \
+    --init-policy-onnx reference/policies/v7/roulade.onnx \
     --log-root "$roll_session/smoke"
 ```
 
@@ -169,7 +173,7 @@ python3 scripts/run_before_deadline.py \
   --status "$roll_evidence/roll-status.json" -- \
   bash scripts/train_isaac_velocity.sh \
     --profile continuous_roll --full-roll-v2 --viz none \
-    --init-policy-onnx reference/microduck/policies/roulade.onnx \
+    --init-policy-onnx reference/policies/v7/roulade.onnx \
     --log-root "$roll_session/roll"
 ```
 

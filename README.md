@@ -15,6 +15,15 @@ ROS 2 Jazzy and NVIDIA Isaac Sim. It has three practical paths:
 Start with ROS 2 for the quickest setup. Isaac Sim is not required for that
 path.
 
+## Upstream alignment — 2026-10-10
+
+Source pins and the ROS description now follow the October upstream; official
+policies are SHA-256-checked downloads from the immutable Hugging Face v7 set.
+The bundled Isaac USD and native training inputs remain the historical baseline
+until the new conversion and GPU playback have been tested. See the
+[alignment notes](docs/reference/upstream-alignment.md) for the exact versions,
+local checks, and remaining runtime gates. Circus work is not part of this update.
+
 ## ROS 2 quick start
 
 Install ROS 2 Jazzy Desktop and `python3-colcon-common-extensions`, then run:
@@ -100,7 +109,7 @@ uses an implicit-PD approximation and is not a sim-to-real claim.
 
 This is an independent community project and is not endorsed by Pollen
 Robotics. Original integration code and documentation are Apache-2.0.
-Upstream-derived meshes, Xacro, and USD remain subject to the model terms
-described by Pollen Robotics as “Creative Commons BY-SA-NC” without a stated
-version. See [`NOTICE-MICRODUCK.md`](NOTICE-MICRODUCK.md) before redistribution
-or commercial use.
+Upstream STL meshes and converted mesh geometry use CC BY-NC-SA 4.0; MJCF XML
+and the generated Xacro description use Apache-2.0. A distribution containing
+both is not Apache-only. See [`NOTICE-MICRODUCK.md`](NOTICE-MICRODUCK.md) before
+redistribution or commercial use.

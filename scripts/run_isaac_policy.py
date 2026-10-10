@@ -17,7 +17,7 @@ DEFAULT_USD = (
     PROJECT_ROOT
     / "assets/isaac/robot_allcollisions/robot_allcollisions.usda"
 )
-DEFAULT_POLICY = PROJECT_ROOT / "reference/microduck/policies/alpha_walking.onnx"
+DEFAULT_POLICY = PROJECT_ROOT / "reference/policies/v7/alpha_walking.onnx"
 DEFAULT_OUTPUT = PROJECT_ROOT / "artifacts/isaac/policy_rollout.json"
 
 parser = argparse.ArgumentParser(description=__doc__)

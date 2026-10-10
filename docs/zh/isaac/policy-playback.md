@@ -1,5 +1,12 @@
 # 让 MicroDuck 在 Isaac Sim 里走起来
 
+::: info 2026 年 10 月源码更新
+权重改从 `reference/policies/v7/` 读取。默认行走/站立仍使用 `alpha_walking`/`alpha_stand`，
+其文件与历史基线逐字节一致。仓库自带 USD 仍是历史资产，不是新近验证的 10 月转换结果。
+`velstand.onnx` 可用于显式探测，但其跌倒恢复尚未在本项目 Isaac 适配器中验证。
+详见[对齐与验证边界](../reference/upstream-alignment)。
+:::
+
 这部分假设电脑里已经安装 Isaac Sim 和 Isaac Lab。USD 已经在仓库里；下面只需要下载公开策略，
 并在项目目录准备 ONNX Runtime。环境准备好以后，就可以正式放鸭开跑。
 
@@ -40,7 +47,7 @@ export ISAACLAB_DIR=/path/to/IsaacLab
 
 <div class="md-checkpoint">
   <strong>依赖准备完成</strong>
-  <p><code>reference/microduck/</code> 中已有公开策略，<code>work/isaac_python_pkgs/onnxruntime</code> 目录存在。后面再玩不用重复下载。</p>
+  <p><code>reference/policies/v7/</code> 中已有公开策略，<code>work/isaac_python_pkgs/onnxruntime</code> 目录存在。后面再玩不用重复下载。</p>
 </div>
 
 <div class="md-step-kicker"><span>步骤 2</span><strong>终端保持运行 · GUI 回放</strong></div>
@@ -85,7 +92,7 @@ sim time 完全一致。窗口打开后先看四件事：机器人落在地面�
 
 ```bash
 ./scripts/run_isaac_policy.sh \
-  --policy reference/microduck/policies/alpha_stand.onnx \
+  --policy reference/policies/v7/alpha_stand.onnx \
   --duration 30 \
   --action-scale 1.0 \
   --follow-camera \

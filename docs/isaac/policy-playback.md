@@ -3,6 +3,15 @@
 You need Isaac Sim and Isaac Lab for this page. The steps below get the
 ready-made policies and add ONNX Runtime to this project.
 
+::: info October 2026 source update
+Weights now come from `reference/policies/v7/`. The default walking/standing
+networks remain `alpha_walking`/`alpha_stand`, which are byte-identical to the
+recorded baseline. The bundled USD is still the historical asset, not a newly
+validated October conversion. `velstand.onnx` is available for an explicit probe;
+its recovery behavior has not been validated in this Isaac adapter.
+See [alignment and validation boundaries](../reference/upstream-alignment).
+:::
+
 <div class="md-tutorial-meta" role="list" aria-label="Page overview">
   <div role="listitem"><span>Time</span><strong>15–25 minutes</strong></div>
   <div role="listitem"><span>Run from</span><strong>Repository root</strong></div>
@@ -41,7 +50,7 @@ You can omit `ISAACLAB_DIR` when Isaac Lab is at the default
 
 <div class="md-checkpoint">
   <strong>Ready to run!</strong>
-  <p>Released policies exist under <code>reference/microduck/</code>, and <code>work/isaac_python_pkgs/onnxruntime</code> exists. This setup is required only once.</p>
+  <p>Released policies exist under <code>reference/policies/v7/</code>, and <code>work/isaac_python_pkgs/onnxruntime</code> exists. This setup is required only once.</p>
 </div>
 
 <div class="md-step-kicker"><span>STEP 2</span><strong>Keep the terminal open · GUI replay</strong></div>
@@ -89,7 +98,7 @@ Wait for the 60-second run to finish. To stop early, press
 
 ```bash
 ./scripts/run_isaac_policy.sh \
-  --policy reference/microduck/policies/alpha_stand.onnx \
+  --policy reference/policies/v7/alpha_stand.onnx \
   --duration 30 \
   --action-scale 1.0 \
   --follow-camera \

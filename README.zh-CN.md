@@ -16,6 +16,13 @@ ROS 2 Jazzy 和 NVIDIA Isaac Sim。少讲一点干巴巴的理论，先让鸭子
 
 只想先和鸭子打个照面？从 ROS 2 开始就行，不需要安装 Isaac Sim。
 
+## 上游对齐 — 2026-10-10
+
+源码锁定版本和 ROS 描述已跟进 10 月上游；官方策略改为从 Hugging Face 的不可变 v7 版本下载，
+并逐文件检查 SHA-256。仓库自带的 Isaac USD 和原生训练输入暂时保留历史基线，等待新版转换与
+GPU 回放验证。具体版本、本地检查及待完成的运行时验证见[对齐说明](docs/zh/reference/upstream-alignment.md)。
+本次不涉及马戏团更新。
+
 ## ROS 2 快速开始
 
 先安装 ROS 2 Jazzy Desktop 和 `python3-colcon-common-extensions`，然后运行：
@@ -92,6 +99,6 @@ export ISAACLAB_DIR=/path/to/IsaacLab
 ## 来源与许可
 
 这是独立社区项目，不代表 Pollen Robotics 官方。原创兼容代码和文档使用 Apache-2.0。
-上游模型派生的网格、Xacro 和 USD 继续遵守 Pollen Robotics 所描述的
-“Creative Commons BY-SA-NC（版本未注明）”。再分发或商业使用前请阅读
+上游 STL 网格及转换后的网格几何采用 CC BY-NC-SA 4.0；MJCF XML 和生成的 Xacro 描述采用
+Apache-2.0。包含两者的分发包不能称为 Apache-only。再分发或商业使用前请阅读
 [`NOTICE-MICRODUCK.md`](NOTICE-MICRODUCK.md)。

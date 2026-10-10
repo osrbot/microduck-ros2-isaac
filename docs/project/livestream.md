@@ -1,5 +1,10 @@
 # Livestream guide
 
+Use the [October alignment notes](../reference/upstream-alignment) to distinguish
+the updated ROS description and policy downloads from the historical Isaac USD
+and recorded results. The default playground retains its historical action weights;
+rehearse any explicit new-policy experiment before showing it live.
+
 The recommended teaching story is:
 
 ```text
@@ -47,7 +52,7 @@ Start with a standing check:
 
 ```bash
 ./scripts/run_isaac_policy.sh \
-  --policy reference/microduck/policies/alpha_stand.onnx \
+  --policy reference/policies/v7/alpha_stand.onnx \
   --duration 30 --action-scale 1.0 --follow-camera --viz kit
 ```
 
@@ -55,7 +60,7 @@ Then walk:
 
 ```bash
 ./scripts/run_isaac_policy.sh \
-  --policy reference/microduck/policies/alpha_walking.onnx \
+  --policy reference/policies/v7/alpha_walking.onnx \
   --duration 60 --vx 0.3 --action-scale 0.9 --follow-camera --viz kit
 ```
 

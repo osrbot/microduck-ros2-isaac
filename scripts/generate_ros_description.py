@@ -33,7 +33,7 @@ def relative_path(path: Path) -> str:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--mjcf", type=Path, default=DEFAULT_MODEL_DIR / "robot_allcollisions.xml"
+        "--mjcf", type=Path, default=DEFAULT_MODEL_DIR / "robot_groundcontact.xml"
     )
     parser.add_argument("--mesh-dir", type=Path, default=DEFAULT_MODEL_DIR / "assets")
     parser.add_argument("--package-dir", type=Path, default=DEFAULT_PACKAGE_DIR)
@@ -161,6 +161,9 @@ def upstream_sha(mjcf: Path) -> str:
     """Resolve the pinned source revision from the containing reference clone."""
     current = mjcf.resolve().parent
     for candidate in (current, *current.parents):
+        if candidate == PROJECT_ROOT:
+            # A downloaded snapshot is not the integration repository's HEAD.
+            return "unknown"
         if (candidate / ".git").exists():
             result = subprocess.run(
                 ["git", "rev-parse", "HEAD"],
@@ -232,7 +235,7 @@ def generate(args: argparse.Namespace) -> dict[str, object]:
     robot.append(
         ET.Comment(
             " Generated from Pollen Robotics microduck_rl "
-            f"robot_allcollisions.xml at {revision}. Do not hand-edit generated geometry. "
+            f"{args.mjcf.name} at {revision}. Do not hand-edit generated geometry. "
         )
     )
     ET.SubElement(robot, "xacro:arg", {"name": "with_visual_meshes", "default": "true"})

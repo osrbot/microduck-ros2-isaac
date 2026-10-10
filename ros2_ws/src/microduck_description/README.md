@@ -72,7 +72,9 @@ ros2 launch microduck_description view_microduck.launch.py rviz_fullscreen:=true
 ## Provenance and licensing
 
 The generator records the exact upstream revision in the Xacro header and the
-project artifact report. Code in this package is Apache-2.0. Pollen Robotics says
-the 3D model files are "Creative Commons BY-SA-NC" but does not state a license
-version in the upstream README. Treat the meshes as non-commercial and preserve
-attribution/share-alike until that ambiguity is resolved with the author.
+project artifact report. The October 2026 update selects `robot_groundcontact.xml`;
+the new upstream `robot_allcollisions.xml` is a different full-collision model.
+The Xacro, meshes and 109 poses pass local structural checks; the new description
+has not yet been retested in ROS/RViz. Code and the XML-derived Xacro are
+Apache-2.0. Pollen Robotics' STL meshes are CC-BY-NC-SA-4.0 as explicitly stated
+in the pinned upstream `LICENSE-MODELS.md`. Preserve the package `NOTICE`.

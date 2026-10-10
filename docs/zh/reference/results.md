@@ -2,6 +2,8 @@
 
 验证日期：2026-08-31 至 2026-09-02（Asia/Shanghai）。`artifacts/` 下 JSON 是机器可读证据，本页是人工摘要。
 
+本页是历史基线，不是 10 月复测。新版源码与本地检查见[上游对齐](./upstream-alignment)。
+
 ## 输入与结构
 
 - `microduck_rl`：`d424a0c899f6b33cbd3daeb279913134349c0b63`

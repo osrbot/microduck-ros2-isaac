@@ -4,6 +4,9 @@ The project keeps evidence levels separate. A later level cannot retroactively
 prove an earlier contract, and a GUI screenshot cannot replace structural or
 runtime checks.
 
+The table below describes the historical matrix. The [October alignment](./upstream-alignment)
+has separate local-only evidence; new-source Isaac and ROS runtime checks are pending.
+
 | Level | What is checked | Status in recorded matrix |
 | --- | --- | --- |
 | Source identity | Immutable upstream revisions | Passed |
@@ -30,6 +33,10 @@ The thirteen stages check sources and environment, pure-Python contracts, MuJoCo
 baselines, USD conversion, Isaac single- and multi-policy playback, native
 training smoke, cross-engine comparison, ROS packages, description runtime,
 the bridge protocol, and a live ROS-to-Isaac playground round trip.
+It starts a short training smoke and needs an available Linux GPU/ROS host.
+The converter now writes a separate ground-contact candidate and refuses to
+overwrite it; archive an existing candidate before a deliberate regeneration.
+Native training and the later ROS bridge stages still use the historical USD.
 
 ## Fixed numerical contracts
 

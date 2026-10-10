@@ -23,7 +23,7 @@ DEFAULT_AGGRESSIVE_LOG_ROOT = (
 DEFAULT_CONTINUOUS_ROLL_LOG_ROOT = (
     PROJECT_ROOT / "work/isaac_training/logs/rsl_rl/microduck_continuous_roll"
 )
-DEFAULT_ROLL_POLICY = PROJECT_ROOT / "reference/microduck/policies/roulade.onnx"
+DEFAULT_ROLL_POLICY = PROJECT_ROOT / "reference/policies/v7/roulade.onnx"
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--num-envs", type=int, default=64)

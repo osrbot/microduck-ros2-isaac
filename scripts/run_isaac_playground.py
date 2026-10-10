@@ -26,7 +26,8 @@ from microduck_playground_core import (
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_USD = PROJECT_ROOT / "assets/isaac/robot_allcollisions/robot_allcollisions.usda"
-DEFAULT_POLICY_DIR = PROJECT_ROOT / "reference/microduck/policies"
+DEFAULT_POLICY_DIR = PROJECT_ROOT / "reference/policies/v7"
+DEFAULT_SITSTAND_POLICY = PROJECT_ROOT / "reference/policies/isaac-legacy/alpha_sitstand.onnx"
 DEFAULT_OUTPUT = PROJECT_ROOT / "artifacts/isaac/playground_session.json"
 
 PHYSICS_TIMESTEP_S = 0.005
@@ -46,7 +47,8 @@ parser.add_argument(
     "--standing-policy", type=Path, default=DEFAULT_POLICY_DIR / "alpha_stand.onnx"
 )
 parser.add_argument(
-    "--sitstand-policy", type=Path, default=DEFAULT_POLICY_DIR / "alpha_sitstand.onnx"
+    "--sitstand-policy", type=Path, default=DEFAULT_SITSTAND_POLICY,
+    help="Keep the historical sitting transition by default; v7 is an explicit experimental override.",
 )
 parser.add_argument(
     "--ground-pick-policy",
@@ -71,7 +73,7 @@ parser.add_argument(
     "--action-scale",
     type=float,
     default=None,
-    help="Override every policy action scale; default follows the pinned MicroDuck runtime.",
+    help="Override every policy action scale; default preserves the legacy Isaac playback profile.",
 )
 parser.add_argument("--stiffness", type=float, default=0.55)
 parser.add_argument("--damping", type=float, default=0.053)

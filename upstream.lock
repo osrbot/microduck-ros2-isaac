@@ -1,14 +1,50 @@
-format = 1
+format = 2
 
 [microduck_rl]
 url = "https://github.com/pollen-robotics/microduck_rl.git"
 branch = "develop"
-commit = "d424a0c899f6b33cbd3daeb279913134349c0b63"
+commit = "ceca01706143d729305baa94cbd8ab990979e325"
+model = "robot_groundcontact.xml"
 
 [microduck_runtime]
 url = "https://github.com/pollen-robotics/microduck.git"
 branch = "main"
-commit = "590b986bd8c0d50ae02cb3ea2f59c463b6828168"
+commit = "dec725c67ffbbdde7f1de30f8c936b1bf9c1d70e"
+
+[policies]
+repo = "pollen-robotics/microduck-policies"
+version = "v7"
+revision = "6677ec007142bbaf05123a468f6ae58d13808786"
+
+[policies.files]
+"manifest.json" = "5c6a73f95f388f131aaef570f6113f0d36b84a72d5755662cd57e67adf7fd24c"
+"README.md" = "491b39e6bd8ddb2840c7d12a39650331ef87412aa46d834980d8076504f5b8e7"
+"alpha_ground_pick.onnx" = "ffbf5109982ff999b0ba53afe86b9ae731bbec679d67fb7f8ab4c52152c88872"
+"alpha_sitstand.onnx" = "a6f102d9fd655782ba85bfffe18175c34621da719cffcdd673be7982a06fc254"
+"alpha_stand.onnx" = "1569268713e40deea795dd2922dba50d3621e15a872855408b6b1b125b1c094b"
+"alpha_walking.onnx" = "e36332d383997d51401897734cd3e79cf5038406feddb18b4d57ecfb141daa6c"
+"ball_kick_left.onnx" = "d6928284dccd3dd61e08bf2f760effa74309fbefd97b2b31afb2a60f526d196a"
+"ball_kick_right.onnx" = "147a32c388c6b19111b3ac3b550a9a6dc8b8bf267118af4d8c3712522eedb5af"
+"roller.onnx" = "cf05651d2708a2f9364212e86b866c97a70ace8131c492500105e8f28bf99afd"
+"roller_crouch.onnx" = "a1a084be240469c76ac9d3fa44d4792f16d4b1da60398b3ecd3cfc5e2244d990"
+"roulade.onnx" = "3d60da08fc13f29c1b57f41977aa898132c0d60042100149d8e775affcbca32b"
+"velstand.onnx" = "ce894d30b3343036d499bfac1102bdaa58d59a21c1b58401ecb70fb6a2f63e0a"
+
+# Keep the playground's previously tested sitting transition until the v7
+# replacement has passed Isaac motion/transition checks. Other defaults in v7
+# are byte-identical to the historical policies.
+[playground_sitstand]
+repo = "pollen-robotics/microduck"
+revision = "590b986bd8c0d50ae02cb3ea2f59c463b6828168"
+sha256 = "c6c40e35e726eabd803d633e090d112994f469921152448367953fbaf9799bc8"
+
+# The bundled historical USD and circus experiments retain their own provenance.
+# Do not relabel this asset with the newer source pin before Isaac re-conversion.
+[bundled_isaac_asset]
+path = "assets/isaac/robot_allcollisions/robot_allcollisions.usda"
+source_commit = "d424a0c899f6b33cbd3daeb279913134349c0b63"
+source_model = "robot_allcollisions.xml"
+status = "legacy_validated_asset"
 
 [validated_toolchain]
 isaac_sim = "6.0.1"

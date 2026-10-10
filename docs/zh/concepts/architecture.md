@@ -8,7 +8,7 @@
         |-- Xacro + 网格 --> ROS 2 / TF / RViz
         `-- Isaac MJCF 导入 --> 碰撞修正 --> 已验证 USD
 
-固定版本 microduck 策略
+固定版本 Hugging Face microduck-policies 策略
         |-- MuJoCo 61 -> 14 回放
         `-- Isaac 多策略游乐场 <--> 本机 UDP <--> ROS 2 / RViz
 
@@ -19,6 +19,10 @@
 ## 可复现源输入层
 
 `upstream.lock` 记录不可变提交。`fetch_upstream.sh` 把它们放入被忽略的 `reference/`，避免上游分支移动后悄悄改变演示输入。
+runtime 源码与策略权重是不同输入：当前 runtime 在 `reference/microduck_runtime/`，v7 权重在
+`reference/policies/v7/`，逐文件检查 SHA-256。新转换选择 `robot_groundcontact.xml`，不能按旧名
+误选新版全碰撞的 `robot_allcollisions.xml`。仓库自带 USD 和原生训练仍使用独立的历史来源，待运行
+验证后再提升新版；见[对齐说明](../reference/upstream-alignment)。
 
 ## ROS 描述层
 

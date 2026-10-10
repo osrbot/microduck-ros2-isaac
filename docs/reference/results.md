@@ -3,6 +3,9 @@
 Validation dates: 2026-08-31 to 2026-09-02 (Asia/Shanghai). JSON files below `artifacts/` are
 the machine-readable evidence; this page is the human summary.
 
+This is the historical baseline, not an October rerun. See
+[upstream alignment](./upstream-alignment) for the new source and local checks.
+
 ## Inputs and structure
 
 - `microduck_rl`: `d424a0c899f6b33cbd3daeb279913134349c0b63`

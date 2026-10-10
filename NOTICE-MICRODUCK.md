@@ -9,16 +9,29 @@ This community project is based on public work by Pollen Robotics:
 The exact source revisions used by this project are recorded in
 `upstream.lock`.
 
-The upstream `microduck_rl` README states that its code is licensed under the
-Apache License 2.0 and that its 3D model files are licensed under
-"Creative Commons BY-SA-NC". The upstream notice does not identify a Creative
-Commons license version, so this project preserves that wording and does not
-claim a version on Pollen Robotics' behalf.
+The upstream [LICENSE-MODELS.md](https://github.com/pollen-robotics/microduck_rl/blob/ceca01706143d729305baa94cbd8ab990979e325/LICENSE-MODELS.md)
+now explicitly licenses the STL meshes under
+[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+It separately licenses MJCF XML, export configuration and Onshape part metadata
+under Apache-2.0. The generated Xacro description and original integration code
+are Apache-2.0; the referenced/copied STL meshes retain Pollen Robotics'
+CC BY-NC-SA 4.0 terms. Converted mesh geometry also retains the mesh terms.
+Do not describe a package containing both as Apache-only.
 
-Derived URDF, USD, mesh packages, and other robot-description data remain
-identified as derivatives of the upstream MicroDuck 3D model. Original code
-written for this compatibility project is licensed separately under the
-Apache License 2.0.
+The new ROS mesh set was copied without geometry edits from the locked source;
+SHA-256 values are in `ros2_ws/src/microduck_description/meshes/SHA256SUMS`.
+The bundled historical Isaac USD retains its original source commit in
+`upstream.lock`; it has not been regenerated or relabeled as the October model.
+It contains converted mesh geometry, not just Apache-licensed XML.
+
+Official ONNX weights are downloaded separately from
+[pollen-robotics/microduck-policies](https://huggingface.co/pollen-robotics/microduck-policies)
+at the immutable revision in `upstream.lock`. That revision's model card declares
+Apache-2.0. The weights and source checkouts live in ignored `reference/`, not in
+this repository's source distribution.
+The playground separately retains the historical sit/stand weight from runtime
+commit `590b986bd8c0d50ae02cb3ea2f59c463b6828168`, whose root license is Apache-2.0.
+Its source and SHA-256 are pinned in `upstream.lock`; it is downloaded, not bundled.
 
 Changes made by this project include format conversion, ROS 2 packaging,
 Isaac Sim articulation configuration, validation metadata, and documentation.

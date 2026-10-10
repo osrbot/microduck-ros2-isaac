@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import subprocess
+import tomllib
 from pathlib import Path
 from typing import Any
 
@@ -19,9 +20,9 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 REFERENCE_ROOT = PROJECT_ROOT / "reference"
 DEFAULT_MODEL = (
     REFERENCE_ROOT
-    / "microduck_rl/src/mjlab_microduck/robot/microduck/robot_allcollisions.xml"
+    / "microduck_rl/src/mjlab_microduck/robot/microduck/robot_groundcontact.xml"
 )
-DEFAULT_POLICY_DIR = REFERENCE_ROOT / "microduck/policies"
+DEFAULT_POLICY_DIR = REFERENCE_ROOT / "policies/v7"
 DEFAULT_OUTPUT = PROJECT_ROOT / "artifacts/baseline/upstream_inventory.json"
 
 
@@ -36,6 +37,8 @@ def sha256(path: Path) -> str:
 
 def git_head(path: Path) -> str:
     """Return the checked-out Git commit for a reference repository."""
+    if not (path / ".git").exists():
+        raise ValueError(f"Not a reference checkout: {path}")
     result = subprocess.run(
         ["git", "-C", str(path), "rev-parse", "HEAD"],
         check=True,
@@ -182,11 +185,32 @@ def main() -> int:
     report = {
         "upstream": {
             "microduck_rl": git_head(REFERENCE_ROOT / "microduck_rl"),
-            "microduck_runtime": git_head(REFERENCE_ROOT / "microduck"),
+            "microduck_runtime": git_head(REFERENCE_ROOT / "microduck_runtime"),
         },
         "model": model_inventory(args.model.resolve()),
         "policies": [policy_inventory(path.resolve()) for path in policy_paths],
+        "toolchain": {
+            "mujoco": mujoco.__version__,
+            "onnxruntime": ort.__version__,
+            "numpy": np.__version__,
+        },
     }
+    with (PROJECT_ROOT / "upstream.lock").open("rb") as stream:
+        lock = tomllib.load(stream)
+    report["source_pins_match"] = all(
+        report["upstream"][key] == lock[key]["commit"]
+        for key in ("microduck_rl", "microduck_runtime")
+    )
+    if args.policy_dir.resolve() == DEFAULT_POLICY_DIR.resolve():
+        config = lock["policies"]
+        report["policy_set"] = {
+            "repo": config["repo"], "revision": config["revision"],
+            "version": config["version"],
+            "file_hashes_match": all(
+                sha256(args.policy_dir / name) == expected
+                for name, expected in config["files"].items()
+            ),
+        }
     report["all_policy_contracts_ok"] = all(
         policy["contract_ok"] for policy in report["policies"]
     )
@@ -205,7 +229,10 @@ def main() -> int:
         f"Policies: {len(report['policies'])}; "
         f"61 -> 14 contracts: {report['all_policy_contracts_ok']}"
     )
-    return 0 if report["all_policy_contracts_ok"] else 1
+    return 0 if (
+        report["all_policy_contracts_ok"] and report["source_pins_match"]
+        and report.get("policy_set", {}).get("file_hashes_match", True)
+    ) else 1
 
 
 if __name__ == "__main__":

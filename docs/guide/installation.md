@@ -158,9 +158,18 @@ From the repository root:
 ```
 
 The scripts create ignored `reference/` and `work/` directories inside this project. They do not modify Isaac Lab.
+The fetch script needs Python 3.11 or newer (`tomllib`). Sources go into
+`reference/microduck_rl/` and `reference/microduck_runtime/`; the immutable
+official v7 weights, manifest and model card go into `reference/policies/v7/`.
+The playground's historical sitting weight is also downloaded to `reference/policies/isaac-legacy/`.
+An existing historical `reference/microduck/` directory is left untouched.
+See [upstream alignment](../reference/upstream-alignment) before migrating a previous checkout.
 
 ```bash
-test -d reference/microduck && echo "Upstream assets: OK"
+test -s reference/policies/v7/manifest.json \
+  && test -s reference/policies/v7/alpha_walking.onnx \
+  && test -s reference/policies/isaac-legacy/alpha_sitstand.onnx \
+  && echo "Upstream policies: OK"
 test -d work/isaac_python_pkgs/onnxruntime && echo "ONNX Runtime: OK"
 ```
 

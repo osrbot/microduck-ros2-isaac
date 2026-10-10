@@ -1,5 +1,9 @@
 # 直播演示指南
 
+新版 ROS 描述与策略下载的边界见[10 月上游对齐](../reference/upstream-alignment)。
+历史 Isaac USD 与已录结果保持原来源；默认游乐场保留历史动作权重，
+显式试用的新策略需先完成实际 Linux/Isaac 环境中的彩排。
+
 推荐教学主线是：
 
 ```text
@@ -43,7 +47,7 @@ ros2 launch microduck_description view_microduck.launch.py use_gui:=true
 
 ```bash
 ./scripts/run_isaac_policy.sh \
-  --policy reference/microduck/policies/alpha_stand.onnx \
+  --policy reference/policies/v7/alpha_stand.onnx \
   --duration 30 --action-scale 1.0 --follow-camera --viz kit
 ```
 
@@ -51,7 +55,7 @@ ros2 launch microduck_description view_microduck.launch.py use_gui:=true
 
 ```bash
 ./scripts/run_isaac_policy.sh \
-  --policy reference/microduck/policies/alpha_walking.onnx \
+  --policy reference/policies/v7/alpha_walking.onnx \
   --duration 60 --vx 0.3 --action-scale 0.9 --follow-camera --viz kit
 ```
 

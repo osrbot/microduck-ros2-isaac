@@ -2,6 +2,9 @@
 
 记录日期：2026-08-31（Asia/Shanghai）。这是已知可工作的测试矩阵，不代表其他版本一定不可用。
 
+[10 月源码对齐](./upstream-alignment)在本地用 Python 3.12.14、MuJoCo 3.10.0 和
+ONNX Runtime 1.24.4 检查，尚未重跑下方 Linux/Isaac/ROS 运行时矩阵；旧记录保留原始输入。
+
 ## 主机与软件
 
 - Ubuntu 24.04.4 LTS，x86_64

@@ -6,7 +6,7 @@
 
   <maintainer email="8427748+dajianli@users.noreply.github.com">dajianli</maintainer>
   <license>Apache-2.0</license>
-  <license>Creative Commons BY-SA-NC for upstream 3D model files; exact version unspecified upstream</license>
+  <license>CC-BY-NC-SA-4.0 (STL meshes from Pollen Robotics)</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 

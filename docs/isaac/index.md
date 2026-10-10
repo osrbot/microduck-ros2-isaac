@@ -1,5 +1,9 @@
 # Open MicroDuck in Isaac Sim
 
+The bundled USD below retains the historical validated source. October's new
+`robot_groundcontact.xml` conversion is a separate candidate, not an automatic
+replacement. See [upstream alignment](../reference/upstream-alignment).
+
 The ready-to-open MicroDuck USD is already here. You can open it before setting
 up any policy. You do not need to convert anything.
 

@@ -49,9 +49,8 @@ does not repair the host driver installation. Launching Isaac another way may
 still reproduce the GPU failure. The detailed ROS visual model can also be
 limited by remote-desktop encoding at 4K despite a 15 FPS cap.
 
-## Model redistribution needs clarification
+## Model redistribution has separate terms
 
-Pollen Robotics describes the 3D files as “Creative Commons BY-SA-NC” without a
-version. Derived assets should be treated as non-commercial, attribution
-required, and share-alike until the author clarifies the exact license. See
-[licensing](/project/licensing).
+The pinned upstream now explicitly licenses STL geometry under CC BY-NC-SA 4.0
+and MJCF XML/configuration under Apache-2.0. Converted mesh geometry retains the
+mesh terms; a mixed package is not Apache-only. See [licensing](/project/licensing).
