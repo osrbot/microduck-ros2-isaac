@@ -237,6 +237,11 @@ MICRODUCK_PLAY_STEPS=1000 ./scripts/play_isaac_velocity.sh
 并未包含身体位姿跟踪目标。本页的原生任务负责平地行走与头部控制；踢球、坐起、低头碰地等公开策略可以在[多动作游乐场](./playground)回放。
 接下来的[连续翻滚实战](./continuous-roll)使用独立的翻滚训练配置，讲解从策略热启动到奖励调试、选模和录制的完整过程。
 
+::: tip 选读：上游是怎么改善起身与转向的？
+[VelStand v8](../guide/velstand-v8)讲解教师策略、随机初始姿态、转向标定和两阶段续训。
+那是 MuJoCo/mjlab + BAM 路线，不是本页 Isaac 任务的参数预设；无需修改本页命令。
+:::
+
 ## 常见问题
 
 | 现象 | 处理顺序 |

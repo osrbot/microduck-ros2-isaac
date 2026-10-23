@@ -80,6 +80,10 @@ const englishTutorialSidebar: DefaultTheme.SidebarItem[] = [
       { text: '14. Evaluate and export video', link: '/isaac/roll-validation' },
       { text: '15. Make a new training task', link: '/isaac/custom-environment' }
     ]
+  },
+  {
+    text: 'Optional: upstream methods',
+    items: [{ text: 'VelStand v8 in MuJoCo', link: '/guide/velstand-v8' }]
   }
 ]
 
@@ -204,6 +208,10 @@ const chineseTutorialSidebar: DefaultTheme.SidebarItem[] = [
       { text: '14. 验收模型，导出素材', link: '/zh/isaac/roll-validation' },
       { text: '15. 自己做一个训练任务', link: '/zh/isaac/custom-environment' }
     ]
+  },
+  {
+    text: '选读：上游新方法',
+    items: [{ text: 'v8 起身与转向（MuJoCo）', link: '/zh/guide/velstand-v8' }]
   }
 ]
 

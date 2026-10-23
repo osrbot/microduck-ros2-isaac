@@ -12,6 +12,9 @@ its recovery behavior has not been validated in this Isaac adapter.
 See [alignment and validation boundaries](../reference/upstream-alignment).
 :::
 
+For the newer recovery and turning policy, read the optional [VelStand v8 guide](../guide/velstand-v8).
+It uses separate weights and a MuJoCo path; the default launch steps below stay unchanged.
+
 <div class="md-tutorial-meta" role="list" aria-label="Page overview">
   <div role="listitem"><span>Time</span><strong>15–25 minutes</strong></div>
   <div role="listitem"><span>Run from</span><strong>Repository root</strong></div>

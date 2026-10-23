@@ -7,6 +7,9 @@
 详见[对齐与验证边界](../reference/upstream-alignment)。
 :::
 
+想了解上游更新的起身与转向策略，可以选读[VelStand v8 教程](../guide/velstand-v8)。
+它使用独立权重和 MuJoCo 路线，不改变下面的默认启动方式。
+
 这部分假设电脑里已经安装 Isaac Sim 和 Isaac Lab。USD 已经在仓库里；下面只需要下载公开策略，
 并在项目目录准备 ONNX Runtime。环境准备好以后，就可以正式放鸭开跑。
 

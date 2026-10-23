@@ -5,6 +5,14 @@ Local MuJoCo and structural checks pass. **The new Isaac conversion and ROS/RViz
 runtime have not been retested.** The bundled Isaac USD, native training model
 and historical results remain separate; circus work is unchanged.
 
+::: tip 2026-10-20 addition: learn about v8 without switching defaults
+Upstream has released VelStand v8 with improved recovery and turning.
+The new [optional guide](../guide/velstand-v8) covers training changes, parameter rationale,
+two-stage resume and evaluation prerequisites. The version table and October 10 evidence below
+retain their original meaning; `upstream.lock` and default policies are unchanged.
+Upstream v8 results are not included in this project's acceptance record.
+:::
+
 ## 1. Which versions are selected? {#versions}
 
 | Input | Immutable version | Location |

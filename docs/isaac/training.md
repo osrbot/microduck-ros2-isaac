@@ -224,6 +224,11 @@ ONNX or automatically grade the gait.
 Six body-command slots remain in the 61-value interface, but this task has no body-pose tracking reward. This page covers flat-ground walking and head control; you can replay the published kicking, sit/stand, and ground-pick policies in the [playground](./playground).
 The next [continuous-roll case study](./continuous-roll) uses a separate rolling configuration and covers the full process from warm-starting to reward tuning, checkpoint selection, and recording.
 
+::: tip Optional: how upstream improved recovery and turning
+[VelStand v8](../guide/velstand-v8) explains teacher policies, randomized starts, yaw calibration and two-stage resume.
+It uses MuJoCo/mjlab + BAM, not a parameter preset for this Isaac task. Keep the commands on this page unchanged.
+:::
+
 ## Common problems
 
 | Symptom | First action |
