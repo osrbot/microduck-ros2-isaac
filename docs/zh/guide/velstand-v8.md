@@ -1,22 +1,19 @@
-# VelStand v8：摔倒会起，转弯听话
+# 训练鸭子起身和转向
 
-这一回先不加新杂技，把两件基本功练好：摔倒后别躺平，想拐弯时别原地发呆。
-上游在 2026-10-12 发布了 VelStand v8，本页先看它改进了什么，再拆解训练方法，最后说明怎样做自己的对照实验。
+这一章介绍怎样通过教师模型、初始姿态和奖励设置，改善鸭子的起身和转向动作。
+我们以官方 VelStand v8 为例，说明改了哪些参数、为什么改，以及怎样检查效果。
 
 <div class="md-tutorial-meta" role="list" aria-label="本页概览">
-  <div role="listitem"><span>阅读路线</span><strong>效果 → 原因 → 训练 → 验收</strong></div>
-  <div role="listitem"><span>训练环境</span><strong>MuJoCo / mjlab + CUDA</strong></div>
-  <div role="listitem"><span>本项目默认</span><strong>保留原版本，不自动切换</strong></div>
-  <div role="listitem"><span>证据状态</span><strong>上游报告，本项目待复测</strong></div>
+  <div role="listitem"><span>学习内容</span><strong>起身与转向</strong></div>
+  <div role="listitem"><span>仿真平台</span><strong>MuJoCo</strong></div>
+  <div role="listitem"><span>所用模型</span><strong>VelStand v8</strong></div>
+  <div role="listitem"><span>动手操作</span><strong>第 17 章继续训练</strong></div>
 </div>
 
-::: info 这是选读，不是新的默认安装步骤
-现有 `upstream.lock`、v7 下载入口、Isaac 游乐场、历史 USD 和连续翻滚案例都不变。
-本页讲的是上游 MuJoCo/mjlab 的 VelStand，不是把[原生 Isaac Lab 行走任务](../isaac/training)改成 v8。
-只想跟着原教程玩鸭，继续原来的步骤即可。
-:::
+想直接动手，可以接着看[第 17 章：用现成模型继续训练](./training-checkpoints)。
+本章使用 MuJoCo/mjlab；Isaac Lab 的操作仍按[第 10 章](../isaac/training)进行。
 
-## 1. 先看结果：改善在哪里？ {#results}
+## 1. 训练效果 {#results}
 
 VelStand 用一个策略完成行走、零速度站立和跌倒恢复。v8 主要补上了 v7 的两个短板：
 某些仰躺姿态起不来，以及转向指令给了、身体却没怎么转。
@@ -32,22 +29,22 @@ VelStand 用一个策略完成行走、零速度站立和跌倒恢复。v8 主�
 数据来自[上游 v8 训练记录](https://github.com/pollen-robotics/microduck_rl/blob/b02fdea4902c2b93b7d34a83a6f05da4ececb7d3/docs/velstand_policy.md)：
 仿真评估使用平地与齿隙模型；起身测试每类为两组、每组 128 个环境、观察 12 秒；
 转向数值取前 2 秒之后仍直立环境的均值，不是把摔倒样本也计入的总体成功率。
-上游另记录了实机起身、转向和行走测试。**这些不是本项目复测成绩。**
+上游另记录了实机测试；表中为其仿真评估结果，本项目尚未复测。
 
-改善也有边界：约 0.3 rad/s 的慢速原地转向仍偏弱，身体高度控制仍未学会；
-普通前向速度跟踪没有同等幅度的提升。不要把“更会起身和转弯”读成“所有动作都升级了”。
+仍待改善的动作包括约 0.3 rad/s 的慢速原地转向和身体高度控制。
+普通前向速度跟踪没有同等幅度的提升。
 
-## 2. 为什么多练几轮不一定有用？ {#method}
+## 2. 起身和转向的训练方法 {#method}
 
-### 起身：先检查老师有没有教错
+### 起身：调整教师输入和初始姿态
 
 这条训练路线不是从随机动作开始。学生继承已有行走能力，PPO 用奖励继续优化；
 同时用行为克隆（BC）向两个冻结的老师学习：直立时保住走路，倒下时学习起身。
 基础路由以身体倾角区分，行走老师主要管小于 25° 的状态，起身老师主要管大于 35° 的状态，
 中间留给 PPO；站立身体控制还有单独的路由。
 
-问题是，起身老师遇到某些腿部姿态也会卡住，学生连“躺着不动”一起学走了。
-v8 的处理不是让学生看不见关节，而是**只在大倾角时，修改起身老师看到的输入**：
+起身教师遇到某些腿部姿态时会停住，学生也会模仿这一行为。
+v8 的处理方式是：**在身体倾角较大时，修改起身教师看到的输入**。
 
 | 改动 | 上游设置 | 为什么这样改 |
 | --- | --- | --- |
@@ -63,11 +60,11 @@ v8 的处理不是让学生看不见关节，而是**只在大倾角时，修改
 实现见[教师输入与 BC](https://github.com/pollen-robotics/microduck_rl/blob/b02fdea4902c2b93b7d34a83a6f05da4ececb7d3/src/mjlab_microduck/tasks/distill.py)
 和[VelStand 配置](https://github.com/pollen-robotics/microduck_rl/blob/b02fdea4902c2b93b7d34a83a6f05da4ececb7d3/src/mjlab_microduck/tasks/microduck_velstand_env_cfg.py)。
 
-### 转向：标定老师，再让奖励对准目标
+### 转向：校准教师动作，调整奖励
 
 行走老师本身存在转向死区，直接模仿会把它也继承下来。
 v8 在训练中先根据老师的响应表换算转向指令，让老师做出接近目标的动作，再把动作教给学生。
-**学生仍接收真实目标指令**，不是在部署时把用户输入偷偷放大。
+**学生始终接收真实的目标指令**，这项调整发生在训练时的教师动作生成过程中。
 
 | 改动 | 上游设置 | 调参依据 |
 | --- | --- | --- |
@@ -77,11 +74,11 @@ v8 在训练中先根据老师的响应表换算转向指令，让老师做出�
 | 最小转向幅度 | 0.2 rad/s | 覆盖低速区，但不代表低速区已经全部达标 |
 
 映射表在 `ANCHOR_YAW_REMAP` 中，不能换一位老师还照用旧表。
-`ENABLE_YAW_FIX` 是上游保留的失败实验开关，当前为 `False`；
-有效路线是 `ENABLE_ANCHOR_YAW_REMAP=True`，不要看到名字里有 “fix” 就把两个都打开。
-v7 的旧运行时转向补偿公式也不能叠加给 v8。参数与开关均见上述固定版本配置。
+本例使用 `ENABLE_ANCHOR_YAW_REMAP=True`。
+`ENABLE_YAW_FIX` 来自一次效果不佳的实验，保持 `False`。
+使用 v8 时应关闭 v7 的旧运行时转向补偿，避免重复修正。参数与开关均见上述固定版本配置。
 
-## 3. 先试权重，不动默认路线 {#try-v8}
+## 3. 下载模型并试运行 {#try-v8}
 
 本页采用以下固定来源，避免以后 `main` 或标签移动，让同一条命令拿到不同文件：
 
@@ -143,9 +140,9 @@ done
 不是 Rough + Backlash 起身或转向评估，也没有替换 Isaac 游乐场的控制器。
 本页新增命令尚未完成本项目的 v8 运行时复测。
 
-## 4. 训练方法：分两阶段继续训练 {#training}
+## 4. 两阶段训练参数 {#training}
 
-### 先备齐检查点，不要拿 ONNX 充当训练存档
+### 准备训练模型
 
 正式训练需要 Linux/CUDA GPU、Python 3.12、`uv`，并使用上游锁定依赖。
 任务是 `Mjlab-VelStand-Rough-Backlash-MicroDuck`：包含全碰撞模型、粗糙地形、
@@ -160,11 +157,10 @@ BAM XL330 执行器与齿隙，不是前面的简化接地探测环境。
 | 行走老师 | `pollen-robotics/mjlab_microduck/441tzs6d` | `model_3750.pt` |
 | 上游阶段 A 的选模结果 | `pollen-robotics/mjlab_microduck/qz5g3bwi` | `model_1750.pt` |
 
-::: tip 2026-10-30 补充：已有公开训练包，可走独立续训路线
-上游已公开最终 VelStand 检查点及上表中的两个教师，见[拿到训练存档，接着练](./training-checkpoints)。
-该路线从最终结果继续训练，不是重演本节的阶段 A → B；本节使用的 v7 起点 `j4i6yoq2_1250`
-和阶段 A 中间结果 `qz5g3bwi_1750` 仍未收录在本次核对的公开训练包中。
-下面保留原始源码和命令；旧版本没有新的 `--init-checkpoint` 入口，不要直接混用。
+::: tip 现在可以从最终模型继续训练
+最终 VelStand 模型和两个教师已经公开，具体操作见[第 17 章](./training-checkpoints)。
+本节保留原始两阶段实验的参数和命令；其中 `j4i6yoq2_1250`、`qz5g3bwi_1750` 仍需取得访问权限。
+两章使用不同源码版本，请分别使用各自页面中的完整命令。
 :::
 
 本项目未验证上述 W&B 文件的公开下载权限；原始实验输入不齐时，不执行下面的两阶段重演。
@@ -197,10 +193,10 @@ uv run train Mjlab-VelStand-Rough-Backlash-MicroDuck --help
 uv run wandb login
 ```
 
-### 阶段 A：把卡住的起身教顺
+### 阶段 A：训练起身
 
 上游这个阶段使用 `333ef7b`，只有关节遮蔽与更广的初始姿态，还没有阶段 B 的转向映射。
-不要直接用最新配置冒充同一组起身消融。
+使用对应提交，便于单独观察这些起身设置带来的变化。
 
 ```bash
 git checkout --detach 333ef7b03c0463bdebfcd6e2be0592de76c2bbcc
@@ -216,7 +212,7 @@ env -u MICRODUCK_WARM_START uv run train Mjlab-VelStand-Rough-Backlash-MicroDuck
 BC 老师与保存流程；小规模检查通过不等于复现了上表成绩。
 上游这次 run 最后到 2749，但选用的是 **1750**：最新文件不一定最好。
 
-### 阶段 B：保住起身，再校准转向
+### 阶段 B：训练转向
 
 前一训练进程退出后才能切换源码。此阶段对应 `3750776`，增加教师转向映射与精细转向奖励：
 
@@ -233,16 +229,15 @@ env -u MICRODUCK_WARM_START uv run train Mjlab-VelStand-Rough-Backlash-MicroDuck
   --agent.max_iterations 1000
 ```
 
-这两段命令展示的是**上游原始谱系**：第二段显式读取上游的阶段 A 产物，
-不会自动接上你刚训练的结果。串联自己的实验时，要把第二段的 run 和 checkpoint 换成
-自己经过独立评估选出的阶段 A 产物，并记录新来源；不能继续标成官方 v8。
+这两段命令使用的是上游实验文件。接着训练自己的阶段 A 模型时，
+把第二段的 run 和 checkpoint 换成自己选出的文件，并为新模型单独命名。
 
 两个阶段都是普通 resume：保留步数与课程进度，继续微调。
 因此命令显式移除 `MICRODUCK_WARM_START`，避免继承终端里旧的 `=1` 设置而把课程清零。
 不要把这个环境变量和源码中保留的 `WARM_START=True` 配置常量混淆。
 计数行为见[上游加载补丁](https://github.com/pollen-robotics/microduck_rl/blob/b02fdea4902c2b93b7d34a83a6f05da4ececb7d3/src/mjlab_microduck/tasks/mdp.py)。
 
-## 5. 怎么选模，才不只是奖励更好看？ {#evaluation}
+## 5. 检查动作并导出模型 {#evaluation}
 
 建议分开记录起身、转向和行走：先用开发集选检查点，再用独立进程与新种子评估。
 下面是本项目建议的复测清单，不是已经提供的一键评估器，也不是已完成测试。
@@ -255,13 +250,11 @@ env -u MICRODUCK_WARM_START uv run train Mjlab-VelStand-Rough-Backlash-MicroDuck
 | 平顺性 | 相同采样率与统计区间 | 身体角速度、冲击、恢复后的连续原速视频 |
 
 起身完成的高度/倾角阈值、持续站稳时间、超时与分母必须先固定，再比较模型。
-不要让 v7 用严标准、v8 用宽标准；同样的原则也用于[连续翻滚验收](../isaac/roll-validation)。
+两个版本使用同一判定标准；同样的原则也用于[连续翻滚验收](../isaac/roll-validation)。
 
-::: warning 上游评估脚本有公开缺口
+::: info 自动评估脚本尚未公开
 上游记录提到的 `claude_experiments/velstand_rise_battery.py`、`velstand_yaw_probe.py`
-等脚本不在这个固定版本的公开 Git 树中。不能照抄路径就声称读者可以复现官方统计。
-严格复现需要取得对应评估脚本和定义，或自行实现并公开一套标明差异的评估器。
-训练命令有来源，不代表检查点权限、评估工具和实机环境都已齐备。
+等脚本不在所选源码中。复现官方统计需要取得这些脚本，或自行实现并说明相同的评估条件。
 :::
 
 导出自己的已选检查点时，使用[上游导出器](https://github.com/pollen-robotics/microduck_rl/blob/b02fdea4902c2b93b7d34a83a6f05da4ececb7d3/src/mjlab_microduck/export.py)，
@@ -277,20 +270,19 @@ sha256sum "$export_dir/velstand.onnx"
 ```
 
 每轮保留源码 SHA、`uv.lock`、输入/教师/输出检查点哈希、环境与奖励配置、种子、原始日志、
-独立评估报告及原速录像。只有 ONNX 和一段好看的视频，下一位读者很难复现你的决定。
+独立评估报告及原速录像，方便其他读者复现实验和调参过程。
 过程放 `work/velstand-v8/`，测试证据和导出候选放 `artifacts/velstand-v8/`；
 整理完成的教程配套包再进入 `output/`，不要覆盖历史案例。
 
-## 6. 什么时候才替换默认版本？ {#adoption}
+## 6. 在 Isaac 中使用前的检查 {#adoption}
 
 先完成 MuJoCo 的同条件对照，再单独检查 Isaac 的观测顺序、动作缩放、执行器差异、
 行走/起身和其他动作切换。控制维度相同，不代表两个引擎下的行为已经一致。
 
-本项目当前只补充 v8 方法说明：默认下载仍取 v7，游乐场仍用历史行走/站立与坐起组合；
-没有启动训练、更新 USD 或宣布 v8 已通过本地验收。
-具体保留版本见[上游对齐说明](../reference/upstream-alignment)。
+项目默认下载仍取 v7，游乐场使用原来的行走、站立与坐起模型。
+v8 的本地运行测试尚待完成；具体配置见[上游对齐说明](../reference/upstream-alignment)。
 
 <div class="md-page-complete">
-  <strong>这一页的收获：不只换个权重，还知道为什么要换。</strong>
-  <p>先确认老师、数据和奖励各自的问题，再小步训练、独立验收。等新策略在自己的环境里确实更好，再让它接班。</p>
+  <strong>下一步：加载模型，开始训练</strong>
+  <p>第 17 章按环境准备、模型下载、训练、检查结果和导出的顺序，带你完成一次小规模续训。</p>
 </div>

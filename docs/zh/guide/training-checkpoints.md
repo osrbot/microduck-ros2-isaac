@@ -1,70 +1,22 @@
-# 拿到训练存档，接着练
+# 用现成模型继续训练
 
-以前拿到 ONNX，是让鸭子表演已经学会的动作；现在拿到完整训练存档，才有条件接着教它。
-上游在 2026-10-27 公开了训练包。本页以最终 VelStand 检查点为例，走完
-**核对输入 → 小规模续训 → 独立评估 → 导出候选**，不改变原来的入门路线。
+这一章教你加载官方已经训练好的 MicroDuck 模型，在它的基础上继续训练，最后导出自己的模型。
+使用的是 **MuJoCo/mjlab**。如果你要继续做前面的 Isaac Lab 任务，请看[第 10 章](../isaac/training)。
 
 <div class="md-tutorial-meta" role="list" aria-label="本页概览">
-  <div role="listitem"><span>你会得到</span><strong>续训记录与候选模型</strong></div>
-  <div role="listitem"><span>运行环境</span><strong>Linux · CUDA</strong></div>
-  <div role="listitem"><span>起点</span><strong>学生 + 两个教师</strong></div>
-  <div role="listitem"><span>本项目验证</span><strong>文档已检查，GPU 续训待验证</strong></div>
+  <div role="listitem"><span>仿真平台</span><strong>MuJoCo</strong></div>
+  <div role="listitem"><span>运行环境</span><strong>Linux + CUDA</strong></div>
+  <div role="listitem"><span>需要模型</span><strong>1 个训练模型 + 2 个教师</strong></div>
+  <div role="listitem"><span>第一次运行</span><strong>先做 5 次更新</strong></div>
 </div>
 
-::: info 先分清两条路线
-本页是从已发布策略继续训练；[原始两阶段实验](./velstand-v8#training)解释这个策略怎样形成。
-两者不能混成同一次实验。本页不启动云端付费任务、不上传日志或策略，也不替换
-`upstream.lock`、Isaac 游乐场、历史 USD 或[原生 Isaac 训练任务](../isaac/training)。
-下面是待在 Linux GPU 上验证的操作流程，不是本项目已完成的新训练成绩。
-:::
+> 验证进度：命令已按上游源码核对，GPU 训练步骤尚未在本项目实测。
 
-## 1. 先看拿到了什么，还缺什么 {#available}
+## 1. 准备训练环境 {#sources}
 
-截至 2026-10-30，官方[训练包目录](https://huggingface.co/pollen-robotics/microduck-training/tree/64d28ce092253c509b51031ec7ccb53790a00d0d)
-公开了 9 组检查点。这里先选一条输入比较完整、目标清楚的路线：
-
-| 材料 | 训练包 ID | 本页用途 |
-| --- | --- | --- |
-| 最终 VelStand | `velstand/0045i2si_2749` | 学生的续训起点 |
-| 起身教师 | `microduck_stand/69u48n8l_9750` | 保留倒地恢复的示范 |
-| 行走教师 | `velocity2/441tzs6d_3750` | 避免练起身时忘了走路 |
-| 翻滚 | `microduck_roulade/blrqbcit_750` | 已有 `.pt`，但源码提交号缺失；暂不作为本页的严格复现示例 |
-
-ONNX 用于部署推理；完整 `.pt` 可以包含 actor、critic、归一化、优化器、迭代号和课程步数。
-`bundle.json` 记录这些文件的来源、哈希、教师和父检查点；`wandb_config.yaml` 记录配置。
-文件能下载，不等于当前环境一定能加载，也不等于续训一定更好。
-
-本页核对的训练库中，旧实验的 v7 起点 `j4i6yoq2_1250` 和阶段 A 结果 `qz5g3bwi_1750` 仍未收录。
-完整起身、转向评估脚本也仍不在所选公开源码中。因此可以准备**从最终结果继续训练**，
-但还不能声称已经具备从头重演全部上游统计的材料。
-
-## 2. 固定源码和输入，别让一次实验混入两个版本 {#sources}
-
-| 输入 | 本页固定值 |
-| --- | --- |
-| 带训练包入口的源码 | `bae39f5900b318f7e87fc485c30a31213cfa14eb` |
-| 训练包库版本 | `64d28ce092253c509b51031ec7ccb53790a00d0d` |
-| 学生文件 | `model_2749.pt` |
-| 学生 SHA-256 | `2c185f1e6982a0a43d41403239bc0c5b0a9d654e4840d25572200c16abe2aa6b` |
-| 原始训练源码 | `3750776761ecfaa5671b36972087cafba45b8527` |
-
-原始训练源码没有新加入的 `--init-checkpoint`。不能一边检出旧提交，一边照抄新命令。
-本页选择带入口的新提交；与原始提交比较，VelStand 环境配置、`mdp.py` 和 `uv.lock` 没有差异，
-教师加载增加了 Hub 路径。这里做的是兼容性续训实验，不是逐字重演旧运行环境。
-源码比较见[固定差异](https://github.com/pollen-robotics/microduck_rl/compare/3750776761ecfaa5671b36972087cafba45b8527...bae39f5900b318f7e87fc485c30a31213cfa14eb)。
-
-::: warning 不要仅凭文件名应用补丁
-这个 VelStand 包虽然列出 `uncommitted.diff`，实际内容是 Git 状态记录，显示工作区干净，
-`git diff` 部分为空，不是待应用的补丁。先读文件，再判断；不要盲目执行 `git apply`。
-同样，不要把 bundle README 里的旧源码检出与新入口拼起来当作已验证命令。
-:::
-
-<div class="md-step-kicker"><span>步骤 A</span><strong>有 CUDA 的 Linux 主机 · 本项目仓库根目录</strong></div>
-
-需要 NVIDIA GPU、可用驱动、Python **3.12** 和 `uv`；上游要求 Python 小于 3.13。
-Mac 可阅读材料、做文档检查，但本页没有提供 Mac 训练验收结果。
-不要切换默认的 `reference/microduck_rl/`。下面创建独立实验目录；若目录已存在，
-先核对版本和修改，不强制检出、不覆盖旧实验。
+准备一台带 NVIDIA 显卡的 Linux 电脑，安装好驱动、Python **3.12** 和 `uv`。
+在本项目根目录打开终端，执行下面的命令。它会创建单独的训练目录并安装依赖。
+如果 `reference/microduck_rl-training/` 已存在，先检查里面的版本和修改，再决定是否复用。
 
 ```bash
 git clone --filter=blob:none --no-checkout \
@@ -77,14 +29,22 @@ export HF_HUB_CACHE="$PWD/../training-checkpoints/hub"
 uv sync --frozen
 ```
 
-后续命令都在这个 checkout、同一终端中执行。源码归 `reference/`，共享下载缓存归
-`reference/training-checkpoints/hub/`，日志通过链接归 `work/training-checkpoints/logs/`。
-换终端后重新设置 `HF_HUB_CACHE`，避免把同一份权重下载到另一处。
+后面的命令都在 `reference/microduck_rl-training/` 中、同一个终端里执行。
+下载的模型保存在 `reference/training-checkpoints/hub/`，日志保存在本项目的 `work/training-checkpoints/logs/`。
 
-## 3. 下载前核对来源，加载前核对哈希 {#inputs}
+## 2. 下载模型，设置教师 {#inputs}
 
-这一段只下载三个可信官方检查点及其说明，不反序列化 `.pt`，不启动训练。
-元数据与文件都从同一个不可变版本获取；任意哈希不符就停止。
+这次用三个模型：
+
+| 模型 | 作用 |
+| --- | --- |
+| VelStand | 你要继续训练的模型，已有行走、站立和起身能力 |
+| 起身教师 | 训练时提供起身动作的参考 |
+| 行走教师 | 帮助保留原有的行走能力 |
+
+“教师”就是提供参考动作的现成模型。训练程序会同时参考两个教师，再根据奖励调整正在训练的模型。
+
+把下面整段复制到终端运行。它会下载三个模型及其说明文件，并自动检查下载是否完整。
 
 ```bash
 uv run python - <<'PY'
@@ -125,13 +85,10 @@ for bundle in bundles:
 PY
 ```
 
-预期出现三行 `verified`。这只证明下载字节与清单匹配，不证明行为通过。
-以后换成其他训练包，也必须重新核对来源；哈希匹配不能让不可信 `.pt` 变安全。
+看到三行 `verified`，说明三个模型都已下载并通过文件校验。
 
-### 两个老师也必须固定版本
-
-在**独立 checkout** 的 `src/mjlab_microduck/tasks/distill.py` 中，找到 `default_bc_cfg()`，
-只替换以下四个已有字段的值，不添加第二份配置：
+然后打开当前训练目录下的 `src/mjlab_microduck/tasks/distill.py`，找到 `default_bc_cfg()`，
+把下面四个已有配置项改成这些值：
 
 ```python
 "hf_checkpoint": "hf://pollen-robotics/microduck-training@64d28ce092253c509b51031ec7ccb53790a00d0d/bundles/microduck_stand/69u48n8l_9750",
@@ -140,9 +97,10 @@ PY
 "anchor_wandb_run_path": None,
 ```
 
-前两项防止教师随远端 `main` 变化；后两项禁止 Hub 失败后偷偷回退到另一套 W&B 下载。
-`checkpoint_path` 和 `anchor_checkpoint_path` 保持 `None`，其优先级高于 Hub。
-读取刚下载的学生配置核对教师身份、观测/动作顺序、归一化和奖励，再检查本地差异：
+前两项指定教师模型的下载地址；后两项设为 `None`，让下载失败时直接报错，方便排查。
+`checkpoint_path` 和 `anchor_checkpoint_path` 也保持 `None`，以便使用上述下载地址。
+
+改完后检查配置和训练命令是否可用：
 
 ```bash
 git diff --check
@@ -150,13 +108,12 @@ git diff -- src/mjlab_microduck/tasks/distill.py
 uv run train Mjlab-VelStand-Rough-Backlash-MicroDuck --help
 ```
 
-此时只应有四个配置值的变更。保留这份差异作为实验输入，不提交回官方仓库。
-教师取不到时先修下载，不删除 BC 来让训练“勉强启动”。
+`git diff` 应只显示刚修改的四个配置项，最后一条命令应显示训练程序的帮助。
 
-## 4. 先跑五轮，检查管线而不是刷成绩 {#training}
+## 3. 启动训练 {#training}
 
-确认 GPU 空闲后，先检查 64 个环境、5 次 PPO 更新。这些是本教程的低成本检查预算，
-不是上游训练预算、最低显卡规格或成功率承诺。
+先用 **64 个并行环境、5 次 PPO 更新**试跑。PPO 是这里使用的强化学习算法；
+这次短跑用来检查加载、训练和保存是否正常。显卡空闲时执行：
 
 ```bash
 env -u MICRODUCK_WARM_START uv run train Mjlab-VelStand-Rough-Backlash-MicroDuck \
@@ -166,39 +123,44 @@ env -u MICRODUCK_WARM_START uv run train Mjlab-VelStand-Rough-Backlash-MicroDuck
   --agent.run-name hub-smoke --agent.save-interval 1
 ```
 
-`--init-checkpoint` 不与 `--agent.resume` 或 `--wandb-run-path` 混用。
-移除 `MICRODUCK_WARM_START` 是为了保留迭代号和课程计数；同任务续训不应该把课程突然清零。
-`--agent.max-iterations 5` 传给 runner 的是本次更新次数，不是把已有的 2749 轮改成 5。
-固定种子用于记录条件，不保证不同硬件间逐位一致。
-`tensorboard` 只写本地日志，不要求把本轮实验写入 W&B。
+几个主要参数的含义：
 
-先看这四项，再决定是否增加环境数和预算：
-
-1. 学生和两个教师均成功加载，没有形状错误、W&B 回退或缺失文件。
-2. 仿真、PPO 损失和动作都是有限值，没有 NaN、显存溢出或持续异常接触。
-3. `logs/rsl_rl/velstand/<时间戳>_hub-smoke/` 中有 `params/env.yaml`、`params/agent.yaml` 和新的 `model_*.pt`。
-4. 检查点和日志可重新读取，课程计数没有意外归零；BC 是否获得足够样本另看指标，不能只凭“五轮退出”判断学到了动作。
-
-失败时先处理[排错表](#troubleshooting)。通过后，仍需先完成下一节的基线评估，再开展有界微调；
-一次只改变环境数量、奖励或课程中的一类因素，并写明理由。新候选使用自己的名称，不继续冒用“官方 v8”。
-
-## 5. 同条件评估，然后导出自己的候选 {#evaluation}
-
-先把下载的 `model_2749.pt` 当基线，再比较自己的候选；两者使用相同模型、动作缩放、
-采样率、初始状态和统计定义。选模用开发集，最后在独立进程里换新种子复测。
-
-| 问题 | 记录什么 |
+| 参数 | 作用 |
 | --- | --- |
-| 是否更会起身？ | 按正躺、仰躺、侧躺和坐姿分别记录成功/总数、起身耗时、再次摔倒 |
-| 是否听转向指令？ | 原地/行走、正负方向分别记录指令与实际角速度；摔倒样本不能从分母消失 |
-| 是否忘了走路？ | 速度误差、左右漂移、跌倒次数，与基线同条件对照 |
-| 动作是否平顺？ | 身体角速度、接触冲击和连续原速录像，不能只挑一小段成功镜头 |
+| `--init-checkpoint` | 从刚下载的 VelStand 模型继续训练 |
+| `--env.scene.num-envs 64` | 同时运行 64 个仿真环境；显存不足时可减少 |
+| `--agent.max-iterations 5` | 本次执行 5 次更新，保留原有训练进度 |
+| `--agent.save-interval 1` | 每次更新后保存模型 |
+| `--agent.logger tensorboard` | 把训练日志保存在本机 |
+| `--agent.seed 20261030` | 固定本次实验的随机种子，便于后续对比 |
 
-这里提供的是评估设计，**没有附带完整的一键评估器**。
-上游提到的 `claude_experiments/velstand_rise_battery.py` 和 `velstand_yaw_probe.py` 仍未公开在所选 Git 树中。
-未取得或自行实现并公开等价定义前，不宣称复现其百分比。参考[既有验收原则](./velstand-v8#evaluation)。
+命令开头的 `env -u MICRODUCK_WARM_START` 用来保留已有的训练轮数和课程进度。
+使用 `--init-checkpoint` 时，保持这条命令的写法即可，无需再添加 `--agent.resume` 或 `--wandb-run-path`。
 
-在自己的 run 中选出检查点，将下方绝对路径改为真实文件。导出只生成候选，不安装到机器人或替换默认模型：
+## 4. 检查训练结果 {#evaluation}
+
+程序结束后，打开 `logs/rsl_rl/velstand/<时间戳>_hub-smoke/`，确认有这三个结果：
+
+1. `params/env.yaml` 和 `params/agent.yaml`：本次环境与训练参数。
+2. 新的 `model_*.pt`：本次保存的模型。
+3. 训练日志：没有 NaN、显存不足、教师模型加载失败等错误，课程进度也没有意外归零。
+
+五次更新主要用于检查流程。正式训练前，先保留原始 `model_2749.pt`，作为对比用的原模型。
+后续每次只调整一类设置，例如奖励或初始姿态，再在相同条件下比较：
+
+| 检查动作 | 看什么 |
+| --- | --- |
+| 起身 | 从俯卧、仰卧、侧躺和坐姿开始，记录成功次数、用时和再次摔倒次数 |
+| 转向 | 分别测试原地和行走中的左右转向，比较目标角速度与实际角速度 |
+| 行走 | 比较速度误差、左右漂移和摔倒次数 |
+| 动作平顺性 | 观察身体是否突然抖动、脚部冲击是否明显，并保留完整回放 |
+
+选出较好的模型后，重新启动评估进程，换一组随机种子再测一次。
+上游完整评估脚本尚未公开，本页提供检查项目；自动统计需要补齐评估脚本，见[版本与来源](#available)。
+
+## 5. 导出 ONNX 模型 {#export}
+
+从自己的训练目录里选一个 `model_*.pt`，把下方第一行换成它的实际绝对路径，再运行：
 
 ```bash
 candidate=/absolute/path/to/your/model_selected.pt
@@ -210,39 +172,70 @@ uv run scripts/export.py Mjlab-VelStand-Rough-Backlash-MicroDuck \
 sha256sum "$candidate" "$export_dir/velstand-candidate.onnx"
 ```
 
-导出器会合入观测归一化，并写入 `task_id`、`checkpoint_sha256`、`export_commit`、`export_dirty` 等元数据。
-`export_dirty=true` 可能来自前面的教师固定修改；应保留并解释，不能为了让它变成 false 丢掉实验差异。
-导出源码版本不等于原始训练源码版本，仍要同时保留 `bundle.json` 和新 run 的来源记录。
-导出后需单独做 ONNX 回放；进入 Isaac 还要验证观测、动作缩放、执行器与动作衔接。
+导出的 `velstand-candidate.onnx` 会放在本项目 `artifacts/training-checkpoints/` 下的新目录中。
+导出器会一并保存观测归一化参数。接下来先用 ONNX 做回放，检查动作是否与训练时一致。
+如果要接入 Isaac，还需要核对观测顺序、动作缩放和执行器设置。
 
-## 6. 出问题时，先查哪一层？ {#troubleshooting}
+## 常见问题 {#troubleshooting}
 
-| 现象 | 先检查 |
+| 问题 | 处理方法 |
 | --- | --- |
-| 不认识 `--init-checkpoint` | 是否还在旧的 `3750776`/v8 实验目录；检查当前 HEAD 和锁定依赖，不升级整套系统 |
-| Hub 下载失败后要求 W&B 登录 | 教师的两项 W&B 路径是否已设为 `None`；先修下载，不换成随机教师 |
-| `.pt` 形状或归一化不匹配 | 任务 ID、学生/教师身份、配置和输入哈希，不以重命名文件解决 |
-| 续训从课程第零步开始 | 是否残留 `MICRODUCK_WARM_START=1`；普通 resume 与新任务 warm start 是两回事 |
-| 显存不足 | 先降低环境数、停本轮自己的试验；不停止其他项目的正常任务 |
-| 奖励上涨，动作却退步 | 回到同条件行为评估，保留基线，不凭训练曲线替换默认 |
+| 提示不认识 `--init-checkpoint` | 回到第 1 步检查源码版本，旧版源码没有这个参数 |
+| 下载失败后要求登录 W&B | 检查两个教师的 W&B 配置是否都设为 `None`，再处理下载错误 |
+| 模型加载时报维度不匹配 | 检查任务名称，以及训练模型和教师文件是否选对 |
+| 训练进度从零开始 | 检查命令开头是否保留了 `env -u MICRODUCK_WARM_START` |
+| 显存不足 | 减少 `--env.scene.num-envs`，再重新试跑 |
+| 奖励变高，但动作变差 | 用第 4 步的动作测试与原模型比较，重新检查奖励设置 |
 
-## 7. 留好记录，再考虑分享 {#provenance}
+## 版本与来源 {#available}
 
-每轮留下“参数 → 依据 → 改动 → 对照 → 决定”：源码 SHA 和差异、依赖锁、三个输入哈希、
-任务与种子、完整启动参数、环境/奖励配置、输出检查点哈希、独立评估和原速录像。
-过程在 `work/training-checkpoints/`，候选与证据在 `artifacts/training-checkpoints/`，
-整理好的教程配套交付进入 `output/`；不要覆盖旧结果。
+下面保留本例的具体版本，便于遇到问题时核对。
 
-上游新增了 `share-training` / `publish --share-training`，但本页不自动调用。
-训练包可能携带完整命令、用户名、源码未提交差异、W&B 配置和私有路径；分享前逐项清理凭据和无关内容。
-工具创建的包默认私有，也不代表可以跳过审核。官方训练库在本次核对的模型卡中未声明许可证，
-本项目不重新托管或重新授予权重许可；分发前核实对应许可，代码/网格仍按[项目许可说明](../project/licensing)区分。
+::: details 查看源码、模型版本和文件校验值
 
-实现依据：[训练包说明](https://github.com/pollen-robotics/microduck_rl/blob/bae39f5900b318f7e87fc485c30a31213cfa14eb/docs/training_checkpoints.md)、
-[检查点入口](https://github.com/pollen-robotics/microduck_rl/blob/bae39f5900b318f7e87fc485c30a31213cfa14eb/src/mjlab_microduck/checkpoints.py)、
-[固定学生来源记录](https://huggingface.co/pollen-robotics/microduck-training/blob/64d28ce092253c509b51031ec7ccb53790a00d0d/bundles/velstand/0045i2si_2749/bundle.json)。
+| 项目 | 本例使用的版本 |
+| --- | --- |
+| 训练源码 | `bae39f5900b318f7e87fc485c30a31213cfa14eb` |
+| 官方训练模型库 | `64d28ce092253c509b51031ec7ccb53790a00d0d` |
+| VelStand | `velstand/0045i2si_2749`，文件 `model_2749.pt` |
+| 起身教师 | `microduck_stand/69u48n8l_9750` |
+| 行走教师 | `velocity2/441tzs6d_3750` |
+| VelStand 文件 SHA-256 | `2c185f1e6982a0a43d41403239bc0c5b0a9d654e4840d25572200c16abe2aa6b` |
 
-<div class="md-page-complete">
-  <strong>这一页的收获：拿到的不只是动作，还有继续训练的起点。</strong>
-  <p>先核对存档和老师，再小步续训；用同条件结果决定是否采用，让下一位读者也能追上你的实验。</p>
-</div>
+该模型最初使用源码 `3750776761ecfaa5671b36972087cafba45b8527` 训练。本教程选用较新的源码，
+因为它增加了 `--init-checkpoint`；对照两个提交，VelStand 环境配置、`mdp.py` 和 `uv.lock` 没有变化。
+[查看源码差异](https://github.com/pollen-robotics/microduck_rl/compare/3750776761ecfaa5671b36972087cafba45b8527...bae39f5900b318f7e87fc485c30a31213cfa14eb)。
+
+这个训练包中的 `uncommitted.diff` 只有工作区状态记录，补丁内容为空，无需应用。
+截至 2026-10-30，官方模型库公开了 9 组检查点；原始实验的 `j4i6yoq2_1250` 和 `qz5g3bwi_1750` 尚未收录。
+翻滚模型 `microduck_roulade/blrqbcit_750` 已有 `.pt`，但缺少原始源码提交号。
+本章因此从已公开的最终 VelStand 模型继续训练。原始训练过程见[起身与转向训练](./velstand-v8#training)。
+
+上游提到的 `claude_experiments/velstand_rise_battery.py`、`velstand_yaw_probe.py` 未在所选源码中公开。
+要复现上游报告的成功率，需要取得这些脚本，或实现并说明等价的评估条件。
+
+:::
+
+## 保存训练记录 {#provenance}
+
+每次训练保存四类内容：使用的代码和模型版本、修改的参数及理由、训练日志、动作测试结果。
+日志放在 `work/training-checkpoints/`，导出的模型和回放放在 `artifacts/training-checkpoints/`，
+整理好的教程配套文件放在 `output/`。
+
+::: details 模型来源、导出信息和分享注意事项
+
+下载时保留 `bundle.json`、`wandb_config.yaml` 和校验值。只加载来源可信的 `.pt` 文件。
+导出模型中的 `task_id`、`checkpoint_sha256`、`export_commit` 和 `export_dirty` 用来追踪模型来源。
+前面修改了教师配置，所以可能出现 `export_dirty=true`；保留这份配置改动即可。
+本教程的实验目录与原有 `upstream.lock` 配置独立，项目默认模型保持原设置。
+
+上游的 `share-training` 和 `publish --share-training` 可以分享训练包。
+分享前检查命令、配置和源码差异中是否包含密码、令牌或私人路径。
+官方训练库本次核对的模型卡未声明权重许可证，重新分发前需确认许可；参见[项目许可说明](../project/licensing)。
+
+参考资料：[训练包用法](https://github.com/pollen-robotics/microduck_rl/blob/bae39f5900b318f7e87fc485c30a31213cfa14eb/docs/training_checkpoints.md)、
+[检查点加载代码](https://github.com/pollen-robotics/microduck_rl/blob/bae39f5900b318f7e87fc485c30a31213cfa14eb/src/mjlab_microduck/checkpoints.py)、
+[官方模型目录](https://huggingface.co/pollen-robotics/microduck-training/tree/64d28ce092253c509b51031ec7ccb53790a00d0d)、
+[VelStand 来源记录](https://huggingface.co/pollen-robotics/microduck-training/blob/64d28ce092253c509b51031ec7ccb53790a00d0d/bundles/velstand/0045i2si_2749/bundle.json)。
+
+:::

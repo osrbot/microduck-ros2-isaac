@@ -1,23 +1,20 @@
-# VelStand v8: get up and turn on command
+# Train recovery and turning
 
-No new circus trick this time. Two basics come first: get up after a fall, and actually turn when asked.
-Upstream released VelStand v8 on 2026-10-12. Start with the results, unpack the training changes,
-then plan a controlled comparison of your own.
+This chapter explains how teacher models, starting poses and rewards can improve recovery and turning.
+Using the official VelStand v8 model as an example, we look at which parameters changed, why they changed,
+and how to check the result.
 
 <div class="md-tutorial-meta" role="list" aria-label="Page overview">
-  <div role="listitem"><span>Reading path</span><strong>Results → causes → training → checks</strong></div>
-  <div role="listitem"><span>Training stack</span><strong>MuJoCo / mjlab + CUDA</strong></div>
-  <div role="listitem"><span>Project defaults</span><strong>Kept unchanged</strong></div>
-  <div role="listitem"><span>Evidence</span><strong>Upstream report; local retest pending</strong></div>
+  <div role="listitem"><span>Skills</span><strong>Recover and turn</strong></div>
+  <div role="listitem"><span>Simulator</span><strong>MuJoCo</strong></div>
+  <div role="listitem"><span>Model</span><strong>VelStand v8</strong></div>
+  <div role="listitem"><span>Practice</span><strong>Chapter 17</strong></div>
 </div>
 
-::: info Optional reading, not a new default setup
-The existing `upstream.lock`, v7 downloader, Isaac playground, historical USD and continuous-roll case study stay unchanged.
-This page covers upstream MuJoCo/mjlab VelStand. It does not turn the [native Isaac Lab walking task](../isaac/training)
-into v8. Follow the original steps if you simply want to run the existing tutorial.
-:::
+To start a training run, follow [chapter 17: Continue training a model](./training-checkpoints).
+This chapter uses MuJoCo/mjlab; the Isaac Lab instructions remain in [chapter 10](../isaac/training).
 
-## 1. Results first: what improved? {#results}
+## 1. Training results {#results}
 
 VelStand combines walking, standing at zero velocity and fall recovery in one policy.
 v8 addresses two v7 weaknesses: getting stuck in some face-up poses, and barely turning despite a yaw command.
@@ -34,22 +31,22 @@ Source: the [upstream v8 training record](https://github.com/pollen-robotics/mic
 The simulation evaluation uses flat terrain with backlash. Recovery tests use two groups of 128 environments
 per start family, observed for 12 seconds. Yaw values average the upright environments after the first 2 seconds;
 they are not overall success rates that also account for falls.
-Upstream separately records physical-robot tests of getting up, turning and walking. **These are not this project's retest results.**
+Upstream also records physical-robot tests. The table contains its simulation results, which this project has not retested.
 
-Limits remain: slow in-place turning around 0.3 rad/s is weak, body-height control is still not learned,
-and forward-speed tracking did not improve by the same margin. Better recovery and turning do not mean every skill improved.
+Slow in-place turning around 0.3 rad/s and body-height control still need improvement.
+Forward-speed tracking did not improve by the same margin.
 
-## 2. Why more training is not always the answer {#method}
+## 2. How recovery and turning are trained {#method}
 
-### Recovery: check what the teacher is teaching
+### Recovery: adjust teacher inputs and starting poses
 
 This recipe does not start with random behavior. The student inherits walking, then PPO improves it using rewards.
 Behavior cloning (BC) also learns from two frozen teachers: preserve walking when upright, learn recovery when fallen.
 The basic routing assigns mainly sub-25° tilt states to the walking teacher and over-35° states to the recovery teacher,
 leaving the band between them to PPO. Standing body control has additional routing.
 
-The recovery teacher itself can freeze in certain leg configurations, so the student copies that behavior.
-v8 does not hide joint information from the student. It **changes only the recovery teacher's input at large tilt**:
+The recovery teacher can stop in certain leg configurations, and the student copies that behavior.
+v8 addresses this by **changing the recovery teacher's input when the body tilt is large**:
 
 | Change | Upstream setting | Reason |
 | --- | --- | --- |
@@ -66,12 +63,12 @@ The 35° teaching gate and the 75° teacher-masking gate serve different purpose
 See [teacher inputs and BC](https://github.com/pollen-robotics/microduck_rl/blob/b02fdea4902c2b93b7d34a83a6f05da4ececb7d3/src/mjlab_microduck/tasks/distill.py)
 and the [VelStand configuration](https://github.com/pollen-robotics/microduck_rl/blob/b02fdea4902c2b93b7d34a83a6f05da4ececb7d3/src/mjlab_microduck/tasks/microduck_velstand_env_cfg.py).
 
-### Turning: calibrate the teacher and align the reward
+### Turning: calibrate teacher actions and adjust rewards
 
 The walking teacher has its own yaw dead zone, which direct imitation passes on to the student.
 During training, v8 looks up the command that makes that teacher produce approximately the desired turn,
-then uses the resulting action as the teaching target. **The student still receives the true command.**
-This is not a hidden input boost at deployment.
+then uses the resulting action as the teaching target. **The student always receives the true target command.**
+The adjustment applies to the teacher's action generation during training.
 
 | Change | Upstream setting | Rationale |
 | --- | --- | --- |
@@ -81,12 +78,12 @@ This is not a hidden input boost at deployment.
 | Minimum turn magnitude | 0.2 rad/s | Include slower turns without claiming that the whole low-speed range now works |
 
 The table lives in `ANCHOR_YAW_REMAP`. A different teacher needs its own calibration.
-`ENABLE_YAW_FIX` is a retained failed-experiment switch and stays `False`;
-the effective route uses `ENABLE_ANCHOR_YAW_REMAP=True`. Do not enable both just because one is named “fix.”
-Do not apply the old v7 runtime yaw-compensation formula on top of v8 either.
+This example uses `ENABLE_ANCHOR_YAW_REMAP=True`.
+`ENABLE_YAW_FIX` belongs to an unsuccessful experiment and stays `False`.
+Disable the old v7 runtime yaw compensation when using v8 to avoid applying a second correction.
 The pinned configuration above contains these parameters and switches.
 
-## 3. Try the weights without changing defaults {#try-v8}
+## 3. Download and try the model {#try-v8}
 
 Use fixed revisions rather than a moving `main` or tag:
 
@@ -150,9 +147,9 @@ inspect loading, finite values and posture. It is not a Rough + Backlash recover
 and it does not replace the Isaac playground controller.
 These new commands have not completed this project's v8 runtime retest.
 
-## 4. Training: continue in two stages {#training}
+## 4. Two-stage training settings {#training}
 
-### Obtain the checkpoints first; ONNX is not a training save
+### Prepare the training models
 
 Full training needs a Linux/CUDA GPU, Python 3.12, `uv` and the upstream locked dependencies.
 The task is `Mjlab-VelStand-Rough-Backlash-MicroDuck`: full collisions, rough terrain,
@@ -167,13 +164,11 @@ BC loads two teachers in addition to the resume checkpoint. Confirm access to th
 | Walking teacher | `pollen-robotics/mjlab_microduck/441tzs6d` | `model_3750.pt` |
 | Selected upstream stage A result | `pollen-robotics/mjlab_microduck/qz5g3bwi` | `model_1750.pt` |
 
-::: tip 2026-10-30 addition: public bundles provide a separate continuation route
-Upstream now shares the final VelStand checkpoint and both teachers listed above. See
-[Continue from a training checkpoint](./training-checkpoints).
-That route continues from the final result; it does not replay stages A → B below. The v7 starting point
-`j4i6yoq2_1250` and intermediate stage A result `qz5g3bwi_1750` are still absent from the public bundle revision checked here.
-The historical source and commands below remain unchanged. Those older revisions do not have the new
-`--init-checkpoint` entry point; do not mix the two routes.
+::: tip You can now continue from the final model
+The final VelStand model and both teachers are public. Follow [chapter 17](./training-checkpoints) to use them.
+This section keeps the original two-stage experiment's settings and commands;
+`j4i6yoq2_1250` and `qz5g3bwi_1750` still require access to the original files.
+The two chapters use different source revisions, so use the complete commands from the chapter you are following.
 :::
 
 This project has not verified public download access to the W&B files above.
@@ -209,10 +204,10 @@ uv run train Mjlab-VelStand-Rough-Backlash-MicroDuck --help
 uv run wandb login
 ```
 
-### Stage A: fix the stuck recovery
+### Stage A: train recovery
 
 Upstream used `333ef7b` for this stage: joint masking and broader starting states, without stage B's yaw remap.
-Using the latest combined configuration would not reproduce the same recovery ablation.
+Use the matching revision to examine the effect of these recovery settings separately.
 
 ```bash
 git checkout --detach 333ef7b03c0463bdebfcd6e2be0592de76c2bbcc
@@ -229,7 +224,7 @@ First reduce the environment count and iteration budget to check checkpoint load
 A small pipeline check does not reproduce the reported performance.
 That upstream run reached 2749, but **1750** was selected. Newest is not necessarily best.
 
-### Stage B: keep recovery and calibrate turning
+### Stage B: train turning
 
 Wait for the previous training process to exit before switching source.
 This stage uses `3750776`, adding the teacher yaw remap and fine yaw reward:
@@ -247,17 +242,15 @@ env -u MICRODUCK_WARM_START uv run train Mjlab-VelStand-Rough-Backlash-MicroDuck
   --agent.max_iterations 1000
 ```
 
-These commands show the **original upstream lineage**: the second explicitly reads upstream's stage A result,
-not the output you just trained. To chain your own experiment, replace its run and checkpoint with
-your independently evaluated stage A selection and record the new provenance.
-Do not label your new run as the official v8.
+These commands use the upstream experiment files. To continue your own stage A model,
+replace the second command's run and checkpoint with your selected file, and give the new model its own name.
 
 Both stages use ordinary resume, preserving step counts and curriculum progress for fine-tuning.
 The commands explicitly remove `MICRODUCK_WARM_START` to avoid inheriting an old `=1` setting that resets the curricula.
 That environment variable is not the same as the retained `WARM_START=True` configuration constant.
 See the [upstream load patch](https://github.com/pollen-robotics/microduck_rl/blob/b02fdea4902c2b93b7d34a83a6f05da4ececb7d3/src/mjlab_microduck/tasks/mdp.py).
 
-## 5. Select checkpoints by behavior, not just reward {#evaluation}
+## 5. Check behavior and export the model {#evaluation}
 
 Track recovery, turning and walking separately. Select on development cases, then evaluate in independent processes
 with new seeds. The checklist below is this project's proposed retest design, not an included one-command evaluator
@@ -271,14 +264,12 @@ or an already completed test.
 | Smoothness | Sampling rate and measurement interval | Body angular velocity, impacts and continuous real-time recovery video |
 
 Fix recovery height/tilt thresholds, the required stable-standing duration, timeouts and denominators before comparing.
-Do not grade v7 strictly and v8 generously. The same principle applies to [continuous-roll acceptance](../isaac/roll-validation).
+Use the same criteria for both versions. The same principle applies to [continuous-roll acceptance](../isaac/roll-validation).
 
-::: warning A gap in the public evaluation tools
+::: info The automatic evaluation scripts are not public
 The upstream record refers to `claude_experiments/velstand_rise_battery.py`, `velstand_yaw_probe.py`
-and related scripts that are absent from the pinned public Git tree.
-Copying those paths does not make the official statistics reproducible.
-Strict reproduction requires obtaining the matching tools and definitions, or implementing and publishing an evaluator
-with its differences stated. Sourced training commands do not establish checkpoint access, available evaluation tools or hardware readiness.
+and related scripts that are absent from the selected source. Reproducing the official statistics requires these scripts
+or an implementation with the same, documented evaluation conditions.
 :::
 
 Export your selected checkpoint with the [upstream exporter](https://github.com/pollen-robotics/microduck_rl/blob/b02fdea4902c2b93b7d34a83a6f05da4ececb7d3/src/mjlab_microduck/export.py)
@@ -295,23 +286,20 @@ sha256sum "$export_dir/velstand.onnx"
 ```
 
 Keep the source SHA, `uv.lock`, input/teacher/output checkpoint hashes, environment and reward configurations,
-seeds, raw logs, independent evaluations and real-time footage for each run.
-An ONNX file and one attractive video are not enough for another reader to reproduce your decisions.
+seeds, raw logs, independent evaluations and real-time footage for each run so other readers can reproduce the experiment and parameter changes.
 Use `work/velstand-v8/` for working records and `artifacts/velstand-v8/` for evidence and export candidates;
 place a completed tutorial companion package in `output/` without overwriting historical cases.
 
-## 6. When should v8 become the default? {#adoption}
+## 6. Checks before using the model in Isaac {#adoption}
 
 First complete the matched MuJoCo comparison. Then separately check the Isaac observation order, action scales,
 actuator differences, walking/recovery behavior and transitions to other skills.
 Equal interface dimensions do not establish equal behavior across engines.
 
-This project currently adds only the v8 method guide: the default downloader still selects v7,
-and the playground retains its historical walking/standing and sitting combination.
-This update does not start training, update the USD or claim local acceptance of v8.
-See [upstream alignment](../reference/upstream-alignment) for the retained versions.
+The default downloader still selects v7, and the playground uses its existing walking, standing and sitting models.
+Local runtime testing of v8 is pending. See [upstream alignment](../reference/upstream-alignment) for the configuration.
 
 <div class="md-page-complete">
-  <strong>Now you know why to consider a new weight, not just where to download it.</strong>
-  <p>Check the teachers, data and rewards, then train in small steps and evaluate independently. Promote a new policy only after it works better in your own environment.</p>
+  <strong>Next: load a model and start training</strong>
+  <p>Chapter 17 walks through environment setup, model download, training, result checks and export in one small continuation run.</p>
 </div>

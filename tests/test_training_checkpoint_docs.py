@@ -38,7 +38,7 @@ class TrainingCheckpointDocsTests(unittest.TestCase):
         self.assertEqual(blocks(en), blocks(zh))
         self.assertEqual(blocks(en, "python"), blocks(zh, "python"))
         self.assertEqual(re.findall(r"\{#([\w-]+)\}", en), re.findall(r"\{#([\w-]+)\}", zh))
-        self.assertEqual(len(re.findall(r"\{#([\w-]+)\}", en)), 7)
+        self.assertEqual(len(re.findall(r"\{#([\w-]+)\}", en)), 8)
 
     def test_command_syntax_without_running_training(self):
         for code in blocks(PAGES[0].read_text()):

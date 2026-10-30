@@ -82,10 +82,10 @@ const englishTutorialSidebar: DefaultTheme.SidebarItem[] = [
     ]
   },
   {
-    text: 'Optional: upstream methods',
+    text: 'Advanced: MuJoCo',
     items: [
-      { text: 'VelStand v8 in MuJoCo', link: '/guide/velstand-v8' },
-      { text: 'Continue from a training checkpoint', link: '/guide/training-checkpoints' }
+      { text: '16. Recovery and turning', link: '/guide/velstand-v8' },
+      { text: '17. Continue training a model', link: '/guide/training-checkpoints' }
     ]
   }
 ]
@@ -213,10 +213,10 @@ const chineseTutorialSidebar: DefaultTheme.SidebarItem[] = [
     ]
   },
   {
-    text: '选读：上游新方法',
+    text: '进阶：MuJoCo 训练',
     items: [
-      { text: 'v8 起身与转向（MuJoCo）', link: '/zh/guide/velstand-v8' },
-      { text: '拿到训练存档，接着练', link: '/zh/guide/training-checkpoints' }
+      { text: '16. 训练起身和转向', link: '/zh/guide/velstand-v8' },
+      { text: '17. 用现成模型继续训练', link: '/zh/guide/training-checkpoints' }
     ]
   }
 ]

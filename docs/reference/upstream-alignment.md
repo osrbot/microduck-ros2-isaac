@@ -7,17 +7,16 @@ and historical results remain separate; circus work is unchanged.
 
 ::: tip 2026-10-20 addition: learn about v8 without switching defaults
 Upstream has released VelStand v8 with improved recovery and turning.
-The new [optional guide](../guide/velstand-v8) covers training changes, parameter rationale,
+The [recovery and turning guide](../guide/velstand-v8) covers training changes, parameter rationale,
 two-stage resume and evaluation prerequisites. The version table and October 10 evidence below
 retain their original meaning; `upstream.lock` and default policies are unchanged.
 Upstream v8 results are not included in this project's acceptance record.
 :::
 
-::: tip 2026-10-30 addition: training inputs, not a default-policy upgrade
-The public bundles added on October 27 provide full checkpoints and teacher provenance.
-The [separate continuation guide](../guide/training-checkpoints) covers pinned inputs, hash checks,
-a small training smoke test and export. The official ONNX set is still the October 12 release;
-the pins below, runtime defaults, models and historical results remain unchanged.
+::: tip 2026-10-30: new guide to continuing training
+Official model files for continued training are now public.
+[Chapter 17](../guide/training-checkpoints) covers environment setup, downloads, training, result checks and export in order.
+The default runtime configuration still uses the versions listed on this page.
 :::
 
 ## 1. Which versions are selected? {#versions}
