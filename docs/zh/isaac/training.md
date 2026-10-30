@@ -240,6 +240,8 @@ MICRODUCK_PLAY_STEPS=1000 ./scripts/play_isaac_velocity.sh
 ::: tip 选读：上游是怎么改善起身与转向的？
 [VelStand v8](../guide/velstand-v8)讲解教师策略、随机初始姿态、转向标定和两阶段续训。
 那是 MuJoCo/mjlab + BAM 路线，不是本页 Isaac 任务的参数预设；无需修改本页命令。
+已有公开 `.pt` 的后续操作见[拿到训练存档，接着练](../guide/training-checkpoints)。
+MuJoCo 检查点不能直接当作本页 Isaac 任务的续训输入。
 :::
 
 ## 常见问题

@@ -13,6 +13,13 @@ retain their original meaning; `upstream.lock` and default policies are unchange
 Upstream v8 results are not included in this project's acceptance record.
 :::
 
+::: tip 2026-10-30 addition: training inputs, not a default-policy upgrade
+The public bundles added on October 27 provide full checkpoints and teacher provenance.
+The [separate continuation guide](../guide/training-checkpoints) covers pinned inputs, hash checks,
+a small training smoke test and export. The official ONNX set is still the October 12 release;
+the pins below, runtime defaults, models and historical results remain unchanged.
+:::
+
 ## 1. Which versions are selected? {#versions}
 
 | Input | Immutable version | Location |

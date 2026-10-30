@@ -83,7 +83,10 @@ const englishTutorialSidebar: DefaultTheme.SidebarItem[] = [
   },
   {
     text: 'Optional: upstream methods',
-    items: [{ text: 'VelStand v8 in MuJoCo', link: '/guide/velstand-v8' }]
+    items: [
+      { text: 'VelStand v8 in MuJoCo', link: '/guide/velstand-v8' },
+      { text: 'Continue from a training checkpoint', link: '/guide/training-checkpoints' }
+    ]
   }
 ]
 
@@ -211,7 +214,10 @@ const chineseTutorialSidebar: DefaultTheme.SidebarItem[] = [
   },
   {
     text: '选读：上游新方法',
-    items: [{ text: 'v8 起身与转向（MuJoCo）', link: '/zh/guide/velstand-v8' }]
+    items: [
+      { text: 'v8 起身与转向（MuJoCo）', link: '/zh/guide/velstand-v8' },
+      { text: '拿到训练存档，接着练', link: '/zh/guide/training-checkpoints' }
+    ]
   }
 ]
 

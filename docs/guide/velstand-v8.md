@@ -167,8 +167,17 @@ BC loads two teachers in addition to the resume checkpoint. Confirm access to th
 | Walking teacher | `pollen-robotics/mjlab_microduck/441tzs6d` | `model_3750.pt` |
 | Selected upstream stage A result | `pollen-robotics/mjlab_microduck/qz5g3bwi` | `model_1750.pt` |
 
-This project has not verified public download access to those W&B files.
-If they are unavailable, stop at weight playback and studying the method.
+::: tip 2026-10-30 addition: public bundles provide a separate continuation route
+Upstream now shares the final VelStand checkpoint and both teachers listed above. See
+[Continue from a training checkpoint](./training-checkpoints).
+That route continues from the final result; it does not replay stages A → B below. The v7 starting point
+`j4i6yoq2_1250` and intermediate stage A result `qz5g3bwi_1750` are still absent from the public bundle revision checked here.
+The historical source and commands below remain unchanged. Those older revisions do not have the new
+`--init-checkpoint` entry point; do not mix the two routes.
+:::
+
+This project has not verified public download access to the W&B files above.
+Do not run the historical two-stage reproduction until its original inputs are available.
 Renaming an ONNX file to `.pt` does not restore training state or replace the teachers' checkpoints.
 Load `.pt` files only from trusted sources, and record their provenance and SHA-256 hashes.
 

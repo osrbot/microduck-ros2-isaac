@@ -227,6 +227,8 @@ The next [continuous-roll case study](./continuous-roll) uses a separate rolling
 ::: tip Optional: how upstream improved recovery and turning
 [VelStand v8](../guide/velstand-v8) explains teacher policies, randomized starts, yaw calibration and two-stage resume.
 It uses MuJoCo/mjlab + BAM, not a parameter preset for this Isaac task. Keep the commands on this page unchanged.
+For the newly public `.pt` files, see [Continue from a training checkpoint](../guide/training-checkpoints).
+A MuJoCo checkpoint is not a drop-in resume input for this Isaac task.
 :::
 
 ## Common problems
