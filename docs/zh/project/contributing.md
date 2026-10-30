@@ -1,6 +1,7 @@
 # 参与贡献
 
-这一页只给要改仓库代码的人。只是想玩 ROS 2 或 Isaac Sim，不需要运行下面任何生成器，跟着教程走就行。
+修改仓库代码时，按本页检查受影响的部分。初次使用请从[教程首页](/zh/guide/)开始。
+下面的命令均在项目根目录执行。
 
 ## 改代码前
 
@@ -13,7 +14,7 @@
 
 - 文档：`npm ci && npm run docs:build`。
 - ROS 生成：重新生成 description，再构建并打开 RViz。
-- Isaac 资产：重新生成 USD，检查 Stage，再跑一张策略。
+- Isaac 资产：重新生成 USD，检查 Stage，再回放一个策略。
 - 策略适配：跑站立与行走检查。
 - 真机相关：单独说明硬件、操作过程和安全边界，不和仿真混在一起。
 
@@ -46,9 +47,10 @@ export ISAACLAB_DIR=/path/to/IsaacLab
 ./scripts/convert_mjcf_to_usd.sh
 ```
 
-转换器会更新 `assets/isaac/`，并应用本项目的碰撞调整。提交前要打开最外层 USD，再跑一张策略。
+转换器将候选模型写入 `assets/isaac/robot_groundcontact/`，并应用碰撞调整。
+目标目录已存在时会停止；需要重新生成时先归档已有候选。提交前打开最外层 USD，再回放一个策略。
 
 ## 提交时写清楚
 
-Pull request 里说明改了什么、跑了哪些命令、还有什么没测。测试机器和历史数据放在
-[维护者资料](/zh/reference/environment)里，不塞进普通新手教程。
+Pull request 中列出修改内容、执行的命令和测试结果；未测试的部分也要注明。
+同时记录软件版本，便于其他人按[测试环境](/zh/reference/environment)复查。

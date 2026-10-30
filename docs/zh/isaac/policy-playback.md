@@ -1,17 +1,7 @@
 # 让 MicroDuck 在 Isaac Sim 里走起来
 
-::: info 2026 年 10 月源码更新
-权重改从 `reference/policies/v7/` 读取。默认行走/站立仍使用 `alpha_walking`/`alpha_stand`，
-其文件与历史基线逐字节一致。仓库自带 USD 仍是历史资产，不是新近验证的 10 月转换结果。
-`velstand.onnx` 可用于显式探测，但其跌倒恢复尚未在本项目 Isaac 适配器中验证。
-详见[对齐与验证边界](../reference/upstream-alignment)。
-:::
-
-想了解上游更新的起身与转向策略，可以选读[VelStand v8 教程](../guide/velstand-v8)。
-它使用独立权重和 MuJoCo 路线，不改变下面的默认启动方式。
-
 这部分假设电脑里已经安装 Isaac Sim 和 Isaac Lab。USD 已经在仓库里；下面只需要下载公开策略，
-并在项目目录准备 ONNX Runtime。环境准备好以后，就可以正式放鸭开跑。
+并在项目目录准备 ONNX Runtime。随后运行行走策略，并保存运行报告。
 
 <div class="md-tutorial-meta" role="list" aria-label="本页概览">
   <div role="listitem"><span>预计时间</span><strong>15–25 分钟</strong></div>
@@ -34,9 +24,9 @@
   <p>按 <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd> 打开终端，<code>cd</code> 到仓库根目录。GUI 回放、站立策略和 headless 自检要依次运行；前一个结束或按 <kbd>Ctrl</kbd>+<kbd>C</kbd> 停止后，才能启动下一个。</p>
 </div>
 
-<div class="md-step-kicker"><span>步骤 1</span><strong>终端 A · 仓库根目录</strong></div>
+<div class="md-step-kicker"><strong>终端 A · 仓库根目录</strong></div>
 
-## 1. 准备策略运行环境
+## 1. 准备策略运行环境 {#_1-准备策略运行环境}
 
 在仓库根目录运行：
 
@@ -53,9 +43,9 @@ export ISAACLAB_DIR=/path/to/IsaacLab
   <p><code>reference/policies/v7/</code> 中已有公开策略，<code>work/isaac_python_pkgs/onnxruntime</code> 目录存在。后面再玩不用重复下载。</p>
 </div>
 
-<div class="md-step-kicker"><span>步骤 2</span><strong>终端保持运行 · GUI 回放</strong></div>
+<div class="md-step-kicker"><strong>终端保持运行 · GUI 回放</strong></div>
 
-## 2. 放鸭开跑
+## 2. 运行行走策略 {#_2-运行行走策略}
 
 在带图形桌面的 Linux 中运行：
 
@@ -81,15 +71,15 @@ sim time 完全一致。窗口打开后先看四件事：机器人落在地面�
 
 <figure class="md-doc-figure">
   <div class="md-doc-image-stage"><img src="/images/isaac-action-walk.webp" alt="MicroDuck 在 Isaac Sim 中实际回放公开行走策略" width="1200" height="750" loading="lazy"></div>
-  <figcaption><strong>策略开始接管。</strong>这张实测图来自行走回放过程。鸭子会迈步不等于一定笔直向前；先看仿真是否持续、关节是否正常运动、终端有没有报错。</figcaption>
+  <figcaption><strong>行走策略运行画面。</strong>观察关节运动和行进方向，同时检查终端是否有报错。</figcaption>
 </figure>
 
 <div class="md-checkpoint">
   <strong>行走回放通过</strong>
-  <p>进度能走到 60 秒，关节持续更新，进程正常退出并写入报告。鸭子迈步但轨迹不够直，不等于加载失败；先把“能运行”和“行为质量”分开判断。</p>
+  <p>进度能走到 60 秒，关节持续更新，进程正常退出并写入报告。鸭子迈步但轨迹不够直，不等于加载失败；可继续查看轨迹和姿态，判断是否需要调整控制参数。</p>
 </div>
 
-## 可选：让它先乖乖站好
+## 可选：运行站立策略
 
 先等 60 秒行走回放正常结束；想提前结束，就在终端 A 按 <kbd>Ctrl</kbd>+<kbd>C</kbd>，等提示符回来再运行：
 
@@ -102,9 +92,9 @@ sim time 完全一致。窗口打开后先看四件事：机器人落在地面�
   --viz kit
 ```
 
-<div class="md-step-kicker"><span>步骤 3</span><strong>终端 · Headless 自检</strong></div>
+<div class="md-step-kicker"><strong>终端 · Headless 自检</strong></div>
 
-## 不看画面，跑一小圈
+## 3. 运行无界面检查 {#_3-运行无界面检查}
 
 先确认 GUI 回放已经退出，下面的命令适合快速检查环境：
 
@@ -129,7 +119,7 @@ test -s artifacts/isaac/policy_rollout.json \
 最后一行打印 `Policy rollout report: OK`，才说明本次报告确实写出来了；没有输出时先检查上一条 headless
 命令是否完整结束，而不是反复执行 `test`。
 
-## 鸭子走着走着，Isaac Sim 崩了？
+## 回放时 Isaac Sim 崩溃
 
 - 通过 `run_isaac_policy.sh` 启动，不要直接运行 Python 文件。包装脚本会在需要时只选择一个
   NVIDIA Vulkan 设备。
@@ -149,6 +139,16 @@ export MICRODUCK_ISAAC_ACTIVE_GPU=0
 
 公开策略读取 61 个数值，控制仿真模型里的 14 个关节。物理频率为 200 Hz，策略推理频率为
 50 Hz。这些信息在修改运行器时有用，第一次回放时不用先理解。
+:::
+
+
+起身与转向的训练方法见[第 16 章](../guide/velstand-v8)。
+
+::: details 模型与策略来源
+权重改从 `reference/policies/v7/` 读取。默认行走/站立仍使用 `alpha_walking`/`alpha_stand`，
+其文件与历史基线逐字节一致。仓库自带 USD 仍是历史资产，不是新近验证的 10 月转换结果。
+`velstand.onnx` 可用于显式探测，但其跌倒恢复尚未在本项目 Isaac 适配器中验证。
+详见[对齐与验证边界](../reference/upstream-alignment)。
 :::
 
 <div class="md-page-complete">

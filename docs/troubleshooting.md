@@ -1,5 +1,9 @@
 # Troubleshooting
 
+Start with the matching symptom. Run commands from the project root unless a block
+explicitly starts with `cd ros2_ws`. Use a terminal with ROS and the workspace
+environment loaded for ROS commands. On Humble, replace `jazzy` with `humble`.
+
 ## RViz camera does not move
 
 Use the repository's current RViz config. Select **Move Camera** (or press `M`),
@@ -14,6 +18,18 @@ ros2 pkg prefix microduck_description
 ```
 
 The prefix should point into this workspace's `install/` directory.
+
+## RViz crashes at startup on Humble
+
+If the command includes `rviz_fullscreen:=true`, remove it and launch again:
+
+```bash
+ros2 launch microduck_description view_microduck.launch.py use_gui:=true
+```
+
+`rviz_fullscreen` is a project launch option, not a built-in RViz parameter.
+Forced fullscreen has been reported to crash on Humble. Start in the default
+window and resize it after it opens.
 
 ## RViz is missing or detaching parts
 
@@ -49,15 +65,16 @@ and has the same `robot_description`.
 ./scripts/setup_isaac_python_env.sh
 ```
 
-The package must exist under `work/isaac_python_pkgs`; installing into an
-unrelated system Python does not satisfy Isaac's bundled interpreter.
+The package belongs in `work/isaac_python_pkgs`, where Isaac's bundled Python
+can load it. Installing it into system Python alone may leave this error unresolved.
 
 ## Isaac fails with `ERROR_DEVICE_LOST`
 
-Always launch through `scripts/run_isaac_policy.sh`. It isolates one Vulkan ICD
-and disables multi-GPU rendering. Check the printed ICD and active GPU. On a new
-host, set `MICRODUCK_VULKAN_ICD` and `MICRODUCK_ISAAC_ACTIVE_GPU` explicitly
-rather than deleting driver manifests.
+Use the `.sh` entry point from the relevant chapter, such as
+`scripts/run_isaac_policy.sh`. These wrappers select one Vulkan ICD and disable
+multi-GPU rendering. Check the ICD and active GPU in the startup log. Set
+`MICRODUCK_VULKAN_ICD` and `MICRODUCK_ISAAC_ACTIVE_GPU` if needed, keeping the
+system driver files in place.
 
 ## Isaac looks frozen during a long GUI run
 

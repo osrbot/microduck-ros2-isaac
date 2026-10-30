@@ -65,7 +65,7 @@ const englishTutorialSidebar: DefaultTheme.SidebarItem[] = [
     ]
   },
   {
-    text: 'Go further',
+    text: 'Control and training',
     items: [
       { text: '9. Connect ROS 2 and Isaac', link: '/ros2/isaac-control' },
       { text: '10. Train a walking policy', link: '/isaac/training' }
@@ -78,7 +78,7 @@ const englishTutorialSidebar: DefaultTheme.SidebarItem[] = [
       { text: '12. Parameters and rewards', link: '/isaac/roll-parameters' },
       { text: '13. Three rounds of debugging', link: '/isaac/roll-debugging' },
       { text: '14. Evaluate and export video', link: '/isaac/roll-validation' },
-      { text: '15. Make a new training task', link: '/isaac/custom-environment' }
+      { text: '15. Modify a training task', link: '/isaac/custom-environment' }
     ]
   },
   {
@@ -124,11 +124,11 @@ const englishTheme: DefaultTheme.Config = {
       {
         text: 'Contributor notes',
         items: [
-          { text: 'October upstream alignment', link: '/reference/upstream-alignment' },
+          { text: 'Model and source versions', link: '/reference/upstream-alignment' },
           { text: 'Tested setup', link: '/reference/environment' },
           { text: 'How this project was tested', link: '/reference/validation' },
           { text: 'Saved test results', link: '/reference/results' },
-          { text: 'Technical limits', link: '/reference/limitations' }
+          { text: 'Known limitations', link: '/reference/limitations' }
         ]
       }
     ],
@@ -173,43 +173,43 @@ const chineseHelpSidebar: DefaultTheme.SidebarItem[] = [
 
 const chineseTutorialSidebar: DefaultTheme.SidebarItem[] = [
   {
-    text: '先准备好',
+    text: '准备环境',
     items: [
-      { text: '1. 先选一条路线', link: '/zh/guide/' },
-      { text: '2. 看电脑能不能跑', link: '/zh/guide/installation' }
+      { text: '1. 选择学习路线', link: '/zh/guide/' },
+      { text: '2. 安装与环境检查', link: '/zh/guide/installation' }
     ]
   },
   {
-    text: '先玩 ROS 2',
+    text: 'ROS 2',
     items: [
-      { text: '3. 把鸭子请进 RViz', link: '/zh/ros2/' },
-      { text: '4. 转镜头、动关节', link: '/zh/ros2/rviz' },
-      { text: '5. 跑几个 ROS 2 例程', link: '/zh/ros2/examples' }
+      { text: '3. 在 RViz 中显示模型', link: '/zh/ros2/' },
+      { text: '4. 调整视角和关节', link: '/zh/ros2/rviz' },
+      { text: '5. 运行动作和遥控例程', link: '/zh/ros2/examples' }
     ]
   },
   {
-    text: '再去 Isaac Sim',
+    text: 'Isaac Sim',
     items: [
       { text: '6. 打开 MicroDuck 模型', link: '/zh/isaac/' },
-      { text: '7. 先让鸭子走起来', link: '/zh/isaac/policy-playback' },
-      { text: '8. 玩多动作游乐场', link: '/zh/isaac/playground' }
+      { text: '7. 回放行走策略', link: '/zh/isaac/policy-playback' },
+      { text: '8. 操作多动作游乐场', link: '/zh/isaac/playground' }
     ]
   },
   {
-    text: '继续折腾',
+    text: '控制与训练',
     items: [
       { text: '9. 用 ROS 2 控制 Isaac', link: '/zh/ros2/isaac-control' },
-      { text: '10. 训练一只会走的鸭', link: '/zh/isaac/training' }
+      { text: '10. 训练行走策略', link: '/zh/isaac/training' }
     ]
   },
   {
     text: '实战：连续翻滚',
     items: [
-      { text: '11. 先看效果，再开始训练', link: '/zh/isaac/continuous-roll' },
-      { text: '12. 参数和奖励怎么设计', link: '/zh/isaac/roll-parameters' },
-      { text: '13. 三轮调试复盘', link: '/zh/isaac/roll-debugging' },
-      { text: '14. 验收模型，导出素材', link: '/zh/isaac/roll-validation' },
-      { text: '15. 自己做一个训练任务', link: '/zh/isaac/custom-environment' }
+      { text: '11. 训练连续翻滚', link: '/zh/isaac/continuous-roll' },
+      { text: '12. 参数与奖励', link: '/zh/isaac/roll-parameters' },
+      { text: '13. 三轮调参过程', link: '/zh/isaac/roll-debugging' },
+      { text: '14. 评估模型并录制视频', link: '/zh/isaac/roll-validation' },
+      { text: '15. 修改一个训练任务', link: '/zh/isaac/custom-environment' }
     ]
   },
   {
@@ -255,11 +255,11 @@ const chineseTheme: DefaultTheme.Config = {
       {
         text: '维护者资料',
         items: [
-          { text: '10 月上游对齐', link: '/zh/reference/upstream-alignment' },
+          { text: '模型与源码版本', link: '/zh/reference/upstream-alignment' },
           { text: '测试过的环境', link: '/zh/reference/environment' },
           { text: '这个项目怎么测试', link: '/zh/reference/validation' },
           { text: '保留的测试记录', link: '/zh/reference/results' },
-          { text: '技术边界', link: '/zh/reference/limitations' }
+          { text: '已知限制', link: '/zh/reference/limitations' }
         ]
       }
     ],
@@ -267,7 +267,7 @@ const chineseTheme: DefaultTheme.Config = {
       {
         text: '项目',
         items: [
-          { text: '许可与发布边界', link: '/zh/project/licensing' },
+          { text: '许可说明', link: '/zh/project/licensing' },
           { text: '直播演示指南', link: '/zh/project/livestream' },
           { text: '参与贡献', link: '/zh/project/contributing' }
         ]

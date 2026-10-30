@@ -1,8 +1,8 @@
 # Architecture
 
-This project is an independent compatibility and teaching layer around pinned
-Pollen Robotics inputs. Generated ROS and Isaac files are outputs, not new
-authoritative robot specifications.
+This project converts Pollen Robotics' MicroDuck model for ROS 2 and Isaac,
+then provides policy playback, training, and ROS communication tools. The
+diagram shows how those parts connect.
 
 ```text
 pinned microduck_rl MJCF
@@ -18,20 +18,18 @@ validated MicroDuck USD
         `-- native Isaac Lab task --> RSL-RL PPO --> new checkpoint
 ```
 
-## Reproducible source layer
+## Model and policy sources
 
-`upstream.lock` records immutable commits. `scripts/fetch_upstream.sh` checks
-them out below ignored `reference/` directories. This separates source identity
-from generated files and prevents a moving branch from silently changing a
-demonstration.
+`upstream.lock` records the selected commits. `scripts/fetch_upstream.sh`
+downloads those revisions into `reference/`, so repeated tutorial runs use the
+same inputs.
 Runtime source and policy weights are separate inputs. The current runtime is
-under `reference/microduck_runtime/`; pinned v7 weights are under
-`reference/policies/v7/` and checked by SHA-256. New conversion selects
-`robot_groundcontact.xml`, not the new full-collision model with the historical
-`robot_allcollisions.xml` name. The bundled USD and native training remain on
-their separate historical source until runtime promotion; see [alignment](../reference/upstream-alignment).
+under `reference/microduck_runtime/`; default weights are under
+`reference/policies/v7/` and checked by SHA-256. New conversion uses the ground-contact model
+`robot_groundcontact.xml`. The bundled USD and native training keep their tested
+model until a replacement passes runtime checks. See [model and source versions](../reference/upstream-alignment) for the exact revisions.
 
-## ROS description layer
+## ROS 2: model and joint display
 
 The generator preserves all 15 physical MJCF bodies, their inertias, 14 hinges,
 and referenced geometry. A massless `base_link` is added above `trunk_base` so
@@ -39,28 +37,28 @@ KDL can consume the tree without discarding or moving the physical trunk
 inertia. Quaternion poses are converted through rotation matrices, including
 the source's exact ±90° pitch singularities.
 
-## Isaac layer
+## Isaac: physics simulation
 
-Isaac Lab's MJCF importer produces the stage. The project changes only the
-collision state required to restore one source filtering intent, then checks
-the complete stage against recorded invariants.
+Isaac Lab's MJCF importer produces the USD. The conversion script disables an
+extra sensor-mesh collision introduced during import, then checks units, joints,
+mass, and collision settings.
 
-## Policy adapter layer
+## Policy playback: observations and actions
 
 Both runners use the same 61-value observation order, 14-value output order,
 home pose, command layout, 200 Hz physics step, and 50 Hz policy cadence. Each
 engine still retains its own contact and actuator behavior.
 
-## Training and ROS interaction layer
+## Training and ROS communication
 
-The native Isaac Lab task reuses the USD and 61→14 contract, then adds parallel
+The native Isaac Lab task reuses the USD and 61-input, 14-output interface, then adds parallel
 environments, rewards, resets, randomization, curriculum, and RSL-RL PPO. The
 ROS bridge stays outside Isaac's Python environment and exchanges localhost UDP
 commands and telemetry before publishing JointState, policy state, and TF.
 
-## Deliberate separation
+## Check each part
 
-ROS description, the ROS bridge, released-policy playback, and new-policy
-training remain separate layers. The bridge controls simulation only, and a
-training checkpoint does not automatically become a hardware policy. Each
-claim remains independently testable.
+After conversion, check joints and inertias. After playback, check the motion.
+After training, test the saved model. For ROS communication, check that commands
+and states travel both ways. These tools currently connect simulation; physical
+hardware still needs servo drivers, calibration, and hardware tests.

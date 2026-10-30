@@ -1,7 +1,7 @@
-# Licensing and publication boundary
+# Licensing
 
-This is a mixed-license repository. Do not describe the bundled project as
-Apache-only.
+Original code and upstream model meshes use different licenses. Check the
+terms for each before using or redistributing them.
 
 ## Original compatibility work
 
@@ -13,13 +13,12 @@ original contributions.
 
 The October 2026 pinned upstream [LICENSE-MODELS.md](https://github.com/pollen-robotics/microduck_rl/blob/ceca01706143d729305baa94cbd8ab990979e325/LICENSE-MODELS.md)
 explicitly separates STL meshes (**CC BY-NC-SA 4.0**) from MJCF XML, export
-configuration and `.part` metadata (**Apache-2.0**). This replaces the earlier
-version-unspecified notice; it is not a license version chosen by this project.
+configuration and `.part` metadata (**Apache-2.0**).
 
 The generated Xacro description is Apache-2.0, but its referenced STL meshes
 remain CC BY-NC-SA 4.0. USD contains converted mesh geometry and must retain
-those mesh terms. The historical bundled USD also retains its original source
-identity; the update does not claim it was regenerated.
+those mesh terms. See [model and source versions](../reference/upstream-alignment)
+for the source of the bundled USD.
 
 For publication:
 
@@ -37,4 +36,4 @@ The separately retained historical sit/stand weight comes from the Apache-2.0
 [runtime revision](https://github.com/pollen-robotics/microduck/blob/590b986bd8c0d50ae02cb3ea2f59c463b6828168/LICENSE)
 recorded in `upstream.lock`; it is also downloaded to ignored `reference/`, not bundled.
 
-This is a conservative engineering publication boundary, not legal advice.
+The license attached to each file defines the applicable terms.

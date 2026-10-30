@@ -80,7 +80,7 @@ open once you can see the complete MicroDuck, the floor, and the yellow ball.
 
 <figure class="md-doc-figure">
   <div class="md-doc-image-stage"><img src="/images/isaac-playground-live.webp" alt="The live MicroDuck multi-skill playground in Isaac Lab" width="1400" height="876" loading="lazy"></div>
-  <figcaption><strong>This is what Terminal A should show.</strong>The duck and ball are in the scene, and the camera follows the duck. This is a real project run, not a concept picture.</figcaption>
+  <figcaption><strong>This is what Terminal A should show.</strong>The duck and ball are in the scene, and the camera follows the duck. The screenshot comes from the project test run.</figcaption>
 </figure>
 
 If the robot is missing, check terminal A for a traceback, missing assets, or a
@@ -101,8 +101,7 @@ ros2 launch microduck_control_bridge isaac_playground.launch.py
 
 The launch starts `robot_state_publisher`, `microduck_control_bridge`, and
 `rviz2`. RViz follows the 14 live joint positions and the
-`world → base_link` pose coming from Isaac; it is not a manual joint-slider
-demo.
+`world → base_link` pose coming from Isaac.
 
 <div class="md-result-label">REAL RUN · TERMINAL B BRIDGE CONNECTED</div>
 
@@ -268,7 +267,7 @@ data: '{"policy":"standing","upright":true,"tilt_rad":0.0026}'
 `upright:false` before recovering. If you use this field as an RL termination
 condition, distinguish intentional low postures from an actual fall.
 
-## 8. Try the full loop without windows
+## 8. Check communication without windows
 
 Run the live ROS → Isaac → ROS check without opening the three windows:
 
@@ -301,7 +300,7 @@ Stop C, B, then A:
 
 The bridge should report `process has finished cleanly`, without an
 `ExternalShutdownException` traceback. If a later launch says a UDP port is in
-use, first check whether an earlier duck is still running.
+use, first check whether an earlier process is still running.
 
 <div class="md-page-complete">
   <strong>ROS 2 and Isaac are talking both ways!</strong>

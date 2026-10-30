@@ -14,7 +14,7 @@ This is the historical baseline, not an October rerun. See
 - Physical model mass: approximately 0.737243 kg.
 - 15 physical bodies and 14 movable joints.
 
-## Policy rollouts
+## Policy playback
 
 | Engine and scenario | Duration | Final root xyz (m) | Max tilt | Result |
 | --- | ---: | --- | ---: | --- |
@@ -53,7 +53,7 @@ model.
 - Runtime validation received the required nodes, description, home joint state,
   and `world -> ankle_left` TF.
 
-## GUI evidence
+## Interface and stability tests
 
 RViz ran fullscreen for 75 seconds on the validated host. Automated input
 confirmed default Orbit rotation and zoom. The joint GUI changed all 14 joints,
@@ -65,20 +65,20 @@ The first 60-second Isaac Kit run reproduced a duplicate-Vulkan-ICD GPU crash.
 With the project wrapper selecting one ICD and disabling multi-GPU rendering,
 the same simulation finished, exited 0, and created no new GPU dump.
 
-## Native learning and live ROS bridge
+## Short training and ROS communication
 
 - A 16-environment, one-iteration Isaac Lab smoke collected 384 steps at 530
   steps/s, completed the PPO update, and wrote `model_final.pt`.
 - Both nested foot sensors resolved exactly one body (`ankle_left` and
   `ankle_right`); the feet-air-time reward executed with a non-zero value.
 - Deterministic checkpoint playback completed 80 steps and saved a 960×720 PNG
-  plus JSON. The checkpoint came from one PPO iteration, so this proves the
-  pipeline and renderer, not a learned gait.
+  plus JSON. This one-iteration run checks saving, loading, and rendering.
+  Walking behavior needs evaluation after further training.
 - The live ROS round trip sent `kick_left`, observed 317 JointState messages and
   316 policy messages, retained all 14 joints and `world → base_link`, and the
   Isaac report recorded `standing → kick_left → walking`.
 - A 42.9-second dual-window GUI sequence exercised forward motion, turning,
-  both kicks, ground pick, sit/rise, head pose, and reset. It finished at
+  both kicks, floor touch, sit/rise, head pose, and reset. It finished at
   `standing`, `upright:true`; RViz showed the complete model and passed Orbit
   drag/zoom, with no new Isaac crash dump.
 - The deliberate low posture in `ground_pick` briefly produced 11
@@ -88,5 +88,6 @@ the same simulation finished, exited 0, and created no new GPU dump.
   12 package tests passed and shutdown no longer emitted an
   `ExternalShutdownException` traceback.
 
-These results do not establish a converged native policy, hardware behavior, or
-final livestream/capture acceptance.
+These records cover model checks, short training, and simulation communication.
+Hardware has not been tested. See the [continuous-roll case study](../isaac/continuous-roll)
+for subsequent training results.

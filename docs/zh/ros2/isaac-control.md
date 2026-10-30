@@ -4,13 +4,13 @@
 照着这一页走完，你会亲眼看到同一个动作同时出现在 Isaac 和 RViz 里。
 
 这条路线已经在 Ubuntu 24.04、ROS 2 Jazzy、Isaac Sim 6.0.1 standalone 和 Isaac Lab 3.0.0 beta 2
-上完整跑过。下面的图片也是这次实际运行留下的，不是示意图。
+上完整跑过。下方截图来自这次运行。
 
 <div class="md-tutorial-meta" role="list" aria-label="本页概览">
   <div role="listitem"><span>预计时间</span><strong>25–40 分钟</strong></div>
   <div role="listitem"><span>前置环境</span><strong>ROS 2 + Isaac 已分别跑通</strong></div>
   <div role="listitem"><span>终端数量</span><strong>A、B、C 共 3 个</strong></div>
-  <div role="listitem"><span>完成结果</span><strong>ROS 指令与 Isaac 状态闭环</strong></div>
+  <div role="listitem"><span>完成结果</span><strong>ROS 发指令，RViz 显示状态</strong></div>
 </div>
 
 <div class="md-terminal-map" role="list" aria-label="三终端分工">
@@ -41,7 +41,7 @@ export ISAACLAB_DIR=/path/to/IsaacLab
 
 后面再次玩鸭不用重复下载；`ISAACLAB_DIR` 不是默认路径时，每个新终端都要重新 export。
 
-## 1. 先把 ROS 2 小桥搭好
+## 1. 构建 ROS 2 通信包
 
 切到终端 B 运行：
 
@@ -60,10 +60,9 @@ cd ..
 Summary: 2 packages finished
 ```
 
-如果这里还没通过，先别急着叫鸭子上场。构建问题留在终端里最好查，拖到 Isaac 启动以后反而容易
-把两件事搅在一起。
+构建失败时，先根据终端错误修复并重新构建，成功后再启动 Isaac。
 
-## 2. 终端 A：先把鸭子请进 Isaac
+## 2. 终端 A：启动 Isaac 游乐场
 
 ```bash
 ./scripts/run_isaac_playground.sh --follow-camera --viz kit
@@ -79,8 +78,7 @@ Summary: 2 packages finished
   <figcaption><strong>终端 A 跑起来以后应该长这样。</strong>鸭子和球都在场，视口会跟着机器人移动；图片来自本项目的真实 GUI 测试。</figcaption>
 </figure>
 
-如果窗口里没有鸭子，先看终端 A 有没有 `Traceback`、资源缺失或 Vulkan 错误。不要继续启动第二个
-Isaac 窗口——两只鸭抢同一块显卡，事情通常不会更简单。
+如果窗口里没有鸭子，先看终端 A 有没有 `Traceback`、资源缺失或 Vulkan 错误。保留当前日志进行排查，关闭当前进程后再重试。
 
 ## 3. 终端 B：打开 bridge 和 RViz
 
@@ -101,8 +99,7 @@ microduck_control_bridge
 rviz2
 ```
 
-RViz 会接收 Isaac 发来的 14 个关节位置和 `world → base_link` 位姿。这里显示的是仿真器正在发生的
-动作，不是 Joint State Publisher 的手工滑块。
+RViz 会接收 Isaac 发来的 14 个关节位置和 `world → base_link` 位姿。因此 RViz 中的姿态会随 Isaac 中的动作更新。
 
 <div class="md-result-label">真实运行截图 · 终端 B 的 bridge 接通后</div>
 
@@ -113,7 +110,7 @@ RViz 会接收 Isaac 发来的 14 个关节位置和 `world → base_link` 位�
 
 ::: warning RViz 里只剩半只鸭？
 机器人走远以后，RViz 的 Orbit 相机仍可能盯着原来的世界坐标，看起来就像“零件跑了”。先点
-**Focus Camera**，或者发送本页后面的 reset，再拖动视角确认。模型真的缺件时，`MicroDuck` 显示项会报错；
+**Focus Camera**，或者发送本页后面的 reset，再拖动视角确认。模型缺件时，`MicroDuck` 显示项会报错；
 单纯走出镜头不是缺件。
 :::
 
@@ -164,7 +161,7 @@ ros2 topic pub -r 10 --times 35 /cmd_vel geometry_msgs/msg/Twist \
 
 转完也发送一次上面的零速度命令。这个习惯很朴素，但对仿真和真机都很友好。
 
-## 5. 再点几个小绝活
+## 5. 发送动作、头部和重置命令
 
 绝活动作用同一个 topic，只需要换 `data`：
 
@@ -182,7 +179,7 @@ ros2 topic pub --once /microduck/behavior std_msgs/msg/String \
 | `roulade` | 向前滚一圈 |
 
 踢球动作只有约半秒，前滚约一秒。一个动作还没做完时，不要马上塞进另一个绝活；运行器会拒绝硬切，
-免得鸭子半个前滚突然决定踢球。
+请等待动作结束后再发送下一条。
 
 <div class="md-result-label">真实运行截图 · sitstand 命令</div>
 
@@ -222,10 +219,10 @@ ros2 topic pub --once /microduck/reset std_msgs/msg/Empty "{}"
 
 <figure class="md-doc-figure">
   <div class="md-doc-image-stage"><img src="/images/ros-isaac-rviz-camera.webp" alt="RViz Orbit 相机经过实际旋转和缩放后的 MicroDuck 近景" width="1400" height="900" loading="lazy"></div>
-  <figcaption><strong>这张是实际拖动和滚轮缩放后的画面。</strong>左侧 Distance 从 0.38 变成约 0.23，Yaw 和 Pitch 也变化了，所以不是“按钮看起来能点”的假检查。</figcaption>
+  <figcaption><strong>旋转和缩放后的视角。</strong>左侧 Distance 从 0.38 变成约 0.23，Yaw 和 Pitch 也随视角变化。</figcaption>
 </figure>
 
-## 7. 看看 ROS 到底收到了什么
+## 7. 查看 ROS 收到的状态
 
 先看节点和 topics：
 
@@ -270,7 +267,7 @@ data: '{"policy":"standing","upright":true,"tilt_rad":0.0026}'
 `ground_pick` 主动降低身体时，`upright` 可能短暂变成 `false`，随后恢复。这不等于鸭子一定摔了；如果你
 把这个字段拿去做强化学习终止条件，需要把主动低姿态和真正摔倒分开处理。
 
-## 8. 不开窗口，检查完整闭环
+## 8. 运行无界面通信检查
 
 想快速确认 ROS → Isaac → ROS 整条链路，而不是手工开三个终端：
 
@@ -286,15 +283,15 @@ data: '{"policy":"standing","upright":true,"tilt_rad":0.0026}'
 
 - 收到持续更新的 14 关节 JointState；
 - 收到 `world → base_link`；
-- 策略记录里真的出现 `kick_left`，不是只把命令发进空气；
+- 策略状态中出现 `kick_left`；
 - JSON 报告写入 `artifacts/isaac/`。
 
 ::: details 这次实测的参考数字
-本次完整闭环收到 317 帧 JointState 和 316 帧策略状态，并记录到
+这次通信测试收到 317 帧 JointState 和 316 帧策略状态，并记录到
 `standing → kick_left → walking`。消息数量会随机器速度和运行时间变化，不必追求一模一样。
 :::
 
-## 9. 玩完怎么正常关门
+## 9. 关闭程序
 
 推荐按 C、B、A 的顺序收尾：
 
@@ -303,7 +300,7 @@ data: '{"policy":"standing","upright":true,"tilt_rad":0.0026}'
 3. 终端 A 按 <kbd>Ctrl</kbd>+<kbd>C</kbd> 关闭 Isaac。
 
 bridge 正常退出时会显示 `process has finished cleanly`，不应该留下
-`ExternalShutdownException` traceback。端口占用报错时，也先确认是不是上一只鸭还没退场。
+`ExternalShutdownException` traceback。端口占用报错时，先确认上一次进程是否已退出。
 
 <div class="md-page-complete">
   <strong>ROS 2 已经能指挥 Isaac 了。</strong>

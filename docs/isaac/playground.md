@@ -1,16 +1,7 @@
 # Play with MicroDuck in Isaac Sim
 
-::: info Updated policy download
-Default action weights still match the historical demo: walking, standing and
-one-shot actions come from `reference/policies/v7/`, while sitting uses
-`reference/policies/isaac-legacy/alpha_sitstand.onnx`. The downloader prepares both.
-The historical USD and controller settings remain unchanged. Updated sitting
-and VelStand policies are separate experiments, not part of this default route.
-See [alignment status](../reference/upstream-alignment).
-:::
-
 One walking policy was just the warm-up. Here the duck can stand, walk, sit,
-pick from the ground, kick a ball, and roll forward. The playground uses the
+lower its head to touch the floor, kick a ball, and roll forward. The playground uses the
 ready-made 61→14 ONNX policies. It puts a 70 mm, 15 g ball beside the foot before
 each kick.
 
@@ -75,7 +66,7 @@ to standing.
 | Key | Action |
 | --- | --- |
 | <kbd>Y</kbd> | Sit / rise |
-| <kbd>G</kbd> | Ground pick |
+| <kbd>G</kbd> | Touch the floor and return to standing |
 | <kbd>K</kbd> / <kbd>M</kbd> | Kick with the left / right foot |
 | <kbd>R</kbd> | Forward roll |
 | <kbd>W</kbd>/<kbd>S</kbd> | Neck pitch command |
@@ -128,8 +119,7 @@ for the prompt before running:
   --headless
 ```
 
-The run writes `artifacts/isaac/playground_session.json`. It is a playback
-record, not evidence that a new policy was trained.
+The run writes `artifacts/isaac/playground_session.json`. Use it to check duration, loaded policies, and exit status.
 
 ```bash
 test -s artifacts/isaac/playground_session.json \
@@ -141,8 +131,17 @@ report.
 
 The policies come from Pollen Robotics and were trained by
 [microduck_rl](https://github.com/pollen-robotics/microduck_rl) in MuJoCo/mjlab.
-This page adds interactive Isaac playback; it does not relabel that upstream
-training as Isaac training.
+This page runs those policies interactively in Isaac Sim. To train your own policy, continue to [chapter 10](./training).
+
+
+::: details Model and policy sources
+Default action weights still match the historical demo: walking, standing and
+one-shot actions come from `reference/policies/v7/`, while sitting uses
+`reference/policies/isaac-legacy/alpha_sitstand.onnx`. The downloader prepares both.
+The historical USD and controller settings remain unchanged. Updated sitting
+and VelStand policies are separate experiments, not part of this default route.
+See [alignment status](../reference/upstream-alignment).
+:::
 
 <div class="md-page-complete">
   <strong>The duck is ready to play!</strong>

@@ -8,7 +8,8 @@ Quick answers for the questions that usually come up on a first run.
 - Run ready-made ROS 2 motion examples.
 - Open the included USD in Isaac Sim.
 - Play released walking and skill policies.
-- Train the included flat-velocity task in Isaac Lab.
+- Train flat-ground walking in Isaac Lab and practice tuning with the [continuous-roll case study](/isaac/continuous-roll).
+- Try recovery and turning in MuJoCo, or [download a model and continue training](/guide/training-checkpoints).
 - Send commands from ROS 2 to the local Isaac playground and see the pose in RViz.
 
 ## What can it not do yet?
@@ -19,7 +20,7 @@ Quick answers for the questions that usually come up on a first run.
 - Isaac and MuJoCo do not produce the same path. Their contacts and actuator
   models are different.
 - The physical mouth actuator is not part of the released simulation model or
-  policies, so this project does not invent one.
+  policies.
 
 ## Do I need ROS 2 and Isaac Sim together?
 
@@ -45,17 +46,18 @@ The released MJCF and policies contain 14 movable joints. The physical runtime
 mentions a mouth actuator, but the public simulation model does not define its
 geometry, limits, or policy behavior.
 
-## Are the mass and inertia values checked?
+## Where do the mass and inertia values come from?
 
-The repository checks that the converted ROS and Isaac models agree with the
-pinned source model. That catches broken conversion, but it is not an
-independent measurement of a manufactured robot.
+The values come from upstream MJCF. Conversion checks compare mass, inertia,
+and poses to confirm that ROS and Isaac models preserve the source data. This
+project has not independently measured these values on physical hardware.
 
 ## Can I use the assets commercially?
 
-Do not assume so. Upstream describes the 3D files as “Creative Commons BY-SA-NC”
-without naming a version. Read [licensing](/project/licensing) and ask Pollen
-Robotics before commercial, sponsored, or monetized use.
+Model meshes use **CC BY-NC-SA 4.0**, which includes a non-commercial restriction.
+MJCF descriptions and this project's original code use **Apache-2.0**. See
+[licensing](/project/licensing) for the file scope, and confirm permission with
+Pollen Robotics for commercial, sponsored, or monetized use of the meshes.
 
 ## Something broke. Where do I start?
 

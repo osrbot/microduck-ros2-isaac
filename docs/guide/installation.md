@@ -31,8 +31,7 @@ Set up only the route you want today. If you are unsure, prepare ROS 2 first.
 
 ## New to the terminal? Try these keys first
 
-Run the commands on an **Ubuntu desktop** in the Terminal app. This is not the
-Isaac Sim Console and not the browser address bar.
+Run the commands in the **Terminal app on your Ubuntu desktop**.
 
 <div class="md-terminal-school">
   <strong>Ubuntu terminal shortcuts</strong>
@@ -58,9 +57,9 @@ labels; one computer is enough.
   <p>Use the copy button → return to Terminal → press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd> → press <kbd>Enter</kbd>. A short command is finished when the <code>user@computer:folder$</code> prompt returns. A command that opens RViz or Isaac keeps running, so leave that terminal open.</p>
 </div>
 
-<div class="md-step-kicker"><span>STEP 1</span><strong>Terminal A · Ctrl + Alt + T</strong></div>
+<div class="md-step-kicker"><strong>Terminal A · Ctrl + Alt + T</strong></div>
 
-## Clone the repository
+## 1. Clone the repository {#clone-the-repository}
 
 ```bash
 git clone https://github.com/osrbot/microduck-ros2-isaac.git
@@ -82,9 +81,9 @@ test -f README.md && test -d ros2_ws && test -d assets/isaac \
   <p>The terminal prints <code>MicroDuck repository: OK</code>. The ROS package and Isaac USD are already included; first-time users do not regenerate them.</p>
 </div>
 
-<div class="md-step-kicker"><span>STEP 2A</span><strong>ROS 2 route only</strong></div>
+<div class="md-step-kicker"><strong>ROS 2 route only</strong></div>
 
-## Prepare ROS 2 Jazzy
+## 2A. Prepare ROS 2 Jazzy {#prepare-ros-2-jazzy}
 
 These commands target Ubuntu 24.04 with the official ROS apt source already configured:
 
@@ -122,9 +121,9 @@ the checks that should produce output.
 `source /opt/ros/jazzy/setup.bash` affects only the current shell. The tutorials repeat every required source command.
 :::
 
-<div class="md-step-kicker"><span>STEP 2B</span><strong>Isaac route only</strong></div>
+<div class="md-step-kicker"><strong>Isaac route only</strong></div>
 
-## Check Isaac Sim and Isaac Lab
+## 2B. Check Isaac Sim and Isaac Lab {#check-isaac-sim-and-isaac-lab}
 
 The fully tested setup is Ubuntu 24.04, Isaac Sim 6.0.1 standalone, Isaac Lab 3.0.0 beta 2, and an NVIDIA GPU with
 working drivers and Vulkan.
@@ -146,7 +145,7 @@ test -x "${ISAACLAB_DIR:-$HOME/rlgpu_ws/IsaacLab}/isaaclab.sh" \
   && echo "Isaac Lab launcher: OK"
 ```
 
-Fix the path if the second command does not print `OK`. Reopening Isaac will not repair a missing launcher.
+If the second command does not print `OK`, correct `ISAACLAB_DIR` and repeat the check.
 
 ## Fetch policies and local dependencies
 
@@ -160,7 +159,7 @@ From the repository root:
 The scripts create ignored `reference/` and `work/` directories inside this project. They do not modify Isaac Lab.
 The fetch script needs Python 3.11 or newer (`tomllib`). Sources go into
 `reference/microduck_rl/` and `reference/microduck_runtime/`; the immutable
-official v7 weights, manifest and model card go into `reference/policies/v7/`.
+official weights, manifest and model card used by this tutorial go into `reference/policies/v7/`.
 The playground's historical sitting weight is also downloaded to `reference/policies/isaac-legacy/`.
 An existing historical `reference/microduck/` directory is left untouched.
 See [upstream alignment](../reference/upstream-alignment) before migrating a previous checkout.

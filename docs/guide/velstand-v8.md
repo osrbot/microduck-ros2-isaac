@@ -1,13 +1,13 @@
 # Train recovery and turning
 
 This chapter explains how teacher models, starting poses and rewards can improve recovery and turning.
-Using the official VelStand v8 model as an example, we look at which parameters changed, why they changed,
+Using the official VelStand model as an example, we look at which parameters changed, why they changed,
 and how to check the result.
 
 <div class="md-tutorial-meta" role="list" aria-label="Page overview">
   <div role="listitem"><span>Skills</span><strong>Recover and turn</strong></div>
   <div role="listitem"><span>Simulator</span><strong>MuJoCo</strong></div>
-  <div role="listitem"><span>Model</span><strong>VelStand v8</strong></div>
+  <div role="listitem"><span>Model</span><strong>VelStand</strong></div>
   <div role="listitem"><span>Practice</span><strong>Chapter 17</strong></div>
 </div>
 
@@ -17,9 +17,9 @@ This chapter uses MuJoCo/mjlab; the Isaac Lab instructions remain in [chapter 10
 ## 1. Training results {#results}
 
 VelStand combines walking, standing at zero velocity and fall recovery in one policy.
-v8 addresses two v7 weaknesses: getting stuck in some face-up poses, and barely turning despite a yaw command.
+Further training addresses two weaknesses: getting stuck in some face-up poses, and barely turning despite a yaw command.
 
-| Upstream comparison | v7 | v8 |
+| Upstream comparison | Before | After |
 | --- | --- | --- |
 | Recovery success, face-up with randomized joints | 73% | 94% |
 | Recovery success, side-lying with randomized joints | 91% | 96% |
@@ -27,7 +27,7 @@ v8 addresses two v7 weaknesses: getting stuck in some face-up poses, and barely 
 | In-place yaw at a +0.6 rad/s command | +0.08 rad/s | +0.52 rad/s |
 | In-place yaw at a −0.6 rad/s command | −0.03 rad/s | −0.57 rad/s |
 
-Source: the [upstream v8 training record](https://github.com/pollen-robotics/microduck_rl/blob/b02fdea4902c2b93b7d34a83a6f05da4ececb7d3/docs/velstand_policy.md).
+Source: the [upstream training record](https://github.com/pollen-robotics/microduck_rl/blob/b02fdea4902c2b93b7d34a83a6f05da4ececb7d3/docs/velstand_policy.md).
 The simulation evaluation uses flat terrain with backlash. Recovery tests use two groups of 128 environments
 per start family, observed for 12 seconds. Yaw values average the upright environments after the first 2 seconds;
 they are not overall success rates that also account for falls.
@@ -40,13 +40,13 @@ Forward-speed tracking did not improve by the same margin.
 
 ### Recovery: adjust teacher inputs and starting poses
 
-This recipe does not start with random behavior. The student inherits walking, then PPO improves it using rewards.
+The student continues from an existing walking model, and PPO adjusts its behavior using rewards.
 Behavior cloning (BC) also learns from two frozen teachers: preserve walking when upright, learn recovery when fallen.
 The basic routing assigns mainly sub-25° tilt states to the walking teacher and over-35° states to the recovery teacher,
 leaving the band between them to PPO. Standing body control has additional routing.
 
 The recovery teacher can stop in certain leg configurations, and the student copies that behavior.
-v8 addresses this by **changing the recovery teacher's input when the body tilt is large**:
+The change works by **changing the recovery teacher's input when the body tilt is large**:
 
 | Change | Upstream setting | Reason |
 | --- | --- | --- |
@@ -66,7 +66,7 @@ and the [VelStand configuration](https://github.com/pollen-robotics/microduck_rl
 ### Turning: calibrate teacher actions and adjust rewards
 
 The walking teacher has its own yaw dead zone, which direct imitation passes on to the student.
-During training, v8 looks up the command that makes that teacher produce approximately the desired turn,
+During training, the controller looks up the command that makes that teacher produce approximately the desired turn,
 then uses the resulting action as the teaching target. **The student always receives the true target command.**
 The adjustment applies to the teacher's action generation during training.
 
@@ -80,24 +80,26 @@ The adjustment applies to the teacher's action generation during training.
 The table lives in `ANCHOR_YAW_REMAP`. A different teacher needs its own calibration.
 This example uses `ENABLE_ANCHOR_YAW_REMAP=True`.
 `ENABLE_YAW_FIX` belongs to an unsuccessful experiment and stays `False`.
-Disable the old v7 runtime yaw compensation when using v8 to avoid applying a second correction.
+Disable the old runtime yaw compensation when using the updated model to avoid applying a second correction.
 The pinned configuration above contains these parameters and switches.
 
 ## 3. Download and try the model {#try-v8}
 
+::: details Source revisions and model checksums
 Use fixed revisions rather than a moving `main` or tag:
 
 | Purpose | Pinned version |
 | --- | --- |
-| Merged v8 source reference | `b02fdea4902c2b93b7d34a83a6f05da4ececb7d3` |
-| Official v8 policy set | `665ae4eb20bfe13bca1ef4ea6d4bb6b4a096e448` |
+| Source used by this chapter | `b02fdea4902c2b93b7d34a83a6f05da4ececb7d3` |
+| Policy set used by this chapter | `665ae4eb20bfe13bca1ef4ea6d4bb6b4a096e448` |
 | `velstand.onnx` SHA-256 | `2fc7f8ee6acd7d0d3f66a99927b5d5a56589aeed02ec714de329b252d5ccf492` |
 
 The manifest still declares 61 observations, 14 actions and 50 Hz control.
-Only `velstand.onnx` differs from our pinned v7 weights; the other nine ONNX hashes match.
+Only `velstand.onnx` differs from the tutorial’s default weights; the other nine ONNX hashes match.
 The robot XML/STL files are also unchanged in this RL diff.
 Sources: the [pinned policy manifest](https://huggingface.co/pollen-robotics/microduck-policies/blob/665ae4eb20bfe13bca1ef4ea6d4bb6b4a096e448/manifest.json)
 and [source comparison](https://github.com/pollen-robotics/microduck_rl/compare/ceca01706143d729305baa94cbd8ab990979e325...b02fdea4902c2b93b7d34a83a6f05da4ececb7d3).
+:::
 
 <div class="md-step-kicker"><span>OPTION A</span><strong>Terminal A · this project's repository root</strong></div>
 
@@ -108,7 +110,7 @@ Follow the [existing setup](./installation) for the default inputs, then prepare
 ./scripts/setup_mujoco_env.sh
 ```
 
-Download just the v8 weight into its own directory using this project's existing checked downloader.
+Download the recovery and turning model into its own directory using this project's existing checked downloader.
 A mismatched existing file causes an error instead of being overwritten; an identical file is only verified.
 
 ```bash
@@ -129,7 +131,7 @@ print(target, file_sha256(target))
 PY
 ```
 
-Probe v7 and v8 with identical settings. A new timestamped report directory keeps earlier evidence intact:
+Probe the default and updated models with identical settings. A new timestamped report directory keeps earlier evidence intact:
 
 ```bash
 probe_dir="$PWD/artifacts/velstand-v8/$(date +%Y%m%d-%H%M%S)"
@@ -143,23 +145,26 @@ done
 ```
 
 This is a short compatibility check in the existing simplified ground-contact model:
-inspect loading, finite values and posture. It is not a Rough + Backlash recovery or yaw evaluation,
-and it does not replace the Isaac playground controller.
-These new commands have not completed this project's v8 runtime retest.
+inspect loading, finite values and posture. Full recovery and turning tests require the training environment described below. These commands have been checked against source and still need GPU testing.
 
 ## 4. Two-stage training settings {#training}
 
+Training has two stages: improve recovery, then refine turning. To continue training yourself, follow [chapter 17](./training-checkpoints) to download the public model and both teachers.
+
+The original experiment commands below are retained for studying the parameter choices and training process.
+
+:::: details Original two-stage experiment: settings and commands
 ### Prepare the training models
 
 Full training needs a Linux/CUDA GPU, Python 3.12, `uv` and the upstream locked dependencies.
 The task is `Mjlab-VelStand-Rough-Backlash-MicroDuck`: full collisions, rough terrain,
-BAM XL330 actuators and backlash, not the simplified probe environment above.
+BAM XL330 actuators and backlash.
 
 BC loads two teachers in addition to the resume checkpoint. Confirm access to these original `.pt` files first:
 
 | Input | Upstream W&B run | File |
 | --- | --- | --- |
-| v7 resume checkpoint | `pollen-robotics/mjlab_microduck/j4i6yoq2` | `model_1250.pt` |
+| Initial walking model | `pollen-robotics/mjlab_microduck/j4i6yoq2` | `model_1250.pt` |
 | Recovery teacher | `pollen-robotics/mjlab_microduck/69u48n8l` | `model_9750.pt` |
 | Walking teacher | `pollen-robotics/mjlab_microduck/441tzs6d` | `model_3750.pt` |
 | Selected upstream stage A result | `pollen-robotics/mjlab_microduck/qz5g3bwi` | `model_1750.pt` |
@@ -171,9 +176,8 @@ This section keeps the original two-stage experiment's settings and commands;
 The two chapters use different source revisions, so use the complete commands from the chapter you are following.
 :::
 
-This project has not verified public download access to the W&B files above.
-Do not run the historical two-stage reproduction until its original inputs are available.
-Renaming an ONNX file to `.pt` does not restore training state or replace the teachers' checkpoints.
+This historical experiment requires the original `.pt` files listed above; public access to some of them has not been confirmed.
+ONNX files are for inference. Continued training requires `.pt` models containing training state.
 Load `.pt` files only from trusted sources, and record their provenance and SHA-256 hashes.
 
 ### Prepare a separate experiment checkout
@@ -250,15 +254,16 @@ The commands explicitly remove `MICRODUCK_WARM_START` to avoid inheriting an old
 That environment variable is not the same as the retained `WARM_START=True` configuration constant.
 See the [upstream load patch](https://github.com/pollen-robotics/microduck_rl/blob/b02fdea4902c2b93b7d34a83a6f05da4ececb7d3/src/mjlab_microduck/tasks/mdp.py).
 
+::::
+
 ## 5. Check behavior and export the model {#evaluation}
 
 Track recovery, turning and walking separately. Select on development cases, then evaluate in independent processes
-with new seeds. The checklist below is this project's proposed retest design, not an included one-command evaluator
-or an already completed test.
+with new seeds. Use the table below to plan the tests; automated statistics require a separate evaluation script.
 
 | Check | Keep identical | Save |
 | --- | --- | --- |
-| Recovery | Start families, joint randomization, model and duration for v7/v8 | Successes/total, stuck rate, recovery time, re-falls |
+| Recovery | Start families, joint randomization, model and duration for both candidates | Successes/total, stuck rate, recovery time, re-falls |
 | Turning | Both signs; separate in-place and moving turns | Actual yaw rate, error and falls, not only surviving samples |
 | Straight walking | Commands, friction and actuator settings | Actual speed, lateral/yaw drift and falls |
 | Smoothness | Sampling rate and measurement interval | Body angular velocity, impacts and continuous real-time recovery video |
@@ -296,8 +301,7 @@ First complete the matched MuJoCo comparison. Then separately check the Isaac ob
 actuator differences, walking/recovery behavior and transitions to other skills.
 Equal interface dimensions do not establish equal behavior across engines.
 
-The default downloader still selects v7, and the playground uses its existing walking, standing and sitting models.
-Local runtime testing of v8 is pending. See [upstream alignment](../reference/upstream-alignment) for the configuration.
+Test the recovery and turning model in MuJoCo first. The Isaac playground keeps its paired models and controller settings; see [Model and source versions](../reference/upstream-alignment).
 
 <div class="md-page-complete">
   <strong>Next: load a model and start training</strong>

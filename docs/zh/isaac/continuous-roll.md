@@ -26,10 +26,6 @@ import RollShowcase from '../../.vitepress/theme/RollShowcase.vue'
 已记录的批量回放中，8 个轻微不同的初始姿态各运行 50 秒，均连续完成 39 圈、零重置；平均绝对横向偏移约 0.70 m。
 这是平地仿真案例，后续仍可继续改善方向和扰动恢复能力。
 
-10 月更新把热启动权重的下载位置移到 `reference/policies/v7/`，其中 `roulade.onnx` 的 SHA-256 不变
-（`3d60da08fc13f29c1b57f41977aa898132c0d60042100149d8e775affcbca32b`）。
-案例 USD 和已保存结果保留历史来源，见[对齐说明](../reference/upstream-alignment)。
-
 ## 从哪一页开始？
 
 | 你现在想做什么 | 去哪里 |
@@ -95,7 +91,7 @@ roll_session="work/isaac_training/roll-tutorial-$(date +%Y%m%d-%H%M%S)"
 roll_evidence="artifacts/isaac/$(basename "$roll_session")"
 mkdir -p "$roll_session" "$roll_evidence"
 roll_deadline=$(date -u -d '+120 minutes' +%Y-%m-%dT%H:%M:%S+00:00)
-printf '本次目录：%s\n总截止时间：%s\n' "$roll_session" "$roll_deadline"
+printf 'Experiment directory: %s\nOverall deadline: %s\n' "$roll_session" "$roll_deadline"
 ```
 
 `date -d` 是这里的 Ubuntu / GNU date 写法。总截止时间只设置一次，重试时沿用，不重新加 120 分钟。
@@ -141,7 +137,7 @@ MICRODUCK_TRAIN_STAGE=complete
 用终端打印的真实目录替换示例路径，显式指定检查点，避免误加载其他实验：
 
 ```bash
-roll_checkpoint="$roll_session/smoke/替换为实际运行时间目录/model_final.pt"
+roll_checkpoint="$roll_session/smoke/RUN_TIMESTAMP/model_final.pt"
 test -s "$roll_checkpoint" && \
 MICRODUCK_PLAY_STEPS=1500 MICRODUCK_PLAY_TIMEOUT=240 \
 MICRODUCK_PLAY_OUTPUT="$roll_evidence/smoke-play.json" \
@@ -186,7 +182,7 @@ python3 scripts/run_before_deadline.py \
 在同一项目目录启动 TensorBoard，把路径换成终端 A 打印的本次目录：
 
 ```bash
-tensorboard --logdir work/isaac_training/替换为本次roll-tutorial目录
+tensorboard --logdir work/isaac_training/YOUR_ROLL_TUTORIAL_DIRECTORY
 ```
 
 浏览器打开 TensorBoard 打印的本机地址。在 Scalars 里搜索 `Episode_Reward`、`Loss`、`Train` 等分组，实际标签随 RSL-RL 版本而异。
@@ -204,3 +200,9 @@ tensorboard --logdir work/isaac_training/替换为本次roll-tutorial目录
 - 一句具体判断：还没翻完整、已经连续但偏航，或已达到本阶段目标。
 
 下一页把这些现象与参数连起来：从控制频率和初始高度开始，再进入奖励与 PPO。
+
+::: details 模型与策略来源
+10 月更新把热启动权重的下载位置移到 `reference/policies/v7/`，其中 `roulade.onnx` 的 SHA-256 不变
+（`3d60da08fc13f29c1b57f41977aa898132c0d60042100149d8e775affcbca32b`）。
+案例 USD 和已保存结果保留历史来源，见[对齐说明](../reference/upstream-alignment)。
+:::

@@ -1,7 +1,6 @@
 # Move the camera and joints in RViz
 
-First check the camera. Then check the meshes. Last, check the joint data. Follow
-that order, and you will not need to restart RViz and hope for the best.
+Learn to rotate, zoom, and pan the camera, use joint sliders, and diagnose missing parts or joints that do not move.
 
 <div class="md-tutorial-meta" role="list" aria-label="Page overview">
   <div role="listitem"><span>Time</span><strong>8–12 minutes</strong></div>
@@ -10,9 +9,9 @@ that order, and you will not need to restart RViz and hope for the best.
   <div role="listitem"><span>Result</span><strong>Camera, parts, and joints all work</strong></div>
 </div>
 
-<div class="md-step-kicker"><span>STEP 1</span><strong>RViz window</strong></div>
+<div class="md-step-kicker"><strong>RViz window</strong></div>
 
-## Move the camera
+## 1. Move the camera {#move-the-camera}
 
 The supplied RViz profile starts with **Move Camera** selected:
 
@@ -54,9 +53,9 @@ Dragging the robot itself does not move a joint. Use the sliders instead.
   <p>Left-drag rotates, the wheel zooms, and middle-drag pans. If nothing moves, select <strong>Move Camera</strong> in the toolbar.</p>
 </div>
 
-<div class="md-step-kicker"><span>STEP 2</span><strong>Terminal · sourced ros2_ws</strong></div>
+<div class="md-step-kicker"><strong>Terminal · sourced ros2_ws</strong></div>
 
-## Move the joints
+## 2. Move the joints {#move-the-joints}
 
 If the previous launch is still running, return to its terminal, press
 <kbd>Ctrl</kbd>+<kbd>C</kbd>, and wait for the log to stop before running:
@@ -73,9 +72,9 @@ The public simulation model used here contains 14 movable joints.
   <p>Moving one slider changes the matching joint chain, and returning it to zero restores a recognizable pose.</p>
 </div>
 
-<div class="md-step-kicker"><span>STEP 3</span><strong>Only when the model looks incomplete</strong></div>
+<div class="md-step-kicker"><strong>Only when the model looks incomplete</strong></div>
 
-## Missing or detached parts
+## Missing or detached parts {#missing-or-detached-parts}
 
 <figure class="md-doc-figure md-bug-figure">
   <img src="/images/rviz-missing-parts.png" alt="Incorrect RViz view with MicroDuck's head detached and visible parts missing" width="646" height="674" loading="lazy">
@@ -98,13 +97,11 @@ The public simulation model used here contains 14 movable joints.
    ros2 launch microduck_description view_microduck.launch.py use_gui:=true
    ```
 
-Do not turn on collision geometry to fill a missing visual part. Collision
-meshes are a simpler debugging view and are not a replacement for the visible
-model.
+For missing visible parts, check the visual-mesh paths. Collision meshes serve contact calculations and usually use simpler geometry.
 
-<div class="md-step-kicker"><span>STEP 4</span><strong>Open Terminal B · check ROS data</strong></div>
+<div class="md-step-kicker"><strong>Open Terminal B · check ROS data</strong></div>
 
-## The sliders move, but the duck does not
+## The sliders move, but the duck does not {#the-sliders-move-but-the-duck-does-not}
 
 Keep RViz and the sliders running. Press
 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd> in the original terminal to open a

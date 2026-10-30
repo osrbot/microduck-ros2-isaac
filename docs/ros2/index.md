@@ -25,46 +25,16 @@ or a real robot.
 The first command assumes you are at the repository root, where `README.md` and `ros2_ws/` are visible.
 :::
 
-## Pick the launch you need
-
-These are the options you will use most. The first run below uses the default;
-the joint-slider step adds `use_gui:=true`.
-
-| Option | Use it when |
-| --- | --- |
-| `use_gui:=true` | You want the joint sliders |
-| `rviz_fullscreen:=true` | On Jazzy, start RViz fullscreen; not supported by RViz in Humble |
-| `use_rviz:=false` | You only need the description and TF nodes |
-| `with_collision_meshes:=true` | You are debugging collision geometry |
-
-::: warning ROS 2 Humble: omit the fullscreen option
-`rviz_fullscreen` is a project launch argument that passes `--fullscreen` to RViz.
-RViz in Humble does not support that command-line option and exits if it is supplied.
-On Humble, open RViz and the joint sliders without it, then maximize the window manually if needed:
-
-```bash
-ros2 launch microduck_description view_microduck.launch.py use_gui:=true
-```
-
-The environment commands on this page target Jazzy. When testing on Humble, replace
-`source /opt/ros/jazzy/setup.bash` with `source /opt/ros/humble/setup.bash`.
-:::
-
-On Jazzy, you can optionally open the sliders and full-screen RViz together:
-
-```bash
-ros2 launch microduck_description view_microduck.launch.py \
-  use_gui:=true rviz_fullscreen:=true
-```
+These commands use ROS 2 Jazzy. On Humble, replace `/opt/ros/jazzy/setup.bash` with `/opt/ros/humble/setup.bash` and keep the default window mode.
 
 <div class="md-command-steps">
   <strong>Open Terminal A</strong>
   <p>Press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd>. If it opens in your home directory, run <code>cd /your/path/microduck-ros2-isaac</code> with the real repository path.</p>
 </div>
 
-<div class="md-step-kicker"><span>STEP 1</span><strong>Terminal A · Ctrl + Alt + T</strong></div>
+<div class="md-step-kicker"><strong>Terminal A · Ctrl + Alt + T</strong></div>
 
-## Build the description package
+## 1. Build the description package {#build-the-description-package}
 
 ```bash
 cd ros2_ws
@@ -93,9 +63,9 @@ The path should end in `ros2_ws/install/microduck_description`. If the package i
   <p>No package failed, and <code>ros2 pkg prefix</code> returns the current workspace path. Fix build errors before opening RViz.</p>
 </div>
 
-<div class="md-step-kicker"><span>STEP 2</span><strong>Terminal A · ros2_ws</strong></div>
+<div class="md-step-kicker"><strong>Terminal A · ros2_ws</strong></div>
 
-## Open the duck
+## 2. Open the duck {#open-the-duck}
 
 ```bash
 ros2 launch microduck_description view_microduck.launch.py
@@ -122,9 +92,9 @@ items before moving the camera:
   <p>The complete robot is visible and RobotModel reports no mesh-path error. If parts are missing, use the <a href="/microduck-ros2-isaac/ros2/rviz">missing-part checklist</a> before moving on.</p>
 </div>
 
-<div class="md-step-kicker"><span>STEP 3</span><strong>Terminal A · restart with the GUI</strong></div>
+<div class="md-step-kicker"><strong>Terminal A · restart with the GUI</strong></div>
 
-## Move the joints
+## 3. Move the joints {#move-the-joints}
 
 Press <kbd>Ctrl</kbd>+<kbd>C</kbd> in Terminal A, wait for the launch to stop, then run:
 
@@ -142,9 +112,9 @@ matching joint chain should move in RViz. These sliders publish joint positions;
   <figcaption><strong>The slider window follows this layout.</strong>This official ROS package screenshot uses the generic names <code>joint_A</code>, <code>joint_B</code>, and <code>joint_C</code>. MicroDuck shows 14 real joint names instead. Move one slider, then check the matching motion in RViz. <a href="https://github.com/ros/joint_state_publisher/tree/ros2/joint_state_publisher_gui">Image source: ROS joint_state_publisher_gui ↗</a></figcaption>
 </figure>
 
-<div class="md-step-kicker"><span>STEP 4</span><strong>Terminal B · new terminal</strong></div>
+<div class="md-step-kicker"><strong>Terminal B · new terminal</strong></div>
 
-## Check the ROS message
+## 4. Check the ROS message {#check-the-ros-message}
 
 Leave terminal A, RViz, and the sliders running. Press
 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd> in Terminal to open window B. Use
@@ -173,6 +143,37 @@ that the related position changes.
   <strong>ROS data looks good!</strong>
   <p><code>/joint_states</code> returns all 14 joints and changes with the sliders. Both visualization and state publication now work.</p>
 </div>
+
+## Optional: change launch settings
+
+These are the common launch options. If you use Humble, read the fullscreen compatibility note below.
+
+| Option | Use it when |
+| --- | --- |
+| `use_gui:=true` | You want the joint sliders |
+| `rviz_fullscreen:=true` | On Jazzy, start RViz fullscreen; not supported by RViz in Humble |
+| `use_rviz:=false` | You only need the description and TF nodes |
+| `with_collision_meshes:=true` | You are debugging collision geometry |
+
+::: warning ROS 2 Humble: omit the fullscreen option
+`rviz_fullscreen` is a project launch argument that passes `--fullscreen` to RViz.
+RViz in Humble does not support that command-line option and exits if it is supplied.
+On Humble, open RViz and the joint sliders without it, then maximize the window manually if needed:
+
+```bash
+ros2 launch microduck_description view_microduck.launch.py use_gui:=true
+```
+
+The environment commands on this page target Jazzy. When testing on Humble, replace
+`source /opt/ros/jazzy/setup.bash` with `source /opt/ros/humble/setup.bash`.
+:::
+
+On Jazzy, you can optionally open the sliders and full-screen RViz together:
+
+```bash
+ros2 launch microduck_description view_microduck.launch.py \
+  use_gui:=true rviz_fullscreen:=true
+```
 
 <div class="md-page-complete">
   <strong>Your first ROS 2 duck run is done!</strong>

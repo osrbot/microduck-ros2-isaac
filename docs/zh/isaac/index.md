@@ -1,8 +1,5 @@
 # 把 MicroDuck 放进 Isaac Sim
 
-下方仓库自带的 USD 保留历史已验证来源。10 月新版 `robot_groundcontact.xml` 转换为独立候选，
-不会自动替换它。详见[上游对齐](../reference/upstream-alignment)。
-
 仓库已经带了转换好的 MicroDuck USD。第一次来不用先折腾转换脚本，也不用先配置策略，直接把
 鸭子请进场景就行。
 
@@ -29,9 +26,9 @@
   <p>按 <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd> 打开终端 A，<code>cd</code> 到仓库根目录。这里先检查 USD 和它的 payload 是否齐全，避免进 Isaac 以后才发现路径不对。</p>
 </div>
 
-<div class="md-step-kicker"><span>步骤 1</span><strong>终端 A · 仓库根目录</strong></div>
+<div class="md-step-kicker"><strong>终端 A · 仓库根目录</strong></div>
 
-## 1. 找到 USD
+## 1. 找到 USD {#_1-找到-usd}
 
 从仓库根目录开始，主文件是：
 
@@ -56,12 +53,12 @@ test -f assets/isaac/robot_allcollisions/robot_allcollisions.usda \
 
 <figure class="md-doc-figure md-usd-figure">
   <div class="md-doc-image-stage"><img src="/images/isaac-usd-preview.webp" alt="仓库自带 MicroDuck USD 的三分之四视角渲染预览" width="1200" height="800" loading="lazy"></div>
-  <figcaption><strong>这张不是概念图。</strong>它由仓库当前的 USD 直接渲染，方便你打开 Isaac Sim 前先认一下模型。进入 Isaac Sim 后可以自由转镜头。</figcaption>
+  <figcaption><strong>仓库 USD 的外观预览。</strong>打开文件后，对照检查头、身体、腿和脚是否齐全。</figcaption>
 </figure>
 
-<div class="md-step-kicker"><span>步骤 2</span><strong>Isaac Sim 窗口</strong></div>
+<div class="md-step-kicker"><strong>Isaac Sim 窗口</strong></div>
 
-## 把鸭子请进场景
+## 2. 打开 USD 文件 {#打开-usd-文件}
 
 1. 启动 Isaac Sim。
 2. 点击 **File → Open**。
@@ -70,7 +67,7 @@ test -f assets/isaac/robot_allcollisions/robot_allcollisions.usda \
 5. 如果想检查 articulation 是否稳定，可以点击 **Play**。
 
 如果你安装的是 standalone 版，就从应用菜单或安装目录的启动器打开；不同 Isaac 版本的启动命令不同，
-这里不让第一次玩的同学盲猜路径。打开文件选择器后，可以按 <kbd>Ctrl</kbd>+<kbd>L</kbd> 输入完整路径，
+请使用与你安装版本对应的启动器。打开文件选择器后，可以按 <kbd>Ctrl</kbd>+<kbd>L</kbd> 输入完整路径，
 也可以从仓库目录逐级点进去。
 
 ## 鸭子顺利落地时应该看到什么
@@ -87,7 +84,7 @@ test -f assets/isaac/robot_allcollisions/robot_allcollisions.usda \
 
 <figure class="md-doc-figure">
   <div class="md-doc-image-stage"><img src="/images/isaac-playground-live.webp" alt="Isaac Lab 实际运行窗口中的 MicroDuck、Stage 树和视口" width="1400" height="876" loading="lazy"></div>
-  <figcaption><strong>先认两个地方：中间是视口，右侧是 Stage 树。</strong>这张来自本仓库多动作游乐场的真实运行，不是本步骤的无策略打开画面；但窗口区域和检查方法相同。你打开主 USD 后，也要在这两个位置确认鸭子完整到场、层级没有报红。</figcaption>
+  <figcaption><strong>先认两个地方：中间是视口，右侧是 Stage 树。</strong>图片来自多动作游乐场，用于说明界面位置。打开主 USD 后，在视口检查模型外观，在 Stage 树检查层级与资源错误。</figcaption>
 </figure>
 
 <div class="md-checkpoint">
@@ -104,7 +101,13 @@ test -f assets/isaac/robot_allcollisions/robot_allcollisions.usda \
 - 查看 Isaac Sim Console 是否提示相对路径资源缺失；
 - 视口里什么都没有时，选中机器人并按 <kbd>F</kbd> 聚焦。
 
+
+::: details 模型与策略来源
+下方仓库自带的 USD 保留历史已验证来源。10 月新版 `robot_groundcontact.xml` 转换为独立候选，
+不会自动替换它。详见[上游对齐](../reference/upstream-alignment)。
+:::
+
 <div class="md-page-complete">
-  <strong>USD 已经站稳。</strong>
+  <strong>USD 模型已打开</strong>
   <p>下一页先跑一张行走策略。这是检查 Isaac、ONNX Runtime 和模型能不能一起工作的最快方法。</p>
 </div>

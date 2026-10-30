@@ -34,7 +34,7 @@ hero:
   <p class="md-home-lead">These cards show what is ahead. The step-by-step route starts with your computer, then moves from ROS 2 to Isaac Sim.</p>
   <div class="md-route-grid">
     <div class="md-route-card md-route-orange"><span>01</span><strong>ROS 2 and RViz</strong><p>See the full duck, move the camera, and try all 14 joints.</p></div>
-    <div class="md-route-card md-route-aqua"><span>02</span><strong>Isaac playground</strong><p>Make the duck walk, sit, pick, kick, and roll.</p></div>
+    <div class="md-route-card md-route-aqua"><span>02</span><strong>Isaac playground</strong><p>Make the duck walk, sit, touch the floor, kick, and roll.</p></div>
     <div class="md-route-card md-route-pink"><span>03</span><strong>Train your own policy</strong><p>Start small, then train continuous forward rolls, tune the rewards, and choose a checkpoint.</p><a href="./isaac/continuous-roll">Watch the rolls and try the tutorial →</a></div>
   </div>
   <div class="md-route-start">

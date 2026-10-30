@@ -26,10 +26,6 @@ We initialize the actor and observation normalizer from Pollen Robotics' `roulad
 In the recorded batch evaluation, eight slightly different starting poses each produced 39 consecutive rolls in 50 seconds, with no resets. Mean absolute lateral displacement was about 0.70 m.
 This is a flat-ground simulation case study. Direction control and recovery from disturbances are useful next steps.
 
-The October update moves the warm-start download to `reference/policies/v7/`.
-Its `roulade.onnx` SHA-256 is unchanged (`3d60da08fc13f29c1b57f41977aa898132c0d60042100149d8e775affcbca32b`).
-The case-study USD and saved results retain their historical source; see [alignment](../reference/upstream-alignment).
-
 ## Where should you start?
 
 | What you want to do | Where to go |
@@ -204,3 +200,9 @@ This recorded debugging session finished early within the 120-minute budget: abo
 - A clear next step: complete the first turn, reduce drift, or move on to final evaluation.
 
 The next page connects those observations to the parameters, starting with control frequency and reset height, then moving on to rewards and PPO.
+
+::: details Model and policy sources
+The October update moves the warm-start download to `reference/policies/v7/`.
+Its `roulade.onnx` SHA-256 is unchanged (`3d60da08fc13f29c1b57f41977aa898132c0d60042100149d8e775affcbca32b`).
+The case-study USD and saved results retain their historical source; see [alignment](../reference/upstream-alignment).
+:::

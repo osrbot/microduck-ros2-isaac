@@ -1,112 +1,151 @@
-# Make a new training task
+# Modify a training task
 
-The [continuous-roll case study](./continuous-roll) covered training, tuning, and evaluation. Now apply the same process to a new motion:
-define the scene, success criteria, rewards, termination rules, and replay checks before implementing the task.
+Start with one small change: make the existing walking task **practice slow forward motion only**. Find the configuration, change the velocity commands, run a short training check, and replay the result.
+The final section shows where to extend the task with terrain, recovery poses, or a ball.
 
 <div class="md-tutorial-meta" role="list" aria-label="Page overview">
-  <div role="listitem"><span>Planning</span><strong>20–30 minutes</strong></div>
-  <div role="listitem"><span>Implementation</span><strong>Depends on the task</strong></div>
-  <div role="listitem"><span>Prerequisite</span><strong>Velocity smoke run passes</strong></div>
-  <div role="listitem"><span>Result</span><strong>A task you can test</strong></div>
+  <div role="listitem"><span>Goal</span><strong>Slow forward walking</strong></div>
+  <div role="listitem"><span>Run from</span><strong>Linux repository root</strong></div>
+  <div role="listitem"><span>Prerequisite</span><strong>Chapter 10 complete</strong></div>
+  <div role="listitem"><span>Result</span><strong>Settings, model, replay report</strong></div>
 </div>
 
-<div class="md-tutorial-goals">
-  <strong>Explain your task in four lines</strong>
-  <ul>
-    <li>what enters the scene;</li>
-    <li>what command the robot receives;</li>
-    <li>what counts as success and failure;</li>
-    <li>what replayed behavior must be visible before you call it learned.</li>
-  </ul>
-</div>
+> This example has been checked against the project source. The new settings still need GPU testing. Start with the short run below and check the saved configuration.
 
-## A good first task: kick a ball
+## 1. Back up the current configuration {#backup}
 
-The repository already has a tested 70 mm, 15 g ball and left/right placement baseline. The result is easier to judge
-than a scalar reward. Train one side first, then mirror it. Do not combine walking, recovery, kicking, and rolling in one
-reward on day one.
+Stop any training or replay that uses this task. Open an Ubuntu terminal at the repository root and run:
 
-<figure class="md-doc-figure">
-  <div class="md-doc-image-stage"><img src="/images/isaac-playground-live.webp" alt="MicroDuck and the yellow ball in the real Isaac skill playground" width="1400" height="876" loading="lazy"></div>
-  <figcaption><strong>Start with a scene that already works.</strong>The playground already checks the ball size, mass, and position. Reuse those facts, but do not call a ready-made policy your own training result.</figcaption>
-</figure>
-
-## Suggested task order
-
-| Task | Add to the scene | Primary success metric | Leave out of version one |
-| --- | --- | --- | --- |
-| Rough locomotion | Height fields, steps, slopes | Track velocity without falling | Ball skills |
-| Stand up | Random prone and supine starts | Reach a stable stand in time | Style objectives |
-| Ball kick | Ball, target direction, active foot | Move the ball while staying upright | Continuous dribbling |
-| Ground pick | Mouth-tip contact target | Touch the floor and recover | Object grasping |
-| Sit / rise | Binary posture command | Complete both transitions smoothly | Forward roll |
-
-<div class="md-step-kicker"><span>STEP 1</span><strong>Write down what “good” means</strong></div>
-
-## Example: define one kick episode
-
-1. Spawn the duck in a stable pose and randomize the ball within a small area beside the left foot.
-2. Supply a target direction.
-3. Require the ball to travel a minimum distance along that direction before timeout.
-4. Keep root height and tilt inside an upright range.
-5. End the episode on success, fall, timeout, or out-of-bounds ball motion.
-
-Choose thresholds from scene measurements and short runs. Do not quietly redefine “kick” as “the foot touched the ball”
-just because that produces a better graph.
-
-<div class="md-step-kicker"><span>STEP 2</span><strong>Copy the smallest task skeleton</strong></div>
-
-## Reuse only the common pieces
-
-The current native task is under:
-
-```text
-source/microduck_isaac_lab/microduck_isaac_lab/tasks/velocity/
+```bash
+custom_id=$(date +%Y%m%d-%H%M%S)
+custom_run="$PWD/work/custom-velocity/$custom_id"
+custom_evidence="$PWD/artifacts/custom-velocity/$custom_id"
+custom_backup="$PWD/backups/custom-velocity/$custom_id"
+cfg="$PWD/source/microduck_isaac_lab/microduck_isaac_lab/tasks/velocity/velocity_env_cfg.py"
+test -f "$cfg" || exit 1
+mkdir -p "$custom_run" "$custom_evidence" "$custom_backup"
+cp "$cfg" "$custom_backup/velocity_env_cfg.py"
 ```
 
-Keep the shared robot and 61-value interface, then replace task-specific configuration:
+This creates directories for logs, replay output, and the original configuration. Keep using this terminal; the later commands reuse these variables.
 
-1. `SceneCfg`: ball, obstacle, terrain, or target;
-2. `CommandsCfg`: the quantity the policy must track;
-3. `EventsCfg`: spawn states, placement, pushes, mass, and friction;
-4. `RewardsCfg`: one primary objective plus a small safety and smoothness set;
-5. `TerminationsCfg`: success, fall, bounds, and timeout;
-6. `CurriculumCfg`: begin with a learnable task, then widen randomization;
-7. `agents/`: reuse the PPO baseline until the environment itself works.
+## 2. Set slow forward velocity commands {#configure}
 
-::: tip Change one layer at a time
-First make reset, observations, and rewards finite. Then make a short run save a checkpoint. Tune the reward only after
-those gates pass. Mirror the second kick side only after one side is stable.
-:::
+Open `source/microduck_isaac_lab/microduck_isaac_lab/tasks/velocity/velocity_env_cfg.py` in a text editor.
+Find **`__post_init__()` in `MicroDuckVelocityFlatEnvCfg`**. Keep its existing settings and append the six command and curriculum assignments shown below.
+The complete function should look like this. Edit the base class, above the `_PLAY` class at the end of the file.
 
-<div class="md-step-kicker"><span>STEP 3</span><strong>Pass five checks</strong></div>
+```python
+    def __post_init__(self) -> None:
+        self.decimation = 4
+        self.episode_length_s = 20.0
+        self.sim.dt = 0.005
+        self.sim.render_interval = self.decimation
+        self.sim.physics_material = self.scene.terrain.physics_material
+        self.scene.left_foot_contact.update_period = self.sim.dt
+        self.scene.right_foot_contact.update_period = self.sim.dt
 
-## Five checks before you train
+        self.commands.base_velocity.ranges.lin_vel_x = (0.1, 0.2)
+        self.commands.base_velocity.ranges.lin_vel_y = (0.0, 0.0)
+        self.commands.base_velocity.ranges.ang_vel_z = (0.0, 0.0)
+        self.commands.base_velocity.rel_standing_envs = 0.0
+        self.commands.base_velocity.rel_turn_in_place_envs = 0.0
+        self.curriculum.standing_fraction = None
+```
 
-| Gate | Required check | Inspect first after failure |
+| Setting | Why it changes |
+| --- | --- |
+| Forward speed `0.1–0.2 m/s` | Practice a narrow, low-speed range first; this range is chosen for the exercise |
+| Lateral and turning speeds `0` | Request motion along the robot's forward direction |
+| Standing and turn-in-place fractions `0` | Give every environment a forward command |
+| `standing_fraction = None` | Disable the curriculum that would gradually add standing samples |
+
+Keep the model, joint order, observations, rewards, and PPO settings. The `_PLAY` class inherits the base configuration, so replay uses the same velocity settings.
+Forward is relative to the robot's current heading; initial headings are still randomized.
+
+## 3. Check the edit {#check}
+
+In the same terminal, run:
+
+```bash
+python3 - "$cfg" <<'PY'
+import ast
+from pathlib import Path
+import sys
+ast.parse(Path(sys.argv[1]).read_text())
+print("Configuration syntax: OK")
+PY
+git diff -- "$cfg"
+```
+
+Look for `Configuration syntax: OK`. Inspect `git diff` and confirm that this exercise added only those six lines.
+If the file already contained your own changes, compare with the backup from step 1 and preserve them.
+
+## 4. Run a short training check {#train}
+
+Use the Isaac Lab environment prepared in [chapter 10](./training). In the same terminal, run:
+
+```bash
+set -o pipefail
+MICRODUCK_TRAIN_ENVS=64 MICRODUCK_TRAIN_ITERATIONS=5 \
+  ./scripts/train_isaac_velocity.sh --headless \
+  --log-root "$custom_run/logs" 2>&1 | tee "$custom_run/train.log"
+```
+
+The terminal should progress through environment creation, learning, and saving, then print `MICRODUCK_TRAIN_STAGE=complete`.
+The model goes under `work/custom-velocity/<experiment time>/logs/<run time>/`.
+
+Open that run's `params/env.yaml`. Check all three velocity ranges and the standing and turn-in-place fractions under `base_velocity`,
+and confirm that `curriculum.standing_fraction` is disabled. The run should also contain `model_final.pt` and `training_summary.json`.
+Five updates check configuration and saving. A stable gait requires further training and replay comparisons.
+
+## 5. Replay this model {#replay}
+
+After training exits, replace the first line with the actual absolute path to this run's `model_final.pt`:
+
+```bash
+checkpoint=/absolute/path/to/your/run/model_final.pt
+test -f "$checkpoint" || exit 1
+MICRODUCK_PLAY_STEPS=1000 \
+MICRODUCK_PLAY_OUTPUT="$custom_evidence/playback.json" \
+MICRODUCK_PLAY_SCREENSHOT="$custom_evidence/playback.png" \
+  ./scripts/play_isaac_velocity.sh --checkpoint "$checkpoint"
+```
+
+Replay runs for 1000 control steps, about 20 simulated seconds. Check that:
+
+- the model loads without NaN or shape errors;
+- the duck attempts to step forward, and note persistent sidestepping, circling, or falls;
+- `playback.json` and `playback.png` are written.
+
+Keep the six settings and existing rewards fixed at first. Increase training iterations gradually as described in chapter 10.
+Compare replays under the same conditions before deciding whether to change rewards.
+
+## 6. Finish or extend the experiment {#extend}
+
+Record why you changed the settings, the iteration count, checkpoint path, and replay behavior.
+To restore the configuration, first stop the related processes. If these six assignments are your only changes,
+run the command below in the same terminal. If you made other edits, compare the backup with the current file
+and remove only these six assignments instead.
+
+```bash
+cp "$custom_backup/velocity_env_cfg.py" "$cfg"
+```
+
+
+You can next add terrain, recovery poses, or a ball:
+
+| Addition | Start here | What to check |
 | --- | --- | --- |
-| Contract | 61 observations, 14 actions, unchanged joint order | Observation terms and joint map |
-| Environment | Parallel reset, contacts, randomization, finite values | Scene, sensors, and events |
-| Short training | PPO updates and saves a checkpoint | Reward, termination, VRAM, runner |
-| Behavior | Continuous replay completes the intended skill | Reward exploits, commands, curriculum |
-| Robustness | Multiple seeds and spawn positions still work | Overfitting to one initial state |
+| Slopes or obstacles | `MicroDuckSceneCfg` | The robot resets above the ground and contacts behave correctly |
+| Recovery task | `EventsCfg`, `RewardsCfg`, `TerminationsCfg` | Time to stand from a fallen pose and the number of subsequent falls |
+| Ball kick | Ball asset, ball-position observations, kick rewards, termination rules | Ball displacement along the target direction and whether the duck stays upright |
 
-A rising reward only proves that the policy found a way to score. The final two gates test whether it learned the action
-you intended.
-
-<div class="md-step-kicker"><span>STEP 4</span><strong>Get one move working before you mix moves</strong></div>
-
-## Pick how the moves work together later
-
-After one skill works across varied starts, compare:
-
-- one policy per skill with safe runtime switching;
-- a shared actor with an explicit skill ID;
-- distillation from several expert policies.
-
-The [skill playground](./playground) already demonstrates the first option, which is the easiest to inspect and debug.
+The playground already has a 70 mm, 15 g ball whose physical settings you can reuse.
+The training environment still needs ball-position observations, resets, and rewards.
+Adding observations changes the input size, so update the network too; the old 61-input policy cannot directly consume extra ball-position values.
 
 <div class="md-page-complete">
-  <strong>You made it through the whole route!</strong>
-  <p>You can now pick one move, describe the scene and controls, and decide what success should look like before you write code.</p>
+  <strong>Next: recovery and turning methods</strong>
+  <p>You can now edit a configuration, check that it takes effect, and replay the model. Chapter 16 explains changes to teachers, starting poses, and rewards.</p>
 </div>

@@ -683,6 +683,7 @@ body {
   color: var(--md-ink);
   font-size: 0.92rem;
   line-height: 1.45;
+  overflow-wrap: anywhere;
 }
 
 .md-tutorial-goals {

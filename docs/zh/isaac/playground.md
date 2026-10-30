@@ -1,12 +1,5 @@
 # 打开 MicroDuck 多动作游乐场
 
-::: info 策略下载已更新
-游乐场的默认动作权重保持与历史演示一致：行走、站立和单次动作从 `reference/policies/v7/` 下载，
-坐起单独读取 `reference/policies/isaac-legacy/alpha_sitstand.onnx`。下载脚本会一并准备好，无需手动切换。
-历史 USD 和控制器参数保留；新版坐起和 VelStand 仅供单独试验，不进入本页默认流程。
-详见[对齐状态](../reference/upstream-alignment)。
-:::
-
 单独回放行走策略只是热身。游乐场会一次加载公开的整套 61→14 ONNX 策略，让同一只鸭子按指令在
 站立、行走和几个小绝活之间切换，还会在踢球前把一颗 70 mm、15 g 的球摆到脚边。
 
@@ -43,9 +36,9 @@ export ISAACLAB_DIR=/path/to/IsaacLab
 ```
 
 只需成功准备一次。启动时终端会逐项打印 `Loaded` 或 `Skipped`；需要的策略若全部 `Skipped`，先回到
-这一步检查下载，不要对着空游乐场按键。
+这一步检查下载。
 
-## 2. 开门，放鸭
+## 2. 启动并操作游乐场
 
 ```bash
 ./scripts/run_isaac_playground.sh --follow-camera --viz kit
@@ -58,7 +51,7 @@ Kit 扩展会慢一些，不要连续按 <kbd>Enter</kbd> 或重复启动。
 
 <figure class="md-doc-figure">
   <div class="md-doc-image-stage"><img src="/images/isaac-playground-live.webp" alt="MicroDuck 多动作游乐场在 Isaac Lab 中实际运行" width="1400" height="876" loading="lazy"></div>
-  <figcaption><strong>看到鸭子和黄色小球，就算开门成功。</strong>这是实际运行窗口；初次加载扩展会慢一点，别在它热身时连续开好几个 Isaac。</figcaption>
+  <figcaption><strong>启动后会显示 MicroDuck 和黄色小球。</strong>首次加载扩展可能需要几分钟，请等待当前进程完成启动。</figcaption>
 </figure>
 
 窗口打开后，先用鼠标点一下 **Isaac 视口**，让键盘焦点进入画面；如果焦点还在终端或侧边栏，按键不会
@@ -79,14 +72,13 @@ walking 自动切回 standing。
 | <kbd>Backspace</kbd> | 机器人和球回到初始位置 |
 
 某个动作的 ONNX 文件不存在时，启动日志会明确写出 `Skipped`，其他可用动作仍能玩。动作正在执行时
-再次按别的绝活键不会硬切策略，避免鸭子在半个前滚里突然想踢球。
+再次按别的绝活键不会硬切策略，请等待当前动作结束后再触发下一个。
 
 游乐场保留历史演示的控制参数：walking 的 action scale 是 `0.9`，其他策略是
-`1.0`；头部和腿部分别用 `0.5` / `0.7` 的低通系数。它们都能用命令行覆盖，但直播前别随手拧，
-不然鸭子很容易从“活泼”变成“抽象”。
+`1.0`；头部和腿部分别用 `0.5` / `0.7` 的低通系数。如需修改，用命令行参数覆盖，每次调整后分别测试行走、停止和单次动作。
 
 <div class="md-checkpoint">
-  <strong>互动这一关通过</strong>
+  <strong>检查控制结果</strong>
   <p>速度键松开后能停回 standing；至少两个绝活动作能完整执行；<kbd>Backspace</kbd> 能把机器人和球送回起点。动作忙时拒绝硬切属于保护，不是按键失灵。</p>
 </div>
 
@@ -119,7 +111,7 @@ walking 自动切回 standing。
   --headless
 ```
 
-结果会写入 `artifacts/isaac/playground_session.json`。这是运行记录，不是“动作训练成功”的证明。
+结果会写入 `artifacts/isaac/playground_session.json`。可用它检查时长、策略加载和退出状态。
 
 ```bash
 test -s artifacts/isaac/playground_session.json \
@@ -132,9 +124,17 @@ test -s artifacts/isaac/playground_session.json \
 
 这些动作来自 Pollen Robotics 发布的 MicroDuck 策略，原本由
 [microduck_rl](https://github.com/pollen-robotics/microduck_rl) 在 MuJoCo/mjlab 中训练。本页做的是把它们放进
-Isaac Sim 交互回放，并没有把上游训练过程偷换成 Isaac 训练。
+Isaac Sim 中交互回放。自己训练策略的步骤见[第 10 章](./training)。
+
+
+::: details 模型与策略来源
+游乐场的默认动作权重保持与历史演示一致：行走、站立和单次动作从 `reference/policies/v7/` 下载，
+坐起单独读取 `reference/policies/isaac-legacy/alpha_sitstand.onnx`。下载脚本会一并准备好，无需手动切换。
+历史 USD 和控制器参数保留；新版坐起和 VelStand 仅供单独试验，不进入本页默认流程。
+详见[对齐状态](../reference/upstream-alignment)。
+:::
 
 <div class="md-page-complete">
-  <strong>这下真的玩起来了。</strong>
+  <strong>键盘操作完成</strong>
   <p>你会切动作、重置鸭子和小球，也跑过无界面检查。下一页把键盘换成 ROS 2 命令。</p>
 </div>

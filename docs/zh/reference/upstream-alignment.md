@@ -1,21 +1,11 @@
-# 上游对齐 — 2026 年 10 月
+# 模型与源码版本
 
 源码锁定、官方策略下载器和 ROS 描述已更新，本地 MuJoCo 与结构检查通过。
 **新版 Isaac 转换及 ROS/RViz 运行时尚未复测。** 仓库自带的 Isaac USD、原生训练模型和历史结果
-继续单独保留；马戏团内容不变。
+继续单独保留。
 
-::: tip 2026-10-20 补充：了解 v8，不切换默认
-上游已发布改善起身与转向的 VelStand v8。
-[起身与转向训练](../guide/velstand-v8)解释训练改动、参数依据、两阶段续训和评估前提。
-本页的版本表与 10 月 10 日检查记录保持原意，`upstream.lock` 和默认策略不变；
-上游公布的 v8 成绩没有计入本项目验收。
-:::
-
-::: tip 2026-10-30：新增继续训练教程
-官方已公开用于继续训练的模型文件。
-[第 17 章](../guide/training-checkpoints)依次介绍环境准备、模型下载、训练、结果检查和导出。
-默认运行配置仍使用本页列出的版本。
-:::
+起身与转向的训练方法见[第 16 章](../guide/velstand-v8)，下载模型并继续训练见[第 17 章](../guide/training-checkpoints)。
+这两章分别列出所需文件，入门操作按各章命令执行即可。
 
 ## 1. 现在选的是哪个版本？ {#versions}
 
@@ -23,7 +13,7 @@
 | --- | --- | --- |
 | MicroDuck RL | [`ceca01706143`](https://github.com/pollen-robotics/microduck_rl/commit/ceca01706143d729305baa94cbd8ab990979e325) | `reference/microduck_rl/` |
 | MicroDuck runtime | [`dec725c67ffb`](https://github.com/pollen-robotics/microduck/commit/dec725c67ffbbdde7f1de30f8c936b1bf9c1d70e) | `reference/microduck_runtime/` |
-| 官方策略集 v7 | [`6677ec007142`](https://huggingface.co/pollen-robotics/microduck-policies/commit/6677ec007142bbaf05123a468f6ae58d13808786) | `reference/policies/v7/` |
+| 教程默认策略集 | [`6677ec007142`](https://huggingface.co/pollen-robotics/microduck-policies/commit/6677ec007142bbaf05123a468f6ae58d13808786) | `reference/policies/v7/` |
 | 游乐场历史坐起策略 | [`590b986bd8c0`](https://github.com/pollen-robotics/microduck/commit/590b986bd8c0d50ae02cb3ea2f59c463b6828168) | `reference/policies/isaac-legacy/` |
 | 仓库自带历史 Isaac USD | [`d424a0c899f6`](https://github.com/pollen-robotics/microduck_rl/commit/d424a0c899f6b33cbd3daeb279913134349c0b63) | `assets/isaac/robot_allcollisions/` |
 
@@ -35,7 +25,7 @@
 ./scripts/fetch_upstream.sh
 ```
 
-下载脚本使用 Python 3.11+，获取 v7 的 10 个 ONNX、清单和模型卡，以及游乐场使用的历史坐起权重，
+下载脚本使用 Python 3.11+，获取默认策略集的 10 个 ONNX、清单和模型卡，以及游乐场使用的历史坐起权重，
 共 13 个文件均检查哈希。runtime checkout 只是源码参考，
 这一步**不会**安装实体机器人 daemon、刷固件或升级 Isaac Lab。
 
@@ -70,21 +60,19 @@ work/mujoco_env/bin/python scripts/run_mujoco_baseline.py \
   --output artifacts/upstream-alignment/20261010/velstand_groundcontact_probe.json
 ```
 
-最后一条是在简化接地模型中的**平地兼容性探测**，不是复现 v7 的 Rough + Backlash 训练环境。
-它不测试跌倒、起身、身体倾斜或实体机器人。上游说明了站立 roll/pitch 控制，同时仍列出身体高度
+最后一条是在简化接地模型中的**平地兼容性探测**，覆盖加载、数值稳定性和平地姿态。起身和转向训练还需要 Rough + Backlash 环境。上游说明了站立 roll/pitch 控制，同时仍列出身体高度
 和低速转向限制，见 [VelStand 说明](https://github.com/pollen-robotics/microduck_rl/blob/ceca01706143d729305baa94cbd8ab990979e325/docs/velstand_policy.md)。
 
 ## 4. Isaac 教程里哪些变了？ {#isaac-path}
 
-- 默认行走/站立仍是 `alpha_walking`/`alpha_stand`。v7 文件与历史基线哈希一致，只换了下载位置。
+- 默认行走/站立仍是 `alpha_walking`/`alpha_stand`。这些文件与历史记录的哈希一致，只换了下载位置。
 - 游乐场默认保留历史 `alpha_sitstand`，下载器从原始不可变版本单独获取，放在
   `reference/policies/isaac-legacy/`。这样默认使用的七个动作网络均与历史哈希一致。
-  更新的 v7 坐起策略仍需重新检查 Isaac 中的动作和切换。
-- `velstand` 已下载，但不会悄悄替换游乐场的双策略控制器。控制器保留历史切换和缩放逻辑，
-  换文件名不等于完整移植新版 runtime。
+  更新后的坐起策略仍需重新检查 Isaac 中的动作和切换。
+- `velstand` 已下载，供单独测试。游乐场继续使用配套的行走、站立策略及切换参数。
 - `roulade.onnx` 与历史案例输入逐字节一致。教程路径已更新，原翻滚结果和 USD 不变。
 
-有可用且已确认身份的 Linux/Isaac 主机时，下一步转换检查为：
+在已安装 Isaac Lab 的 Linux 主机中，从仓库根目录执行：
 
 ```bash
 export ISAACLAB_DIR=/path/to/IsaacLab
@@ -126,5 +114,4 @@ export ISAACLAB_DIR=/path/to/IsaacLab
 
 报告在 `artifacts/upstream-alignment/20261010/`。这些确定性的短探测不是鲁棒性评分，也不是速度
 跟踪已达标的证明。[旧测试记录](./results)保留自己的日期和源版本。
-网格与 XML/代码的许可划分见[许可说明](../project/licensing)。发布本说明不代表待测运行时已验收，
-也不代表完成了新训练。
+网格与 XML/代码的许可划分见[许可说明](../project/licensing)。

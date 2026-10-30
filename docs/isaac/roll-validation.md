@@ -5,7 +5,7 @@ prev:
   text: Three rounds of debugging
   link: /isaac/roll-debugging
 next:
-  text: Make a new training task
+  text: Modify a training task
   link: /isaac/custom-environment
 ---
 
@@ -45,11 +45,6 @@ test -s "$roll_checkpoint" && sha256sum "$roll_checkpoint"
 Replace `RUN_TIMESTAMP` with your actual run directory. Checkpoint labels depend on the resume point and save schedule. Every command below passes `--checkpoint` explicitly to avoid selecting another run.
 Only load `.pt` checkpoints from a trusted source.
 
-::: info If you have the experiment package
-The local delivery package is at `output/continuous-roll-training/roll120-20260904-073725/`.
-If you have that package, point `roll_checkpoint` at its `model_best.pt`.
-The video is available on this website; the model weights are not distributed with the tutorial. Without the package, use your own trained checkpoint for the steps below.
-:::
 
 ## 2. Evaluate eight slightly different starting states
 
@@ -116,7 +111,7 @@ PY
 Once continuity passes, smaller direction errors are preferable, but consider forward motion and movement quality too.
 If your task requires a fixed heading or a target position, define error thresholds for those goals. This example does not train commanded headings or precision position control.
 
-## 4. Compare candidates, not just checkpoint numbers
+## 4. Compare candidates under the same conditions
 
 Replay candidates such as checkpoints 100, 200, and 300 with the same seed, 50-second duration, arena, and perturbations. Give each candidate a separate output directory.
 Use this order:
@@ -190,7 +185,6 @@ Keep raw step traces, logs, and failed candidates in `artifacts/`, and process n
 In the new package directory, create a checksum manifest for the explicitly selected delivery files, then verify it with `sha256sum -c SHA256SUMS`.
 
 Training and replay have separate timeout protection. When the experiment ends, confirm that their processes have exited and GPU usage has dropped. Do not restart an experiment after its deadline.
-This tutorial was assembled from the existing experiment records; preparing it did not start another long training run.
 
 You have now worked through a complete training case: define the motion, build the task, tune short runs, compare models under consistent conditions, and export the result.
-The next page applies the same process to new tasks such as kicking or standing up.
+The next page changes the velocity commands in an existing task, then explains which settings to extend for terrain, recovery, or kicking.

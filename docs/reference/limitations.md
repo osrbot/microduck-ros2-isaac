@@ -1,9 +1,9 @@
-# Technical notes and limits
+# Known limitations
 
 This is the detailed contributor reference. If you are following the tutorial,
 the shorter, plain-language version is in the [FAQ](/faq).
 
-## The Isaac task is not the upstream sim-to-real recipe
+## Differences from the upstream training environment
 
 The repository now includes a native flat-velocity Isaac Lab task with rewards,
 resets, training noise, curriculum, environment replication, and RSL-RL PPO.
@@ -14,7 +14,7 @@ The runner approximates actuation with implicit PD: 0.55 N·m/rad stiffness,
 0.053 N·m·s/rad damping, and a 0.96 N·m effort limit. Upstream models BAM XL330
 electrical, friction, saturation, battery, and delay behavior in more detail.
 
-## Smoke parity is not trajectory parity
+## Behavior differs between simulation engines
 
 Both engines remain upright in the recorded scenarios, but displacement and
 lateral drift differ materially. Do not use current Isaac trajectories or
@@ -33,8 +33,7 @@ fallback. It is not an authoritative hardware safety limit.
 
 The selected MJCF and policies expose 14 movable joints. Upstream physical
 runtime documentation also mentions a mouth actuator, but the simulation model
-does not define its geometry, inertia, limits, or policy behavior. This project
-does not invent them.
+does not define its geometry, inertia, limits, or policy behavior.
 
 ## Collision filtering is simplified
 
@@ -42,7 +41,7 @@ Isaac's importer drops MJCF collision bitmasks. The one source
 `self_collision_only` sensor mesh is disabled from general collision. Exact
 selective self-collision parity would require validated PhysX collision groups.
 
-## GUI evidence is host-specific
+## GPU and desktop compatibility
 
 The wrapper mitigates duplicate NVIDIA ICD manifests for project launches; it
 does not repair the host driver installation. Launching Isaac another way may

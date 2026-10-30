@@ -4,7 +4,7 @@ layout: home
 hero:
   name: "MicroDuck"
   text: "一起来玩鸭？"
-  tagline: "不先讲一堆干巴巴的理论：看模型、动关节、跑策略，跟着步骤把这只开源小鸭子真正玩起来。"
+  tagline: "在 RViz 里看模型、动关节，再到 Isaac Sim 中跑策略、学训练。"
   image:
     src: /images/hero-microduck-meme.webp?v=1
     alt: 招手走来的表情包黄鸭与 MicroDuck 机器人融合角色
@@ -31,9 +31,9 @@ hero:
 
 <section class="md-home-section">
   <h2>一路上会玩到什么？</h2>
-  <p class="md-home-lead">下面只是预告，不会把你直接扔进半路。正式教程会先检查电脑，再从 ROS 2 一步一步走到 Isaac Sim。</p>
+  <p class="md-home-lead">教程先检查环境，再依次介绍模型显示、仿真控制和策略训练。也可以按需要选择其中一条路线。</p>
   <div class="md-route-grid">
-    <div class="md-route-card md-route-orange"><span>01</span><strong>把鸭子请进 RViz</strong><p>看完整模型、转镜头，再试试 14 个关节。</p></div>
+    <div class="md-route-card md-route-orange"><span>01</span><strong>在 RViz 中显示模型</strong><p>看完整模型、转镜头，再试试 14 个关节。</p></div>
     <div class="md-route-card md-route-aqua"><span>02</span><strong>打开 Isaac 游乐场</strong><p>走路、坐起、低头碰地、踢球和前滚。</p></div>
     <div class="md-route-card md-route-pink"><span>03</span><strong>自己教一只鸭</strong><p>先跑小测试，再训练连续前滚翻，学会调参和挑选模型。</p><a href="./isaac/continuous-roll">先看翻滚视频与实战教程 →</a></div>
   </div>
@@ -55,7 +55,7 @@ hero:
   <div class="md-duck-gallery-grid">
     <figure class="md-image-card md-image-card-main">
       <img src="/images/microduck-waddle-lab.webp" alt="MicroDuck 从 RViz 走向 Isaac Sim 的彩色插图" width="1440" height="960" loading="lazy">
-      <figcaption><strong>从 RViz 一路溜达到 Isaac Sim</strong><span>这是路线示意插图；真正的模型预览和排错截图都放在对应教程里。</span></figcaption>
+      <figcaption><strong>从 RViz 一路溜达到 Isaac Sim</strong><span>路线示意图。各章节提供模型截图、操作命令和排错方法。</span></figcaption>
     </figure>
     <figure class="md-image-card md-image-card-lineup">
       <div class="md-lineup-stage"><img src="/images/microduck-lineup.webp" alt="四种配色和姿态的 MicroDuck 实体机器人" width="1839" height="638" loading="lazy"></div>

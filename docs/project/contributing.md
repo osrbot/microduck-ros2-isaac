@@ -1,7 +1,7 @@
 # Contributing
 
-This page is for people changing the repository. If you only want to use ROS 2
-or Isaac Sim, follow the tutorial instead — you do not need any generator below.
+Use this page when changing repository code. For a first run, start with the
+[tutorial](/guide/). Run the commands below from the project root.
 
 ## Before you change code
 
@@ -49,12 +49,13 @@ export ISAACLAB_DIR=/path/to/IsaacLab
 ./scripts/convert_mjcf_to_usd.sh
 ```
 
-The converter updates `assets/isaac/` and applies this project's collision
-adjustment. Open the top-level USD and run a policy before you submit the change.
+The converter writes the candidate to `assets/isaac/robot_groundcontact/` and
+applies the collision adjustment. It stops if that directory already exists;
+archive an existing candidate before regenerating it. Open the top-level USD
+and replay a policy before submitting the change.
 
 ## Tell us what you tested
 
-In a pull request, say what changed, which commands you ran, and what you did not
-test. Detailed recorded setups and test data live under
-[Contributor notes](/reference/environment); they are not part of the beginner
-tutorial.
+In a pull request, list the changes, commands, and test results, including any
+untested parts. Record software versions so others can compare their setup with
+the [tested environment](/reference/environment).

@@ -1,7 +1,7 @@
 # Tested setup
 
-Recorded on 2026-08-31 (Asia/Shanghai). This is a known working matrix, not a
-claim that other versions cannot work.
+The setup below was tested on 2026-08-31 (Asia/Shanghai). With other software
+or driver versions, start with the short test in the relevant chapter.
 
 The [October source alignment](./upstream-alignment) was checked locally with
 Python 3.12.14, MuJoCo 3.10.0 and ONNX Runtime 1.24.4. It has not repeated the
@@ -18,7 +18,7 @@ Linux/Isaac/ROS runtime matrix below; those records retain their original inputs
 - Isaac Lab 3.0.0 beta 2 at `2e44ddb2e19536579140496023b5ccb060bc4152`
 - ONNX Runtime 1.24.4, CPU execution provider
 
-## Python boundary
+## Python environments
 
 The host had a user Python 3.11 ahead of Ubuntu's Python 3.12. ROS validation
 wrappers deliberately put `/usr/bin` first and invoke `/usr/bin/python3` so an
@@ -35,8 +35,9 @@ exposed the same GPU through both `/usr/share/vulkan/icd.d/nvidia_icd.json` and
 `ERROR_DEVICE_LOST`; selecting one ICD and disabling multi-GPU rendering allowed
 the 60-second simulation run to exit normally.
 
-The wrapper does not delete or modify system driver files. Treat a different
-driver, GPU, Wayland/Xorg setup, or Isaac release as a new validation matrix.
+The wrapper does not delete or modify system driver files. After changing
+a driver, GPU, Wayland/Xorg session, or Isaac release, repeat the window launch
+and short playback checks.
 
 ## Continuous-roll case study
 

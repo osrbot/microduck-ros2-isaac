@@ -70,7 +70,7 @@ python3 scripts/run_before_deadline.py \
 
 看报告中的 `maximum_raw_action`、`raw_action_fraction_above_one`、`completed_forward_turns`。
 `--full-roll-v2` 已经关闭动作截断，无需再重复传 `--unclipped-actions`。
-要做新的截断对照实验，应只改变动作限幅，保持高度、场地、时长和 seed 相同；不要直接移除整个 profile 来冒充单变量比较。
+要做新的截断对照实验，应只改变动作限幅，保持高度、场地、时长和 seed 相同；移除整个 profile 会同时改变多项设置，无法判断动作限幅的单独影响。
 
 ## 第一轮：先学会跨过完整的 360°
 
@@ -148,7 +148,7 @@ python3 scripts/run_before_deadline.py \
 沿用主线中的实验目录和绝对截止时间，把检查点路径换成自己**已回放通过**的候选：
 
 ```bash
-roll_checkpoint="$roll_session/roll/替换为实际运行时间目录/model_200.pt"
+roll_checkpoint="$roll_session/roll/RUN_TIMESTAMP/model_200.pt"
 test -s "$roll_checkpoint" && \
 MICRODUCK_TRAIN_ENVS=1024 MICRODUCK_TRAIN_ITERATIONS=600 \
 python3 scripts/run_before_deadline.py \

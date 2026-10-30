@@ -1,39 +1,30 @@
 # Livestream guide
 
-Use the [October alignment notes](../reference/upstream-alignment) to distinguish
-the updated ROS description and policy downloads from the historical Isaac USD
-and recorded results. The default playground retains its historical action weights;
-rehearse any explicit new-policy experiment before showing it live.
-
-The recommended teaching story is:
-
-```text
-pinned source -> reproducible conversion -> ROS description
-              -> released policy in Isaac -> honest MuJoCo comparison
-```
+Follow the order “watch the motion → control it → inspect the data → start training.”
+The outline below takes about 25 minutes. While training starts, explain its parameters
+and logs, then replay a checkpoint prepared before the session.
 
 ## Before going live
 
-1. Run `./scripts/validate_all.sh` on the Linux/Isaac host.
-2. Rehearse RViz and Isaac from the exact desktop session being captured.
-3. Keep [recorded results](/reference/results) open as an evidence fallback.
-4. Record a short local RViz and Isaac fallback clip after validation and label
-   it clearly if used.
-5. Confirm the stream is compatible with the [license boundary](./licensing),
-   especially if the stream is sponsored or monetized.
+1. Complete the installation, RViz, and Isaac chapters, then rehearse each in the desktop session you will record.
+2. Download the models and prepare a training checkpoint you have already replayed.
+3. Place terminals on the left and RViz or Isaac on the right. Keep text readable and desktop folders outside the capture.
+4. Rehearse the outline below and note startup delays. Check [licensing](./licensing) for the models and media you use.
 
-## Suggested 25-minute lesson
+## A 25-minute demonstration
 
-| Time | Segment | Teaching point |
-| ---: | --- | --- |
-| 2 min | Boundary | Independent project, pinned upstream, license notice |
-| 4 min | Contract | 15 bodies, 14 joints, 61 observations, 14 actions |
-| 5 min | ROS 2 | TF, visual/collision layers, interactive joints |
-| 4 min | USD | Why opening a stage is not structural validation |
-| 6 min | Isaac | 200 Hz physics, 50 Hz policy, follow camera |
-| 4 min | Evidence | Smoke parity passed; trajectory/training parity did not |
+| Time | Action | What to explain |
+| --- | --- | --- |
+| 0–2 min | Show a walking clip or the [continuous-roll video](../isaac/continuous-roll) | What viewers will learn to do |
+| 2–7 min | Open RViz, move the camera, and adjust joints | How the model, joints, and TF relate |
+| 7–12 min | Run standing and walking in Isaac, then try keyboard actions | How velocity commands change motion |
+| 12–17 min | [Send ROS 2 commands](../ros2/isaac-control) and inspect the pose in RViz | Where commands go and how states return |
+| 17–22 min | [Start a short training run](../isaac/training), show saved files, and replay a checkpoint | Rewards, updates, saving, and loading |
+| 22–25 min | Recap the steps and suggest one parameter change | How viewers can repeat the exercise |
 
-## RViz commands
+## RViz: inspect the model and move its joints
+
+Open a new terminal at the project root and run:
 
 ```bash
 cd ros2_ws
@@ -42,13 +33,13 @@ source install/setup.bash
 ros2 launch microduck_description view_microduck.launch.py use_gui:=true
 ```
 
-Use individual sliders for teaching. **Randomize** is a visual smoke test; click
-**Center** before moving to the next segment. Enable collision meshes only for
-the collision explanation.
+On Humble, replace `jazzy` with `humble` and keep the default windowed launch.
+Rotate and zoom first, then move individual joint sliders. Click **Center** to
+restore the default pose. Show collision geometry when explaining that topic.
 
-## Isaac commands
+## Isaac: stand, walk, and use the keyboard
 
-Start with a standing check:
+Open another terminal at the project root. Start with standing:
 
 ```bash
 ./scripts/run_isaac_policy.sh \
@@ -56,7 +47,7 @@ Start with a standing check:
   --duration 30 --action-scale 1.0 --follow-camera --viz kit
 ```
 
-Then walk:
+After it exits, run the walking policy:
 
 ```bash
 ./scripts/run_isaac_policy.sh \
@@ -64,17 +55,22 @@ Then walk:
   --duration 60 --vx 0.3 --action-scale 0.9 --follow-camera --viz kit
 ```
 
-On the validated host, 60 seconds of simulated GUI playback took roughly three
-minutes of wall time. Printed five-second simulation progress matters more than
-real-time speed. Stop with Ctrl+C if progress or the UI truly stalls.
+Explain that `vx=0.3` is the forward-velocity command while viewers watch the motion.
+Then use the [playground](../isaac/playground) to show turning, kicking, floor touches,
+and sitting. Let each result remain visible for a few seconds before changing actions.
 
-## Claims that match the evidence
+Simulation speed depends on the GPU and window. The recorded host took about three
+minutes for 60 simulated seconds; rehearse on your machine and adjust the pace.
+If progress stops and the window is unresponsive, exit with `Ctrl+C` and use
+[troubleshooting](../troubleshooting).
 
-- The project uses Pollen's public model and policies at pinned commits.
-- ROS packaging and Isaac playback are independent community additions.
-- The same 61-to-14 policy contract remains finite and upright in both recorded
-  smoke scenarios.
-- Actuator/contact models are not calibrated for trajectory or training parity.
+## Training: explain each step as you run it
 
-Avoid “official Isaac version,” “training complete,” “exact physics parity,”
-“hardware-ready,” or “ROS controls the robot.”
+Follow [chapter 10](../isaac/training) for five updates. Point out the training stage,
+save location, and configuration files. Then load your prepared checkpoint to show
+“change settings → train → save → replay.” For continuous rolling, use the
+[three-round tuning record](../isaac/roll-debugging) to explain the observed problem,
+the change made, and the resulting behavior.
+
+Complete downloads, installation, and repeated loading before the session. Keep
+each demonstration focused on one operation and one visible result.

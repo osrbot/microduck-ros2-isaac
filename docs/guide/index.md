@@ -45,12 +45,10 @@ checks](./installation) before chasing an Isaac error.
 4. **Train last.** Run the short five-iteration check before a long job.
 
 ::: tip No real robot is needed
-This tutorial is for simulation, learning, and open-source demos. The ROS 2
-examples are not a hardware driver, and an Isaac checkpoint is not ready for a
-physical robot without separate work and testing.
+All exercises run in simulation. Deploying to a physical robot requires driver integration and hardware testing.
 :::
 
 <div class="md-page-complete">
-  <strong>Route picked? Good.</strong>
-  <p>Use the single “Next page” button below. It checks your computer and shows the terminal shortcuts before the first real command.</p>
+  <strong>Next: prepare your environment</strong>
+  <p>Continue to the next page to check your computer, open a terminal, run commands, and check their results.</p>
 </div>

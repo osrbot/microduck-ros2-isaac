@@ -26,7 +26,7 @@ the duck in Isaac Sim. The examples save you from typing long chains of
 | --- | --- | --- |
 | Inspect the model and move all 14 joints | `view_microduck.launch.py use_gui:=true` | No |
 | Play a nod, head turn, and stepping animation | `rviz_motion_demo.launch.py` | No |
-| Walk, turn, kick, pick, sit, and stand automatically | `isaac_showcase.launch.py` | Yes |
+| Walk, turn, kick, touch the floor, sit, and stand automatically | `isaac_showcase.launch.py` | Yes |
 | Drive the playground from the keyboard | `microduck_teleop` | Yes |
 
 <div class="md-command-steps">
@@ -83,10 +83,8 @@ ros2 launch microduck_examples rviz_motion_demo.launch.py repeat:=false
 The available routines are `hello`, `walk`, and `showcase`. Every example pose
 is checked against the URDF joint limits.
 
-::: warning This is joint animation, not physics
-The node publishes `JointState` for RViz. It has no gravity, contacts,
-controller, or learned policy, so it cannot show whether the robot is
-dynamically stable.
+::: info How the RViz example works
+The node publishes `JointState` to display joint motion and TF. The following Isaac example adds gravity, contacts, and learned policies.
 :::
 
 <div class="md-checkpoint">
@@ -95,6 +93,8 @@ dynamically stable.
 </div>
 
 ## Example 2: let ROS 2 control Isaac
+
+First complete the environment and policy setup in the [playground chapter](../isaac/playground), then return here.
 
 Stop the RViz-only example with <kbd>Ctrl</kbd>+<kbd>C</kbd> if it is still
 running. Return terminal A to the repository root and start the playground:
@@ -142,9 +142,9 @@ ros2 launch microduck_examples isaac_showcase.launch.py \
 ```
 
 Use `speed` between `0.0` and `1.0` to slow the sequence down. Values above
-`1.0` are rejected because the learned kick, pick, sit, and stand policies have
+`1.0` are rejected because the learned kick, floor-touch, sit, and stand policies have
 fixed real-time durations. If telemetry does not arrive within 30 seconds, the
-example exits with an error instead of pretending that the commands ran.
+example exits with an error. Check that Isaac is still running.
 
 ## Example 3: grab the keyboard
 
@@ -158,7 +158,7 @@ ros2 run microduck_control_bridge microduck_teleop
 ```
 
 Use `W/S` to move, `A/D` to turn, `Q/E` to sidestep, `Y` to sit or stand,
-`G` to pick, `K/M` to kick, `R` to roll, `X` to stop, and `0` to reset.
+`G` to touch the floor, `K/M` to kick, `R` to roll, `X` to stop, and `0` to reset.
 
 ## Watch and save the ROS topics
 
@@ -167,6 +167,9 @@ below streams output, so run **one at a time**. Press <kbd>Ctrl</kbd>+<kbd>C</kb
 before trying the next:
 
 ```bash
+source /opt/ros/jazzy/setup.bash
+source ros2_ws/install/setup.bash
+
 ros2 topic hz /joint_states
 ros2 topic echo /microduck/policy_state
 ros2 run tf2_ros tf2_echo world base_link

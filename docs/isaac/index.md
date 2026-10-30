@@ -1,9 +1,5 @@
 # Open MicroDuck in Isaac Sim
 
-The bundled USD below retains the historical validated source. October's new
-`robot_groundcontact.xml` conversion is a separate candidate, not an automatic
-replacement. See [upstream alignment](../reference/upstream-alignment).
-
 The ready-to-open MicroDuck USD is already here. You can open it before setting
 up any policy. You do not need to convert anything.
 
@@ -30,9 +26,9 @@ Want a look at what comes later? The [continuous-roll case study](./continuous-r
   <p>Press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd> for terminal A and <code>cd</code> to the repository root. This catches a missing USD or payload before the GUI starts.</p>
 </div>
 
-<div class="md-step-kicker"><span>STEP 1</span><strong>Terminal A · repository root</strong></div>
+<div class="md-step-kicker"><strong>Terminal A · repository root</strong></div>
 
-## 1. Find the USD
+## 1. Find the USD {#_1-find-the-usd}
 
 From the repository root, the main stage is:
 
@@ -60,9 +56,9 @@ is missing, often because the terminal is not at the repository root.
   <figcaption><strong>This picture comes from the included USD.</strong>Use it to check that you opened the right model.</figcaption>
 </figure>
 
-<div class="md-step-kicker"><span>STEP 2</span><strong>Isaac Sim window</strong></div>
+<div class="md-step-kicker"><strong>Isaac Sim window</strong></div>
 
-## Open the USD
+## 2. Open the USD {#open-the-usd}
 
 1. Start Isaac Sim.
 2. Choose **File → Open**.
@@ -71,8 +67,7 @@ is missing, often because the terminal is not at the repository root.
 5. Press **Play** if you want to check that the articulation stays in the scene.
 
 For a standalone install, open Isaac Sim from its application entry or launcher.
-Launch commands differ between releases, so this step does not ask you to guess
-an install path. In the file picker, use <kbd>Ctrl</kbd>+<kbd>L</kbd> to enter a
+Use the launcher supplied with your installed release. In the file picker, use <kbd>Ctrl</kbd>+<kbd>L</kbd> to enter a
 full path or browse from the repository folder.
 
 ## What you should see
@@ -108,7 +103,14 @@ to run one walking policy before you open the multi-skill playground.
 - Check the Isaac Sim console for a missing relative asset path.
 - If the viewport is blank, frame the selected robot with <kbd>F</kbd>.
 
+
+::: details Model and policy sources
+The bundled USD below retains the historical validated source. October's new
+`robot_groundcontact.xml` conversion is a separate candidate, not an automatic
+replacement. See [upstream alignment](../reference/upstream-alignment).
+:::
+
 <div class="md-page-complete">
-  <strong>The duck is standing. Now make it move!</strong>
+  <strong>The USD model is open</strong>
   <p>The next page runs one walking policy. It is the quickest way to check that Isaac, ONNX Runtime, and the model work together.</p>
 </div>

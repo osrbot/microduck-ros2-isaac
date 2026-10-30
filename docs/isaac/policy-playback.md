@@ -3,18 +3,6 @@
 You need Isaac Sim and Isaac Lab for this page. The steps below get the
 ready-made policies and add ONNX Runtime to this project.
 
-::: info October 2026 source update
-Weights now come from `reference/policies/v7/`. The default walking/standing
-networks remain `alpha_walking`/`alpha_stand`, which are byte-identical to the
-recorded baseline. The bundled USD is still the historical asset, not a newly
-validated October conversion. `velstand.onnx` is available for an explicit probe;
-its recovery behavior has not been validated in this Isaac adapter.
-See [alignment and validation boundaries](../reference/upstream-alignment).
-:::
-
-For the newer recovery and turning policy, read the optional [VelStand v8 guide](../guide/velstand-v8).
-It uses separate weights and a MuJoCo path; the default launch steps below stay unchanged.
-
 <div class="md-tutorial-meta" role="list" aria-label="Page overview">
   <div role="listitem"><span>Time</span><strong>15–25 minutes</strong></div>
   <div role="listitem"><span>Run from</span><strong>Repository root</strong></div>
@@ -36,9 +24,9 @@ It uses separate weights and a MuJoCo path; the default launch steps below stay 
   <p>Press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd> and <code>cd</code> to the repository root. Run GUI playback, the standing policy, and the headless check one after another. Wait for the current command to finish or stop it with <kbd>Ctrl</kbd>+<kbd>C</kbd> first.</p>
 </div>
 
-<div class="md-step-kicker"><span>STEP 1</span><strong>Terminal A · repository root</strong></div>
+<div class="md-step-kicker"><strong>Terminal A · repository root</strong></div>
 
-## 1. Get the runner ready
+## 1. Get the runner ready {#_1-get-the-runner-ready}
 
 From the repository root:
 
@@ -56,9 +44,9 @@ You can omit `ISAACLAB_DIR` when Isaac Lab is at the default
   <p>Released policies exist under <code>reference/policies/v7/</code>, and <code>work/isaac_python_pkgs/onnxruntime</code> exists. This setup is required only once.</p>
 </div>
 
-<div class="md-step-kicker"><span>STEP 2</span><strong>Keep the terminal open · GUI replay</strong></div>
+<div class="md-step-kicker"><strong>Keep the terminal open · GUI replay</strong></div>
 
-## 2. Run the walking policy
+## 2. Run the walking policy {#_2-run-the-walking-policy}
 
 Run this from a graphical Linux desktop:
 
@@ -86,7 +74,7 @@ the ground, joints continue moving, the camera follows, and no traceback appears
 
 <figure class="md-doc-figure">
   <div class="md-doc-image-stage"><img src="/images/isaac-action-walk.webp" alt="MicroDuck replaying the released walking policy in Isaac Sim" width="1200" height="750" loading="lazy"></div>
-  <figcaption><strong>The policy is moving the duck.</strong>This is a real run. The duck may not walk in a perfect straight line. First check that it keeps moving and the terminal shows no error.</figcaption>
+  <figcaption><strong>Walking-policy playback.</strong>Watch the joints and travel direction, and check the terminal for errors.</figcaption>
 </figure>
 
 <div class="md-checkpoint">
@@ -108,9 +96,9 @@ Wait for the 60-second run to finish. To stop early, press
   --viz kit
 ```
 
-<div class="md-step-kicker"><span>STEP 3</span><strong>Terminal · no-window check</strong></div>
+<div class="md-step-kicker"><strong>Terminal · no-window check</strong></div>
 
-## Run a quick test without the window
+## 3. Run a quick test without the window {#_3-run-a-quick-test-without-the-window}
 
 Make sure the GUI playback has exited, then use this quick terminal check:
 
@@ -158,6 +146,18 @@ export MICRODUCK_ISAAC_ACTIVE_GPU=0
 The released policy reads 61 values and controls the 14 joints in the public
 simulation model. Physics runs at 200 Hz and policy inference at 50 Hz. These
 details matter when modifying the runner, but not for the first playback.
+:::
+
+
+For recovery and turning training, see [chapter 16](../guide/velstand-v8).
+
+::: details Model and policy sources
+Weights now come from `reference/policies/v7/`. The default walking/standing
+networks remain `alpha_walking`/`alpha_stand`, which are byte-identical to the
+recorded baseline. The bundled USD is still the historical asset, not a newly
+validated October conversion. `velstand.onnx` is available for an explicit probe;
+its recovery behavior has not been validated in this Isaac adapter.
+See [alignment and validation boundaries](../reference/upstream-alignment).
 :::
 
 <div class="md-page-complete">

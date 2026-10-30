@@ -1,4 +1,4 @@
-# 先看环境，再装软件
+# 安装软件并检查运行环境
 
 这一页只做准备工作：把仓库放好，并确认你选中的那条路线能找到对应工具。ROS 2 和 Isaac 是两套独立
 环境，只玩其中一条，就做对应一半。
@@ -31,8 +31,7 @@
 
 ## 第一次开终端？先学这 1 分钟
 
-下面所有命令都在 **Ubuntu 桌面**的终端里运行。终端就是那个可以输入命令的黑色或深色窗口，不是
-Isaac Sim 里的 Console，也不是浏览器地址栏。
+下面所有命令都在 **Ubuntu 桌面的 Terminal（终端）应用**中运行。
 
 <div class="md-terminal-school">
   <strong>Ubuntu 常用终端快捷键</strong>
@@ -58,9 +57,9 @@ Isaac Sim 里的 Console，也不是浏览器地址栏。
   <p>点代码块右上角的复制按钮 → 回到终端按 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd> → 按 <kbd>Enter</kbd>。短命令要等 <code>用户名@电脑名:目录$</code> 这样的提示符重新出现；启动 RViz 或 Isaac 的长命令不会立刻返回提示符，要保持这个终端开着。</p>
 </div>
 
-<div class="md-step-kicker"><span>步骤 1</span><strong>终端 A · 按 Ctrl + Alt + T 打开</strong></div>
+<div class="md-step-kicker"><strong>终端 A · 按 Ctrl + Alt + T 打开</strong></div>
 
-## 克隆仓库
+## 1. 克隆仓库 {#克隆仓库}
 
 ```bash
 git clone https://github.com/osrbot/microduck-ros2-isaac.git
@@ -69,7 +68,7 @@ cd microduck-ros2-isaac
 
 第一条下载仓库，第二条进入仓库目录。两行一起粘贴也可以；等提示符重新出现后再做下一项检查。
 
-确认没有走错门：
+确认当前目录：
 
 ```bash
 test -f README.md && test -d ros2_ws && test -d assets/isaac \
@@ -81,9 +80,9 @@ test -f README.md && test -d ros2_ws && test -d assets/isaac \
   <p>终端打印 <code>MicroDuck repository: OK</code>。ROS 2 包和 Isaac USD 已经随仓库提供，第一次运行不用重新生成模型。</p>
 </div>
 
-<div class="md-step-kicker"><span>步骤 2A</span><strong>只走 ROS 2 路线时执行</strong></div>
+<div class="md-step-kicker"><strong>只走 ROS 2 路线时执行</strong></div>
 
-## 准备 ROS 2 Jazzy
+## 2A. 准备 ROS 2 Jazzy {#准备-ros-2-jazzy}
 
 下面命令适用于 Ubuntu 24.04，并假设你已经按 ROS 官方方式配置好 apt 软件源：
 
@@ -108,7 +107,7 @@ command -v ros2
 command -v colcon
 ```
 
-`source` 成功时通常一声不吭；后面三行有输出才是检查结果。
+`source` 成功时通常没有输出；用后面三行命令检查环境。
 
 <div class="md-checkpoint">
   <strong>ROS 2 准备完成</strong>
@@ -117,12 +116,12 @@ command -v colcon
 
 ::: tip 每个新终端都要 source
 `source /opt/ros/jazzy/setup.bash` 只对当前终端生效。后面的教程会把需要的 source 命令完整写出，
-第一次玩鸭不用背。
+新开终端时照着执行即可。
 :::
 
-<div class="md-step-kicker"><span>步骤 2B</span><strong>只走 Isaac 路线时执行</strong></div>
+<div class="md-step-kicker"><strong>只走 Isaac 路线时执行</strong></div>
 
-## 确认 Isaac Sim 与 Isaac Lab
+## 2B. 确认 Isaac Sim 与 Isaac Lab {#确认-isaac-sim-与-isaac-lab}
 
 本项目完整测试过的组合是 Ubuntu 24.04、Isaac Sim 6.0.1 standalone、Isaac Lab 3.0.0 beta 2，
 以及能正常使用驱动和 Vulkan 的 NVIDIA 显卡。其他版本可能可以运行，但先从最小检查开始。
@@ -145,7 +144,7 @@ test -x "${ISAACLAB_DIR:-$HOME/rlgpu_ws/IsaacLab}/isaaclab.sh" \
 ```
 
 `nvidia-smi` 应显示你的 NVIDIA GPU；第二条应打印 `Isaac Lab launcher: OK`。如果 Isaac Lab 路径检查
-失败，先修正 `ISAACLAB_DIR`，不要靠反复启动 Isaac 碰运气。
+失败，先修正 `ISAACLAB_DIR`，再重复路径检查。
 
 ## 准备公开策略与项目依赖
 
@@ -159,7 +158,7 @@ test -x "${ISAACLAB_DIR:-$HOME/rlgpu_ws/IsaacLab}/isaaclab.sh" \
 第一条下载 MicroDuck 公开模型和策略，第二条把 ONNX Runtime 放进项目自己的 `work/` 目录。它们不会
 修改你的 Isaac Lab checkout。
 下载脚本需要 Python 3.11 或更新版本（使用 `tomllib`）。源码分别放入
-`reference/microduck_rl/` 和 `reference/microduck_runtime/`；固定版本的官方 v7 权重、清单和模型卡
+`reference/microduck_rl/` 和 `reference/microduck_runtime/`；教程使用的官方权重、清单和模型卡
 放入 `reference/policies/v7/`。已有的历史 `reference/microduck/` 目录不改动。
 游乐场使用的历史坐起权重也会下载到 `reference/policies/isaac-legacy/`。
 升级旧工作区前先看[上游对齐说明](../reference/upstream-alignment)。
